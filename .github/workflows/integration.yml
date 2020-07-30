@@ -1,0 +1,114 @@
+name: integration
+
+on:
+  pull_request:
+    branches:
+      - development
+      - staging
+      - master
+
+env:
+  CI: true
+
+jobs:
+  install-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.3'
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Restore Dependencies
+        id: composer-cache-restore
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist
+
+      - name: Cache Composer Dependencies
+        if: steps.composer-cache-restore.outputs.cache-hit != 'true'
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+  lint:
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.3'
+
+      - name: Lint Test
+        uses: StephaneBour/actions-php-cs-fixer@1.0
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    services:
+        postgres:
+          image: postgres:12
+          env:
+            POSTGRES_USER: carbonaut
+            POSTGRES_PASSWORD: carbonaut
+            POSTGRES_DB: api_testing
+          ports:
+          - 5432:5432
+          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.3'
+
+      - name: Setup Configuration Environment File
+        run: |
+          cp .env.example.test .env.test
+          sed -i 's/^DB_HOST=database$/DB_HOST=localhost/' .env.test
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Restore Dependencies
+        id: composer-cache-restore
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist
+
+      - name: Run Integration Tests
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+        run: vendor/bin/phpunit
+
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip Build
+        run: echo "Nothing to be built."

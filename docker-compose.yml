@@ -1,0 +1,37 @@
+version: "3.7"
+
+volumes:
+  postgres:
+
+services:
+  database:
+    image: postgres:12
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 54321:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    environment:
+      POSTGRES_USER: carbonaut
+      POSTGRES_PASSWORD: carbonaut
+      POSTGRES_DB: api
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        UID: 1001
+        GID: 1001
+    # Wait until the database is ready for connections
+    command: sh -c './wait-for.sh database:5432 -- ./init.sh'
+    depends_on:
+      - database
+    image: app
+    ports:
+      - 8000:8000
+    working_dir: /var/www/html
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
