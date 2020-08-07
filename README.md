@@ -3,25 +3,25 @@
 ![integration](https://github.com/carbonaut/boilerplate-api-laravel/workflows/integration/badge.svg)
 
 Nothing better than getting to action without worrying about the repetitive and boring 
-parts of bootstraping a project, right?
+parts of bootstrapping a project, right?
 
 That's why we've built this awesome boilerplate so you can focus on your project's ideas and get the boring, albeit important, parts out of the way.
 
 - Language: PHP 7.3
 - Framework: Laravel 7
-- Database: Postgres 12
+- Database: PostgreSQL 12
 
 ## Goodies
 - OAuth2 Authentication with [Passport](https://laravel.com/docs/7.x/passport)
 - [Rollbar](https://rollbar.com) integration for error tracking
 - [Swagger](https://swagger.io) (OpenAPI 3.0) for API documentation
-- Multi-language support with [astrotomic/laravel-translatable](https://github.com/astrotomic/laravel-translatable)
-- Password Reset and Email Verification flows built-in
+- Multi language support with [astrotomic/laravel-translatable](https://github.com/astrotomic/laravel-translatable)
+- Password Reset and Email Verification flows built in
 - Powered by Docker and Docker Compose for easily building your development environment
-- CI and CD flows for Github Actions
+- CI and CD flows for GitHub Actions
 - Email and Push Notifications already set up
 - Configuration files for deploying into AWS Elastic Beanstalk
-- [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) config for code style
+- [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) configuration file for code styling
 
 ## Getting started
 
@@ -36,9 +36,15 @@ $ docker-compose up
 # Some time later...
 $ docker-compose down
 ```
-With just that, you should be up and running and have the documentation avaliable at `http://api.localhost:8000`
+With just that, you should be up and running and have the documentation available at `http://api.localhost:8000`
 
 No need to install PHP and its extensions or PostgreSQL.
+
+If you ever need extra extensions or native dependencies, 
+you can refer to the provided `Dockerfile` and customize whatever the built container has.
+
+Additionally, you can customize the `docker_postgres_init.sql` file for initial bootstrapping of the PostgreSQL database. 
+It's important to note that this file is only sourced when creating the `postgres` Docker volume.
 
 ### Existing environment
 You also have the option to use your existing local environment for PHP and PostgreSQL.
@@ -108,7 +114,7 @@ $ php artisan serve
   $ docker-compose exec api php artisan migrate
   $ docker-compose exec api php artisan make:model Astrounauts
   ```
-  Another exapmle is if you want to connect to the database:
+  Another example is if you want to connect to the database:
   ```sh 
   $ docker-compose exec database psql -U carbonaut -d api
   ```
