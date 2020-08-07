@@ -1,4 +1,7 @@
-# Carbonaut's Laravel API Boilerplate
+<h1 style="display: flex;align-items:center;">
+<img src="https://user-images.githubusercontent.com/20388082/89651773-cb900d00-d89a-11ea-99bb-d5e97b1609d0.png" width="50" alt="Carbonaut Logo" style="margin-right:5px;">
+Carbonaut's Laravel API Boilerplate
+</h1>
 
 ![integration](https://github.com/carbonaut/boilerplate-api-laravel/workflows/integration/badge.svg)
 
