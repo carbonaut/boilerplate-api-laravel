@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Encryption Keys
@@ -42,7 +41,7 @@ return [
     */
 
     'personal_access_client' => [
-        'id' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_ID'),
+        'id'     => env('PASSPORT_PERSONAL_ACCESS_CLIENT_ID'),
         'secret' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET'),
     ],
 
@@ -62,5 +61,4 @@ return [
             'connection' => env('DB_CONNECTION', 'mysql'),
         ],
     ],
-
 ];
