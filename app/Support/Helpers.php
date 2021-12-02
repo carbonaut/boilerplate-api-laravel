@@ -2,10 +2,10 @@
 
 namespace App\Support;
 
-use App;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
@@ -64,7 +64,7 @@ class Helpers
             } else {
                 // If it has sub-filter, recursively filter it
                 if (is_array($value) && isset($array1[$key])) {
-                    if ($array1[$key] instanceof Illuminate\Support\Collection) {
+                    if ($array1[$key] instanceof Collection) {
                         $array1[$key] = $array1[$key]->toArray();
                     }
 

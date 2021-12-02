@@ -99,7 +99,7 @@ return [
     */
 
     'timezone'         => 'UTC',
-    'default_timezone' => 'Europe/Vienna',
+    'default_timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
