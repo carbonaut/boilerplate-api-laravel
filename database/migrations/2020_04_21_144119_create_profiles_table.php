@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateProfilesTable extends Migration
@@ -11,7 +12,7 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        \DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
         Schema::create('profiles', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));

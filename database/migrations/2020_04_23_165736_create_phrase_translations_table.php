@@ -1,7 +1,10 @@
 <?php
 
+use Database\Seeders\PhraseApiSeeder;
+use Database\Seeders\PhraseEmailSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreatePhraseTranslationsTable extends Migration
@@ -11,7 +14,7 @@ class CreatePhraseTranslationsTable extends Migration
      */
     public function up()
     {
-        \DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
         Schema::create('phrase_translations', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));

@@ -3,6 +3,7 @@
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use Rollbar\Laravel\MonologHandler;
 
 return [
     /*
@@ -17,6 +18,19 @@ return [
     */
 
     'default' => env('LOG_CHANNEL', 'stack'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Deprecations Log Channel
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the log channel that should be used to log warnings
+    | regarding deprecated PHP and library features. This allows you to get
+    | your application ready for upcoming major versions of dependencies.
+    |
+    */
+
+    'deprecations' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,6 +94,7 @@ return [
 
         'stderr' => [
             'driver'    => 'monolog',
+            'level'     => env('LOG_LEVEL', 'debug'),
             'handler'   => StreamHandler::class,
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'with'      => [
@@ -108,7 +123,7 @@ return [
 
         'rollbar' => [
             'driver'           => 'monolog',
-            'handler'          => \Rollbar\Laravel\MonologHandler::class,
+            'handler'          => MonologHandler::class,
             'access_token'     => env('ROLLBAR_TOKEN'),
             'level'            => 'error',
             'capture_ip'       => 'anonymize',

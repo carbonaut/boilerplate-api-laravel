@@ -424,12 +424,6 @@ paths:
       description: Enable maintenance mode
       security:
         - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MaintenanceEnable"
       responses:
         200:
           description: Success
@@ -669,13 +663,6 @@ components:
           type: string
         email_verification_code:
           type: integer
-    MaintenanceEnable:
-      type: object
-      properties:
-        message:
-          type: string
-        allow:
-          type: string
     PasswordResetRequest:
       type: object
       properties:

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 
 class ApiController extends Controller
 {
