@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Metadata\GetPhrases;
 use App\Models\Language;
 use App\Models\Phrase;
 use App\Support\Helpers;
@@ -53,14 +54,8 @@ class MetadataController extends Controller
      *
      * return array
      */
-    public function getPhrases(Request $request, string $type)
+    public function getPhrases(GetPhrases $request, string $type)
     {
-        $request->request->add(['type' => $type]);
-
-        $request->validate([
-            'type' => 'required|string',
-        ]);
-
         return Phrase::where('type', $request->type)
             ->orderBy('key')
             ->get()

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\PatchUser;
+use App\Http\Requests\Api\User\PostPasswordChange;
+use App\Http\Requests\Api\User\PostUserDevices;
+use App\Http\Requests\Api\User\PostUserPush;
 use App\Models\Device;
 use App\Models\Phrase;
 use App\Models\PushNotification;
 use App\Models\User;
-use App\Rules\PasswordStrength;
 use App\Support\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -64,12 +67,8 @@ class UserController extends Controller
      *
      * @return array
      */
-    public function patchUser(Request $request)
+    public function patchUser(PatchUser $request)
     {
-        $request->validate([
-            'language_id' => 'nullable|uuid|exists:App\Models\Language,id',
-        ]);
-
         $this->user->language_id = $request->language_id ?: $this->user->language_id;
         $this->user->save();
 
@@ -115,20 +114,8 @@ class UserController extends Controller
      *
      * @return array
      */
-    public function postUserDevices(Request $request)
+    public function postUserDevices(PostUserDevices $request)
     {
-        $request->validate([
-            'manufacturer' => 'required|string|max:255',
-            'model'        => 'required|string|max:255',
-            'version'      => 'required|string|max:255',
-            'platform'     => 'required|string|max:255',
-            'uuid'         => 'required|string|max:255',
-            'is_virtual'   => 'required|boolean',
-            'app_version'  => 'string|max:255',
-            'push_token'   => 'string|min:64|max:255',
-            'serial'       => 'string|max:255',
-        ]);
-
         // Set the devices with this UUID to not active
         // This prevents a device from being active for two different users
         Device::where('uuid', $request->uuid)->update([
@@ -175,13 +162,8 @@ class UserController extends Controller
      *
      * @return array
      */
-    public function postUserPush(Request $request, PushNotification $push)
+    public function postUserPush(PostUserPush $request, PushNotification $push)
     {
-        $request->validate([
-            'coldstart' => 'boolean',
-            'foreground'=> 'boolean',
-        ]);
-
         if ($push->device->user->id !== $this->user->id) {
             return response()->json([
                 'error'    => 'This push notification is from another user',
@@ -210,13 +192,8 @@ class UserController extends Controller
      *
      * @return array
      */
-    public function postPasswordChange(Request $request)
+    public function postPasswordChange(PostPasswordChange $request)
     {
-        $request->validate([
-            'old_password'              => ['required', 'password'],
-            'new_password'              => ['required', 'confirmed', new PasswordStrength()],
-        ]);
-
         $this->user->password = Hash::make($request->new_password);
         $this->user->save();
 
