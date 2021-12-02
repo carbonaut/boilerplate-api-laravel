@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App;
 use App\Http\Controllers\Controller;
 
-class ApiController extends Controller {
-    public function __construct() {
+class ApiController extends Controller
+{
+    public function __construct()
+    {
     }
 
     /**
@@ -14,7 +16,8 @@ class ApiController extends Controller {
      *
      * @return view
      */
-    public function getDocumentation() {
+    public function getDocumentation()
+    {
         if (App::environment() === 'production') {
             abort(404);
         }
@@ -27,7 +30,8 @@ class ApiController extends Controller {
      *
      * @return view
      */
-    public function getDocs() {
+    public function getDocs()
+    {
         if (App::environment() === 'production') {
             abort(404);
         }
@@ -48,7 +52,8 @@ class ApiController extends Controller {
      *
      * @return array
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         return [];
     }
 }

@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-class Language extends BaseModel {
+class Language extends BaseModel
+{
     //======================================================================
     // HIDDEN ATTRIBUTES
     //======================================================================
@@ -34,7 +35,8 @@ class Language extends BaseModel {
      *
      * @return int
      */
-    public function getLanguageIdAttribute() {
+    public function getLanguageIdAttribute()
+    {
         return $this->id;
     }
 }

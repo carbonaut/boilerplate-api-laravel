@@ -7,7 +7,8 @@ use App\Models\Email;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class EmailController extends Controller {
+class EmailController extends Controller
+{
     //======================================================================
     // ROUTER METHODS
     //======================================================================
@@ -20,7 +21,8 @@ class EmailController extends Controller {
      *
      * @return array
      */
-    public function getEmailRead(Request $request, Email $email) {
+    public function getEmailRead(Request $request, Email $email)
+    {
         $email->read_at = $email->read_at ?: Carbon::now();
         $email->save();
 

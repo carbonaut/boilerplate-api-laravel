@@ -7,7 +7,8 @@ use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Log;
 
-class Phrase extends BaseModel implements TranslatableContract {
+class Phrase extends BaseModel implements TranslatableContract
+{
     use Translatable;
 
     //======================================================================
@@ -56,7 +57,8 @@ class Phrase extends BaseModel implements TranslatableContract {
      *
      * @return int
      */
-    public function getPhraseIdAttribute() {
+    public function getPhraseIdAttribute()
+    {
         return $this->id;
     }
 
@@ -80,7 +82,8 @@ class Phrase extends BaseModel implements TranslatableContract {
      *
      * @return string phrase or key if phrase is not found in pool
      */
-    public static function getPhrase($key, $type, $replacement = null) {
+    public static function getPhrase($key, $type, $replacement = null)
+    {
         if (self::$phrases === null || self::$phrases_locale !== App::getLocale()) {
             $phrases = Phrase::all();
             $p = [];

@@ -5,7 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\DB;
 
-class SetOAuthClient {
+class SetOAuthClient
+{
     /**
      * Handle an incoming request.
      *
@@ -14,7 +15,8 @@ class SetOAuthClient {
      *
      * @return mixed
      */
-    public function handle($request, Closure $next) {
+    public function handle($request, Closure $next)
+    {
         // Get proper oauth_client based on secret provided
         $oauth_client = DB::table('oauth_clients')->where('secret', $request->client)->first();
 

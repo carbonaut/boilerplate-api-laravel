@@ -5,7 +5,8 @@ namespace App\Models;
 use App\Jobs\ProcessPushNotification;
 use Illuminate\Support\Carbon;
 
-class PushNotification extends BaseModel {
+class PushNotification extends BaseModel
+{
     //======================================================================
     // CAST ATTRIBUTES
     //======================================================================
@@ -53,11 +54,13 @@ class PushNotification extends BaseModel {
      *
      * @return int
      */
-    public function getPushNotificationIdAttribute() {
+    public function getPushNotificationIdAttribute()
+    {
         return $this->id;
     }
 
-    protected static function booted() {
+    protected static function booted()
+    {
         // On creating entry, set default values if they are null
         static::creating(function ($push) {
             if ($push->status === null) {
@@ -84,7 +87,8 @@ class PushNotification extends BaseModel {
     /**
      * Get the device that will receive the push notification.
      */
-    public function device() {
+    public function device()
+    {
         return $this->belongsTo('App\Models\Device');
     }
 }

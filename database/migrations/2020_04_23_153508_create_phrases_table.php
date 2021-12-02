@@ -4,11 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhrasesTable extends Migration {
+class CreatePhrasesTable extends Migration
+{
     /**
      * Run the migrations.
      */
-    public function up() {
+    public function up()
+    {
         \DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
         Schema::create('phrases', function (Blueprint $table) {
@@ -24,7 +26,8 @@ class CreatePhrasesTable extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('phrases');
     }
 }

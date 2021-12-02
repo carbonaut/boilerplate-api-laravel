@@ -4,11 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateActionEventsTable extends Migration {
+class CreateActionEventsTable extends Migration
+{
     /**
      * Run the migrations.
      */
-    public function up() {
+    public function up()
+    {
         \DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
         Schema::create('action_events', function (Blueprint $table) {
@@ -35,7 +37,8 @@ class CreateActionEventsTable extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('action_events');
     }
 }

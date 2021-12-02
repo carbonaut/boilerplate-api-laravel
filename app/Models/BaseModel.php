@@ -6,7 +6,8 @@ use App\Http\Traits\NestedRelations;
 use App\Http\Traits\TranslationAccessors;
 use Illuminate\Database\Eloquent\Model;
 
-class BaseModel extends Model {
+class BaseModel extends Model
+{
     use NestedRelations;
     use TranslationAccessors;
 

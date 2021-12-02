@@ -5,7 +5,8 @@ namespace App\Mail;
 use App\Models\Phrase;
 use App\Models\User;
 
-class EmailVerification extends Mailable {
+class EmailVerification extends Mailable
+{
     /**
      * The user instance.
      *
@@ -18,7 +19,8 @@ class EmailVerification extends Mailable {
      *
      * @param User $user
      */
-    public function __construct(User $user) {
+    public function __construct(User $user)
+    {
         $this->user = $user;
     }
 
@@ -27,7 +29,8 @@ class EmailVerification extends Mailable {
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         $this->user->setLocale();
 
         return $this

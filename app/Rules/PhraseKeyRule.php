@@ -4,7 +4,8 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class PhraseKeyRule implements Rule {
+class PhraseKeyRule implements Rule
+{
     /**
      * Determine if the validation rule passes.
      *
@@ -13,7 +14,8 @@ class PhraseKeyRule implements Rule {
      *
      * @return bool
      */
-    public function passes($attribute, $value) {
+    public function passes($attribute, $value)
+    {
         $matches = [];
         preg_match('/^[A-Z.\-_0-9]+$/', $value, $matches);
 
@@ -25,7 +27,8 @@ class PhraseKeyRule implements Rule {
      *
      * @return string
      */
-    public function message() {
+    public function message()
+    {
         return trans('validation.phrase_key');
     }
 }

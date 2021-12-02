@@ -4,11 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDevicesTable extends Migration {
+class CreateDevicesTable extends Migration
+{
     /**
      * Run the migrations.
      */
-    public function up() {
+    public function up()
+    {
         \DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
         Schema::create('devices', function (Blueprint $table) {
@@ -34,7 +36,8 @@ class CreateDevicesTable extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('devices');
     }
 }

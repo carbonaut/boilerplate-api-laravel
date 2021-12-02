@@ -4,11 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProfilePermissionsTable extends Migration {
+class CreateProfilePermissionsTable extends Migration
+{
     /**
      * Run the migrations.
      */
-    public function up() {
+    public function up()
+    {
         \DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
         Schema::create('profile_permissions', function (Blueprint $table) {
@@ -27,7 +29,8 @@ class CreateProfilePermissionsTable extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('profile_permissions');
     }
 }

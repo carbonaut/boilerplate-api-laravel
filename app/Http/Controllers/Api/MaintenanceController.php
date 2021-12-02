@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use Artisan;
 use Illuminate\Http\Request;
 
-class MaintenanceController extends Controller {
+class MaintenanceController extends Controller
+{
     //======================================================================
     // CONSTRUCTOR
     //
@@ -15,7 +16,8 @@ class MaintenanceController extends Controller {
     // controller class
     //
     //======================================================================
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         parent::__construct();
 
         $this->middleware(function ($request, $next) {
@@ -36,7 +38,8 @@ class MaintenanceController extends Controller {
      *
      * @return array
      */
-    public function postEnable(Request $request) {
+    public function postEnable(Request $request)
+    {
         $request->validate([
             'message' => 'nullable|string',
             'allow'   => 'nullable|ip',
@@ -68,7 +71,8 @@ class MaintenanceController extends Controller {
      *
      * @return array
      */
-    public function postDisable(Request $request) {
+    public function postDisable(Request $request)
+    {
         if (App::isDownForMaintenance()) {
             Artisan::call('up');
         }

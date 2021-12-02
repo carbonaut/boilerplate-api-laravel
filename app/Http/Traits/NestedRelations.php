@@ -5,7 +5,8 @@ namespace App\Http\Traits;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
-trait NestedRelations {
+trait NestedRelations
+{
     /**
      * If this is a one-to-N relation, it will only check the first object
      * When added as a trait in the model, it overrides the original relationLoaded.
@@ -14,7 +15,8 @@ trait NestedRelations {
      *
      * @return bool
      */
-    public function relationLoaded($relations) {
+    public function relationLoaded($relations)
+    {
         // Get arguments into array
         $relations = is_string($relations) ? func_get_args() : $relations;
 

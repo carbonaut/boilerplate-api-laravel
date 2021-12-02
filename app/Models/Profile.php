@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-class Profile extends BaseModel {
+class Profile extends BaseModel
+{
     //======================================================================
     // HIDDEN ATTRIBUTES
     //======================================================================
@@ -34,7 +35,8 @@ class Profile extends BaseModel {
      *
      * @return int
      */
-    public function getProfileIdAttribute() {
+    public function getProfileIdAttribute()
+    {
         return $this->id;
     }
 
@@ -45,14 +47,16 @@ class Profile extends BaseModel {
     /**
      * Get the users for the profile.
      */
-    public function users() {
+    public function users()
+    {
         return $this->hasMany('\App\Models\User');
     }
 
     /**
      * Get the profile permissions for the profile.
      */
-    public function permissions() {
+    public function permissions()
+    {
         return $this->hasMany('\App\Models\ProfilePermission');
     }
 
@@ -68,7 +72,8 @@ class Profile extends BaseModel {
      *
      * @return null|bool
      */
-    public function getPermission($policy, $function) {
+    public function getPermission($policy, $function)
+    {
         if (!$this->relationLoaded('permissions')) {
             throw new \Exception('Permissions must be eager loaded before geting a permission');
         }

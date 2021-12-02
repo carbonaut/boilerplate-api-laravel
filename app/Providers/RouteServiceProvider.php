@@ -5,7 +5,8 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
-class RouteServiceProvider extends ServiceProvider {
+class RouteServiceProvider extends ServiceProvider
+{
     /**
      * This namespace is applied to your controller routes.
      *
@@ -25,7 +26,8 @@ class RouteServiceProvider extends ServiceProvider {
     /**
      * Define your route model bindings, pattern filters, etc.
      */
-    public function boot() {
+    public function boot()
+    {
         $uuid = '^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$';
 
         $bindings = ['address', 'exam', 'voucher', 'push', 'country', 'location', 'email'];
@@ -40,7 +42,8 @@ class RouteServiceProvider extends ServiceProvider {
     /**
      * Define the routes for the application.
      */
-    public function map() {
+    public function map()
+    {
         $this->mapApiRoutes();
     }
 
@@ -49,7 +52,8 @@ class RouteServiceProvider extends ServiceProvider {
      *
      * These routes are typically stateless.
      */
-    protected function mapApiRoutes() {
+    protected function mapApiRoutes()
+    {
         Route::middleware('api')
             ->domain('api.' . config('app.domain'))
             ->namespace($this->namespace)

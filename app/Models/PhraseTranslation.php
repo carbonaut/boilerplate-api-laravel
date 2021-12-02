@@ -2,5 +2,6 @@
 
 namespace App\Models;
 
-class PhraseTranslation extends BaseModel {
+class PhraseTranslation extends BaseModel
+{
 }

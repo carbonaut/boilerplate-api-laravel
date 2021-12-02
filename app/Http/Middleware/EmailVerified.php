@@ -6,7 +6,8 @@ use App\Models\Phrase;
 use App\Models\User;
 use Closure;
 
-class EmailVerified {
+class EmailVerified
+{
     /**
      * Handle an incoming request.
      *
@@ -15,7 +16,8 @@ class EmailVerified {
      *
      * @return mixed
      */
-    public function handle($request, Closure $next) {
+    public function handle($request, Closure $next)
+    {
         if ($request->user() && $request->user() instanceof User && $request->user()->email_verified_at === null) {
             return response()->json([
                 'error'   => 'User email not verified.',

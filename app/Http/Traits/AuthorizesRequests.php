@@ -5,7 +5,8 @@ namespace App\Http\Traits;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests as IlluminateAuthorizesRequests;
 
-trait AuthorizesRequests {
+trait AuthorizesRequests
+{
     use IlluminateAuthorizesRequests;
 
     /**
@@ -18,10 +19,8 @@ trait AuthorizesRequests {
      *
      * @return mixed
      */
-    public function authorizeAny($abilities = [], $arguments = []) {
-        $response;
-        $exception;
-
+    public function authorizeAny($abilities = [], $arguments = [])
+    {
         foreach ($abilities as $ability) {
             try {
                 $response = $this->authorize($ability, $arguments);

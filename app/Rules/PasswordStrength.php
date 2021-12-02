@@ -5,11 +5,13 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Str;
 
-class PasswordStrength implements Rule {
+class PasswordStrength implements Rule
+{
     /**
      * Create a new rule instance.
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
@@ -20,7 +22,8 @@ class PasswordStrength implements Rule {
      *
      * @return bool
      */
-    public function passes($attribute, $value) {
+    public function passes($attribute, $value)
+    {
         if (Str::length($value) < 8 || !preg_match('/\p{Lu}/u', $value) || !preg_match('/\p{Ll}/u', $value) || !preg_match('/[0-9]/', $value) || !preg_match('/[^\p{Lu}\p{Ll}0-9]/u', $value)) {
             return false;
         }
@@ -33,7 +36,8 @@ class PasswordStrength implements Rule {
      *
      * @return string
      */
-    public function message() {
+    public function message()
+    {
         return trans('validation.password_strength');
     }
 }

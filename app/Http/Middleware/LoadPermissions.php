@@ -5,7 +5,8 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 
-class LoadPermissions {
+class LoadPermissions
+{
     /**
      * Handle an incoming request.
      *
@@ -15,7 +16,8 @@ class LoadPermissions {
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null) {
+    public function handle($request, Closure $next, $guard = null)
+    {
         // Handle only requests with user
         if ($request->user() && $request->user() instanceof User) {
             // Load the user's profile and profile permissions if isn't already loaded

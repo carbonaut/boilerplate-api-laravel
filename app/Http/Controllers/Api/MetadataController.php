@@ -8,7 +8,8 @@ use App\Models\Phrase;
 use App\Support\Helpers;
 use Illuminate\Http\Request;
 
-class MetadataController extends Controller {
+class MetadataController extends Controller
+{
     //======================================================================
     // CONSTRUCTOR
     //
@@ -16,7 +17,8 @@ class MetadataController extends Controller {
     // controller class
     //
     //======================================================================
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         parent::__construct();
     }
 
@@ -31,7 +33,8 @@ class MetadataController extends Controller {
      *
      * @return array
      */
-    public function getLanguagesSearch(Request $request, string $search_string = null) {
+    public function getLanguagesSearch(Request $request, string $search_string = null)
+    {
         $languages = Language::where('name', 'ilike', "%{$search_string}%")->orWhere('locale', 'ilike', "%{$search_string}%")->orderBy('name')->get();
 
         return Helpers::recursive_array_only($languages->toArray(), [
@@ -50,7 +53,8 @@ class MetadataController extends Controller {
      *
      * return array
      */
-    public function getPhrases(Request $request, string $type) {
+    public function getPhrases(Request $request, string $type)
+    {
         $request->request->add(['type' => $type]);
 
         $request->validate([

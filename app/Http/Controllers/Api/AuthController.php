@@ -16,7 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
     use ResetsPasswords;
 
     //======================================================================
@@ -24,7 +25,8 @@ class AuthController extends Controller {
     //
     // Avoid calling parent controller as auth routes are not auth'ed
     //======================================================================
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
     }
 
     //======================================================================
@@ -38,7 +40,8 @@ class AuthController extends Controller {
      *
      * @return array
      */
-    public function postRegister(Request $request) {
+    public function postRegister(Request $request)
+    {
         $request->validate([
             'first_name'               => 'required|string',
             'last_name'                => 'required|string|different:first_name',
@@ -81,7 +84,8 @@ class AuthController extends Controller {
      *
      * @return array
      */
-    public function postEmailVerificationRequest(Request $request) {
+    public function postEmailVerificationRequest(Request $request)
+    {
         $request->validate([
             'email' => 'required|email:filter',
         ]);
@@ -118,7 +122,8 @@ class AuthController extends Controller {
      *
      * @return array
      */
-    public function postEmailVerificationConfirm(Request $request) {
+    public function postEmailVerificationConfirm(Request $request)
+    {
         $request->validate([
             'email'                   => 'required|email:filter',
             'email_verification_code' => 'required|numeric|integer',
@@ -155,7 +160,8 @@ class AuthController extends Controller {
      *
      * @return array
      */
-    public function postPasswordResetRequest(Request $request) {
+    public function postPasswordResetRequest(Request $request)
+    {
         $request->validate([
             'email' => 'required|email:filter|exists:App\Models\User,email',
         ]);
@@ -180,7 +186,8 @@ class AuthController extends Controller {
      *
      * @return array
      */
-    public function postPasswordResetSubmit(Request $request) {
+    public function postPasswordResetSubmit(Request $request)
+    {
         $request->validate([
             'token'                 => 'required',
             'email'                 => 'required|email:filter|exists:App\Models\User,email',
