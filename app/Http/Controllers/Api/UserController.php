@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\PatchUser;
+use App\Http\Requests\Api\User\PostPasswordChange;
+use App\Http\Requests\Api\User\PostUserDevices;
+use App\Http\Requests\Api\User\PostUserPush;
 use App\Models\Device;
 use App\Models\Phrase;
 use App\Models\PushNotification;
 use App\Models\User;
-use App\Rules\PasswordStrength;
 use App\Support\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
     //======================================================================
     // CONSTRUCTOR
     //
@@ -22,7 +26,8 @@ class UserController extends Controller {
     // controller class
     //
     //======================================================================
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         parent::__construct();
     }
 
@@ -37,7 +42,8 @@ class UserController extends Controller {
      *
      * @return array
      */
-    public function getUser(Request $request) {
+    public function getUser(Request $request)
+    {
         $this->user->load('language');
 
         return Helpers::recursive_array_only($this->user->toArray(), [
@@ -61,11 +67,8 @@ class UserController extends Controller {
      *
      * @return array
      */
-    public function patchUser(Request $request) {
-        $request->validate([
-            'language_id' => 'nullable|uuid|exists:App\Models\Language,id',
-        ]);
-
+    public function patchUser(PatchUser $request)
+    {
         $this->user->language_id = $request->language_id ?: $this->user->language_id;
         $this->user->save();
 
@@ -79,7 +82,8 @@ class UserController extends Controller {
      *
      * @return array
      */
-    public function postUserLogout(Request $request) {
+    public function postUserLogout(Request $request)
+    {
         User::revokeToken($this->user->token());
 
         return [];
@@ -92,7 +96,8 @@ class UserController extends Controller {
      *
      * @return array
      */
-    public function postUserLogoutAll(Request $request) {
+    public function postUserLogoutAll(Request $request)
+    {
         $tokens = $this->user->tokens;
 
         foreach ($tokens as $token) {
@@ -109,19 +114,8 @@ class UserController extends Controller {
      *
      * @return array
      */
-    public function postUserDevices(Request $request) {
-        $request->validate([
-            'manufacturer' => 'required|string|max:255',
-            'model'        => 'required|string|max:255',
-            'version'      => 'required|string|max:255',
-            'platform'     => 'required|string|max:255',
-            'uuid'         => 'required|string|max:255',
-            'is_virtual'   => 'required|boolean',
-            'app_version'  => 'string|max:255',
-            'push_token'   => 'string|min:64|max:255',
-            'serial'       => 'string|max:255',
-        ]);
-
+    public function postUserDevices(PostUserDevices $request)
+    {
         // Set the devices with this UUID to not active
         // This prevents a device from being active for two different users
         Device::where('uuid', $request->uuid)->update([
@@ -168,12 +162,8 @@ class UserController extends Controller {
      *
      * @return array
      */
-    public function postUserPush(Request $request, PushNotification $push) {
-        $request->validate([
-            'coldstart' => 'boolean',
-            'foreground'=> 'boolean',
-        ]);
-
+    public function postUserPush(PostUserPush $request, PushNotification $push)
+    {
         if ($push->device->user->id !== $this->user->id) {
             return response()->json([
                 'error'    => 'This push notification is from another user',
@@ -202,12 +192,8 @@ class UserController extends Controller {
      *
      * @return array
      */
-    public function postPasswordChange(Request $request) {
-        $request->validate([
-            'old_password'              => ['required', 'password'],
-            'new_password'              => ['required', 'confirmed', new PasswordStrength()],
-        ]);
-
+    public function postPasswordChange(PostPasswordChange $request)
+    {
         $this->user->password = Hash::make($request->new_password);
         $this->user->save();
 

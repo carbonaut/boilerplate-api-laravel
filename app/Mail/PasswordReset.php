@@ -5,7 +5,8 @@ namespace App\Mail;
 use App\Models\Phrase;
 use App\Models\User;
 
-class PasswordReset extends Mailable {
+class PasswordReset extends Mailable
+{
     /**
      * The user instance.
      *
@@ -25,7 +26,8 @@ class PasswordReset extends Mailable {
      *
      * @param User $user
      */
-    public function __construct(User $user, string $token) {
+    public function __construct(User $user, string $token)
+    {
         $this->user = $user;
         $this->token = $token;
     }
@@ -35,7 +37,8 @@ class PasswordReset extends Mailable {
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         $this->user->setLocale();
 
         return $this

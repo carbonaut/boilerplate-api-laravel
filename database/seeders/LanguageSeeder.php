@@ -1,13 +1,17 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Language;
 use Illuminate\Database\Seeder;
 
-class LanguageSeeder extends Seeder {
+class LanguageSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      */
-    public function run() {
+    public function run()
+    {
         $languages = collect([
             [
                 'locale' => 'en',
@@ -20,7 +24,7 @@ class LanguageSeeder extends Seeder {
         ]);
 
         $languages->each(function ($language) {
-            factory(Language::class)->create([
+            Language::factory()->create([
                 'name'   => $language['name'],
                 'locale' => $language['locale'],
             ]);

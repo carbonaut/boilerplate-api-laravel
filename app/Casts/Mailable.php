@@ -7,7 +7,8 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable as IlluminateMailable;
 
-class Mailable implements CastsAttributes {
+class Mailable implements CastsAttributes
+{
     /**
      * Cast the given value.
      *
@@ -18,7 +19,8 @@ class Mailable implements CastsAttributes {
      *
      * @return array
      */
-    public function get($model, $key, $value, $attributes) {
+    public function get($model, $key, $value, $attributes)
+    {
         // Don't unserialize null values
         if ($value === null) {
             return null;
@@ -37,7 +39,8 @@ class Mailable implements CastsAttributes {
      *
      * @return string
      */
-    public function set($model, $key, $value, $attributes) {
+    public function set($model, $key, $value, $attributes)
+    {
         // Allow this property to be nullable
         if ($value === null) {
             return null;

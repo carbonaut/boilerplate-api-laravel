@@ -2,7 +2,8 @@
 
 namespace App\Http\Traits;
 
-trait TranslationAccessors {
+trait TranslationAccessors
+{
     /**
      * Return all translations for a given attribute.
      *
@@ -10,7 +11,8 @@ trait TranslationAccessors {
      *
      * @return array
      */
-    public function getTranslations(string $attribute) {
+    public function getTranslations(string $attribute)
+    {
         return $this->translations->pluck('locale')->mapWithKeys(function ($locale, $key) use ($attribute) {
             return [$locale => $this->translateOrDefault($locale)->{$attribute}];
         })->toArray();
@@ -22,7 +24,8 @@ trait TranslationAccessors {
      * @param string $realAttribute
      * @param array  $translations
      */
-    public function setTranslations(string $realAttribute, array $translations) {
+    public function setTranslations(string $realAttribute, array $translations)
+    {
         foreach ($translations as $locale => $value) {
             $this->{"{$realAttribute}:{$locale}"} = $value;
         }

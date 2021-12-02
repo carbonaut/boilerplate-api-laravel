@@ -1,5 +1,18 @@
 <?php
 
-$factory->define(App\Models\Language::class, function (Faker\Generator $faker) {
-    return [];
-});
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class LanguageFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [];
+    }
+}

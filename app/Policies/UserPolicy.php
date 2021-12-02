@@ -5,7 +5,8 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy {
+class UserPolicy
+{
     use HandlesAuthorization;
 
     /**
@@ -16,7 +17,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function maintenance(User $user, User $iterator) {
+    public function maintenance(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -27,7 +29,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function viewNova(User $user) {
+    public function viewNova(User $user)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -38,7 +41,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function viewAny(User $user) {
+    public function viewAny(User $user)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -50,7 +54,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function view(User $user, User $iterator) {
+    public function view(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -61,7 +66,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function create(User $user) {
+    public function create(User $user)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -73,7 +79,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function update(User $user, User $iterator) {
+    public function update(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -85,7 +92,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function hotline(User $user, User $iterator) {
+    public function hotline(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -97,7 +105,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function appointments(User $user, User $iterator) {
+    public function appointments(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -109,7 +118,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function triage(User $user, User $iterator) {
+    public function triage(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -121,7 +131,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function exam(User $user, User $iterator) {
+    public function exam(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -133,7 +144,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function results(User $user, User $iterator) {
+    public function results(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 
@@ -145,7 +157,8 @@ class UserPolicy {
      *
      * @return bool
      */
-    public function reports(User $user, User $iterator) {
+    public function reports(User $user, User $iterator)
+    {
         return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
     }
 }

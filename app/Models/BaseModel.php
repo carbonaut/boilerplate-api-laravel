@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Http\Traits\NestedRelations;
 use App\Http\Traits\TranslationAccessors;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BaseModel extends Model {
+class BaseModel extends Model
+{
     use NestedRelations;
     use TranslationAccessors;
+    use HasFactory;
 
     /**
      * The "type" of the auto-incrementing ID.

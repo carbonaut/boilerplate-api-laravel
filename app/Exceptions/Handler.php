@@ -4,9 +4,12 @@ namespace App\Exceptions;
 
 use App\Models\Phrase;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\App;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
-class Handler extends ExceptionHandler {
+class Handler extends ExceptionHandler
+{
     /**
      * A list of the exception types that are not reported.
      *
@@ -25,12 +28,22 @@ class Handler extends ExceptionHandler {
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
-     * @var array
+     * @var string[]
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
+
+    /**
+     * Register the exception handling callbacks for the application.
+     */
+    public function register()
+    {
+        $this->reportable(function (Throwable $e) {
+        });
+    }
 
     /**
      * Report or log an exception.
@@ -39,7 +52,8 @@ class Handler extends ExceptionHandler {
      *
      * @throws \Exception
      */
-    public function report(Throwable $exception) {
+    public function report(Throwable $exception)
+    {
         parent::report($exception);
     }
 
@@ -53,7 +67,8 @@ class Handler extends ExceptionHandler {
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, Throwable $exception) {
+    public function render($request, Throwable $exception)
+    {
         // On JSON we need to keep the response structure so the apps know what to expect
         if ($request->expectsJson()) {
             // Set a custom message for json
@@ -90,13 +105,13 @@ class Handler extends ExceptionHandler {
             }
 
             // Maintenance Mode exception response
-            if ($exception instanceof \Illuminate\Foundation\Http\Exceptions\MaintenanceModeException) {
+            if ($exception instanceof HttpException && App::isDownForMaintenance()) {
                 $this->json_exception_message = 'API under maintenance.';
 
                 return $this->jsonRender(
                     $this->json_exception_message,
                     'ERROR_MAINTENANCE_MODE',
-                    418
+                    $exception->getStatusCode()
                 );
             }
 
@@ -148,7 +163,8 @@ class Handler extends ExceptionHandler {
         return parent::render($request, $exception);
     }
 
-    protected function jsonRender(string $error, $message, int $statusCode, bool $use_phrase = true) {
+    protected function jsonRender(string $error, $message, int $statusCode, bool $use_phrase = true)
+    {
         return response()->json([
             'error'   => config('app.debug') ? $this->json_exception_message : $error,
             'message' => $use_phrase ? Phrase::getPhrase($message, 'api') : $message,

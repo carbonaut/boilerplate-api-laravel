@@ -5,7 +5,8 @@ namespace App\Models;
 use App\Support\Helpers;
 use Illuminate\Support\Str;
 
-class ProfilePermission extends BaseModel {
+class ProfilePermission extends BaseModel
+{
     //======================================================================
     // APPENDED ATTRIBUTES
     //======================================================================
@@ -25,7 +26,8 @@ class ProfilePermission extends BaseModel {
      *
      * @return int
      */
-    public function getModelNameAttribute() {
+    public function getModelNameAttribute()
+    {
         return preg_replace('/Policy$/', '', $this->policy);
     }
 
@@ -34,7 +36,8 @@ class ProfilePermission extends BaseModel {
      *
      * @return int
      */
-    public function getPermissionNameAttribute() {
+    public function getPermissionNameAttribute()
+    {
         return preg_replace('/Policy$/', '', $this->policy) . '\\' . $this->function;
     }
 
@@ -45,7 +48,8 @@ class ProfilePermission extends BaseModel {
     /**
      * Get the profile that owns the profile permission.
      */
-    public function profile() {
+    public function profile()
+    {
         return $this->belongsTo('\App\Models\Profile');
     }
 
@@ -56,7 +60,8 @@ class ProfilePermission extends BaseModel {
     /**
      * The "booted" method of the model.
      */
-    protected static function booted() {
+    protected static function booted()
+    {
         static::saving(function ($profile_permission) {
             if (strpos($profile_permission->policy, '\\') !== false) {
                 $permission = explode('\\', $profile_permission->policy);
@@ -82,7 +87,8 @@ class ProfilePermission extends BaseModel {
      *
      * @return array array
      */
-    public static function getAllProfilePermissions() {
+    public static function getAllProfilePermissions()
+    {
         $profile_permissions = collect();
 
         // Get all classes from the policies directory

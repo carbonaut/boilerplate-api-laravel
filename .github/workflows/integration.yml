@@ -20,7 +20,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
-          php-version: '7.3'
+          php-version: '8.0'
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -53,7 +53,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
-          php-version: '7.3'
+          php-version: '8.0'
 
       - name: Lint Test
         uses: StephaneBour/actions-php-cs-fixer@1.0
@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
         postgres:
-          image: postgres:12
+          image: postgres:13
           env:
             POSTGRES_USER: carbonaut
             POSTGRES_PASSWORD: carbonaut
@@ -79,7 +79,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
-          php-version: '7.3'
+          php-version: '8.0'
 
       - name: Setup Configuration Environment File
         run: |

@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-class Device extends BaseModel {
+class Device extends BaseModel
+{
     //======================================================================
     // FILLABLE ATTRIBUTES
     //======================================================================
@@ -43,7 +44,8 @@ class Device extends BaseModel {
      *
      * @return int
      */
-    public function getDeviceIdAttribute() {
+    public function getDeviceIdAttribute()
+    {
         return $this->id;
     }
 
@@ -54,7 +56,8 @@ class Device extends BaseModel {
     /**
      * Get the client of the voucher.
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
 }

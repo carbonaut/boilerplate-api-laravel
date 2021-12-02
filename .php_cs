@@ -40,9 +40,9 @@ return PhpCsFixer\Config::create()
         'concat_space'                           => ['spacing' => 'one'],
         'blank_line_before_statement'            => ['statements' => ['break', 'continue', 'declare', 'return', 'throw', 'try', 'if', 'foreach']],
         // Opening braces for methods go on the same line
-        'braces'                                 => [
-            'allow_single_line_closure'                   => true,
-            'position_after_functions_and_oop_constructs' => 'same',
-        ],
+        // 'braces'                                 => [
+        //     'allow_single_line_closure'                   => true,
+        //     'position_after_functions_and_oop_constructs' => 'same',
+        // ],
     ])
     ->setFinder($finder);

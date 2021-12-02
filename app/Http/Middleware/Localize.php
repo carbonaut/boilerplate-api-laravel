@@ -8,7 +8,8 @@ use Closure;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
-class Localize {
+class Localize
+{
     /**
      * Handle an incoming request.
      *
@@ -18,7 +19,8 @@ class Localize {
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null) {
+    public function handle($request, Closure $next, $guard = null)
+    {
         // Handle only requests with user
         if ($request->user() && $request->user() instanceof User) {
             // Use the locale of the user language

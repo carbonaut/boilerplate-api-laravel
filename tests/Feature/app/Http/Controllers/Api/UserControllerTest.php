@@ -11,7 +11,8 @@ use Tests\TestCase;
  * @internal
  * @coversNothing
  */
-class UserControllerTest extends TestCase {
+class UserControllerTest extends TestCase
+{
     // Comment to avoid running the migrations for each run on the testing database
     use RefreshDatabase;
 
@@ -23,8 +24,9 @@ class UserControllerTest extends TestCase {
      *
      * @test
      */
-    public function userCanChangePasswordWithValidRequest() {
-        $user = factory(User::class)->create([
+    public function userCanChangePasswordWithValidRequest()
+    {
+        $user = User::factory()->create([
             'password' => Hash::make($this->old_password),
         ]);
 
@@ -49,8 +51,9 @@ class UserControllerTest extends TestCase {
      *
      * @test
      */
-    public function userCannotChangePasswordWithInvalidRequest() {
-        $user = factory(User::class)->create([
+    public function userCannotChangePasswordWithInvalidRequest()
+    {
+        $user = User::factory()->create([
             'password' => Hash::make($this->old_password),
         ]);
 
@@ -115,7 +118,8 @@ class UserControllerTest extends TestCase {
         $this->assertPassword($this->old_password, $user->password);
     }
 
-    private function assertPassword(string $password, string $hash) {
+    private function assertPassword(string $password, string $hash)
+    {
         $this->assertTrue(Hash::check($password, $hash));
     }
 }

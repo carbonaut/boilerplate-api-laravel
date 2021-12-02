@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Log;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 
-class ProcessPushNotification implements ShouldQueue {
+class ProcessPushNotification implements ShouldQueue
+{
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
@@ -26,14 +27,16 @@ class ProcessPushNotification implements ShouldQueue {
      *
      * @param PushNotification $push
      */
-    public function __construct(PushNotification $push) {
+    public function __construct(PushNotification $push)
+    {
         $this->push = $push;
     }
 
     /**
      * Send the push notification.
      */
-    public function handle() {
+    public function handle()
+    {
         try {
             $message = CloudMessage::withTarget('token', $this->push->device->push_token)
                 ->withData([

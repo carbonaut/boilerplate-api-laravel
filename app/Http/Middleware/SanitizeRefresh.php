@@ -4,7 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class SanitizeRefresh {
+class SanitizeRefresh
+{
     /**
      * Handle an incoming request.
      *
@@ -13,7 +14,8 @@ class SanitizeRefresh {
      *
      * @return mixed
      */
-    public function handle($request, Closure $next) {
+    public function handle($request, Closure $next)
+    {
         // Set proper oauth attribute for refreshing token
         $request->request->add([
             'grant_type' => 'refresh_token',

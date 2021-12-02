@@ -2,14 +2,15 @@
 
 namespace App\Support;
 
-use App;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
-class Helpers {
+class Helpers
+{
     /**
      * Filter a multidimensional array to only display desired keys.
      *
@@ -18,7 +19,8 @@ class Helpers {
      *
      * @return array array with only the desired attributes
      */
-    public static function recursive_array_only($array, $attributes) {
+    public static function recursive_array_only($array, $attributes)
+    {
         $attributes = (array) $attributes;
 
         $attributes_array = [];
@@ -40,7 +42,8 @@ class Helpers {
      *
      * @return array array with only the desired attributes
      */
-    protected static function recursive_array_only_do(array $array1, array $array2) {
+    protected static function recursive_array_only_do(array $array1, array $array2)
+    {
         // Store if current array is an "object" or "array of objects"
         $multidimensional = null;
 
@@ -61,7 +64,7 @@ class Helpers {
             } else {
                 // If it has sub-filter, recursively filter it
                 if (is_array($value) && isset($array1[$key])) {
-                    if ($array1[$key] instanceof Illuminate\Support\Collection) {
+                    if ($array1[$key] instanceof Collection) {
                         $array1[$key] = $array1[$key]->toArray();
                     }
 
@@ -86,7 +89,8 @@ class Helpers {
      *
      * @return string
      */
-    public static function format_localized_date(string $date) {
+    public static function format_localized_date(string $date)
+    {
         $parsed_date = Carbon::parse($date);
 
         switch (App::getLocale()) {
@@ -106,7 +110,8 @@ class Helpers {
      *
      * @return string
      */
-    public static function format_localized_time(string $time) {
+    public static function format_localized_time(string $time)
+    {
         $time = Carbon::parse($time);
 
         switch (App::getLocale()) {
@@ -129,7 +134,8 @@ class Helpers {
      *
      * @return string
      */
-    public static function format_localized_short_date(string $date) {
+    public static function format_localized_short_date(string $date)
+    {
         $parsed_date = Carbon::parse($date);
         switch (App::getLocale()) {
         case 'en':
@@ -148,7 +154,8 @@ class Helpers {
      *
      * @return string
      */
-    public static function anonymize_ip_address(string $ip) {
+    public static function anonymize_ip_address(string $ip)
+    {
         return preg_replace(['/\.\d*$/', '/([\da-f]*:){4}[\da-f]*$/'], ['.0', '::::'], $ip);
     }
 
@@ -159,7 +166,8 @@ class Helpers {
      *
      * @return string namespace or null if namespace is not found in file
      */
-    public static function getNamespace(string $path) {
+    public static function getNamespace(string $path)
+    {
         // Get the contents of the file in the directory
         $file = file_get_contents($path);
 
@@ -178,7 +186,8 @@ class Helpers {
      *
      * @return Collection array with classes in the specified directory
      */
-    public static function getClasses(string $dir) {
+    public static function getClasses(string $dir)
+    {
         $classes = collect();
         $files = new Finder();
 

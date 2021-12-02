@@ -4,7 +4,8 @@ namespace App\Http\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-trait TranslationClauses {
+trait TranslationClauses
+{
     /**
      * This scope filters results by checking the translation fields (case-insensitive).
      *
@@ -15,7 +16,8 @@ trait TranslationClauses {
      *
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
-    public function scopeWhereTranslationILike(Builder $query, $key, $value, $locale = null) {
+    public function scopeWhereTranslationILike(Builder $query, $key, $value, $locale = null)
+    {
         return $query->whereHas('translations', function (Builder $query) use ($key, $value, $locale) {
             $query->where($this->getTranslationsTable() . '.' . $key, 'ILIKE', $value);
 
@@ -35,7 +37,8 @@ trait TranslationClauses {
      *
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
-    public function scopeOrWhereTranslationILike(Builder $query, $key, $value, $locale = null) {
+    public function scopeOrWhereTranslationILike(Builder $query, $key, $value, $locale = null)
+    {
         return $query->orWhereHas('translations', function (Builder $query) use ($key, $value, $locale) {
             $query->where($this->getTranslationsTable() . '.' . $key, 'ILIKE', $value);
 

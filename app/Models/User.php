@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
-use App;
 use App\Http\Traits\NestedRelations;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Token;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     use HasApiTokens;
+    use HasFactory;
     use Notifiable;
     use NestedRelations;
 
@@ -29,7 +32,7 @@ class User extends Authenticatable {
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = [
         'name',
@@ -42,7 +45,7 @@ class User extends Authenticatable {
     //======================================================================
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be hidden for serialization.
      *
      * @var array
      */
@@ -72,7 +75,8 @@ class User extends Authenticatable {
      *
      * @return int
      */
-    public function getUserIdAttribute() {
+    public function getUserIdAttribute()
+    {
         return $this->id;
     }
 
@@ -81,7 +85,8 @@ class User extends Authenticatable {
      *
      * @return bool
      */
-    public function getEmailVerifiedAttribute() {
+    public function getEmailVerifiedAttribute()
+    {
         return $this->email_verified_at !== null;
     }
 
@@ -90,7 +95,8 @@ class User extends Authenticatable {
      *
      * @return string
      */
-    public function getFullNameAttribute() {
+    public function getFullNameAttribute()
+    {
         if ($this->title !== null) {
             return $this->title . ' ' . $this->first_name . ' ' . $this->last_name;
         }
@@ -103,7 +109,7 @@ class User extends Authenticatable {
     //======================================================================
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
      * @var array
      */
@@ -119,14 +125,16 @@ class User extends Authenticatable {
     /**
      * Get the profile that owns the user.
      */
-    public function profile() {
+    public function profile()
+    {
         return $this->belongsTo('\App\Models\Profile');
     }
 
     /**
      * Get the language that owns the user.
      */
-    public function language() {
+    public function language()
+    {
         return $this->belongsTo('\App\Models\Language');
     }
 
@@ -142,7 +150,8 @@ class User extends Authenticatable {
      *
      * @return null|bool
      */
-    public function getPermission($policy, $function) {
+    public function getPermission($policy, $function)
+    {
         if (!$this->relationLoaded('profile')) {
             throw new \Exception('Profile must be eager loaded before geting a permission');
         }
@@ -159,7 +168,8 @@ class User extends Authenticatable {
     /**
      * Set the app locale using the user proper language.
      */
-    public function setLocale() {
+    public function setLocale()
+    {
         if ($this->language_id !== null) {
             App::setLocale($this->language->locale);
         } else {
@@ -176,7 +186,8 @@ class User extends Authenticatable {
      *
      * @param null|Token $accessToken
      */
-    protected static function revokeToken(Token $accessToken) {
+    protected static function revokeToken(Token $accessToken)
+    {
         // Revoke the refresh token associated with the access token
         DB::table('oauth_refresh_tokens')
             ->where('access_token_id', $accessToken->id)
@@ -193,7 +204,8 @@ class User extends Authenticatable {
      *
      * @return int
      */
-    public static function generateVerificationCode($digits = 4) {
+    public static function generateVerificationCode($digits = 4)
+    {
         return rand(pow(10, $digits - 1), (pow(10, $digits) - 1));
     }
 }

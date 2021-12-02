@@ -1,9 +1,12 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Phrase;
 use Illuminate\Database\Seeder;
 
-class PhraseEmailSeeder extends Seeder {
+class PhraseEmailSeeder extends Seeder
+{
     private $type = 'email';
 
     private $phrases = [
@@ -79,7 +82,8 @@ class PhraseEmailSeeder extends Seeder {
     /**
      * Run the database seeds.
      */
-    public function run() {
+    public function run()
+    {
         Phrase::where('type', $this->type)->delete();
 
         foreach ($this->phrases as $phrase => $translations) {

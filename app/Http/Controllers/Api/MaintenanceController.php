@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App;
 use App\Http\Controllers\Controller;
-use Artisan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 
-class MaintenanceController extends Controller {
+class MaintenanceController extends Controller
+{
     //======================================================================
     // CONSTRUCTOR
     //
@@ -15,7 +16,8 @@ class MaintenanceController extends Controller {
     // controller class
     //
     //======================================================================
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         parent::__construct();
 
         $this->middleware(function ($request, $next) {
@@ -36,27 +38,11 @@ class MaintenanceController extends Controller {
      *
      * @return array
      */
-    public function postEnable(Request $request) {
-        $request->validate([
-            'message' => 'nullable|string',
-            'allow'   => 'nullable|ip',
-        ]);
-
-        if (App::isDownForMaintenance()) {
-            Artisan::call('up');
+    public function postEnable(Request $request)
+    {
+        if (!App::isDownForMaintenance()) {
+            Artisan::call('down');
         }
-
-        $command = 'down';
-
-        if ($request->message !== null) {
-            $command .= " --message=\"{$request->message}\"";
-        }
-
-        if ($request->allow !== null) {
-            $command .= " --allow={$request->allow}";
-        }
-
-        Artisan::call($command);
 
         return [];
     }
@@ -68,7 +54,8 @@ class MaintenanceController extends Controller {
      *
      * @return array
      */
-    public function postDisable(Request $request) {
+    public function postDisable(Request $request)
+    {
         if (App::isDownForMaintenance()) {
             Artisan::call('up');
         }

@@ -2,33 +2,49 @@
 
 namespace App\Providers;
 
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
-class RouteServiceProvider extends ServiceProvider {
-    /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers';
-
+class RouteServiceProvider extends ServiceProvider
+{
     /**
      * The path to the "home" route for your application.
+     *
+     * This is used by Laravel authentication to redirect users after login.
      *
      * @var string
      */
     public const HOME = '/home';
 
     /**
+     * The controller namespace for the application.
+     *
+     * When present, controller route declarations will automatically be prefixed with this namespace.
+     *
+     * @var null|string
+     */
+    // protected $namespace = 'App\\Http\\Controllers';
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      */
-    public function boot() {
+    public function boot()
+    {
+        $this->configureRateLimiting();
+
+        $this->routes(function () {
+            Route::middleware('api')
+                ->domain('api.' . config('app.domain'))
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+        });
+
         $uuid = '^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$';
 
-        $bindings = ['address', 'exam', 'voucher', 'push', 'country', 'location', 'email'];
+        $bindings = ['push', 'email'];
 
         foreach ($bindings as $binding) {
             Route::pattern($binding, $uuid);
@@ -38,21 +54,12 @@ class RouteServiceProvider extends ServiceProvider {
     }
 
     /**
-     * Define the routes for the application.
+     * Configure the rate limiters for the application.
      */
-    public function map() {
-        $this->mapApiRoutes();
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     */
-    protected function mapApiRoutes() {
-        Route::middleware('api')
-            ->domain('api.' . config('app.domain'))
-            ->namespace($this->namespace)
-            ->group(base_path('routes/api.php'));
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
     }
 }

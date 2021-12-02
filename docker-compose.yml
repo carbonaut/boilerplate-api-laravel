@@ -5,7 +5,7 @@ volumes:
 
 services:
   database:
-    image: postgres:12
+    image: postgres:13
     restart: unless-stopped
     tty: true
     ports:

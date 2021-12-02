@@ -4,7 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class BlockInProduction {
+class BlockInProduction
+{
     /**
      * Handle an incoming request.
      *
@@ -13,7 +14,8 @@ class BlockInProduction {
      *
      * @return mixed
      */
-    public function handle($request, Closure $next) {
+    public function handle($request, Closure $next)
+    {
         if (config('app.env') === 'production') {
             // TODO: Raise an exception as if the route was not found
             return response(null, 404);

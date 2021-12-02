@@ -10,9 +10,9 @@ parts of bootstrapping a project, right?
 
 That's why we've built this awesome boilerplate so you can focus on your project's ideas and get the boring, albeit important, parts out of the way.
 
-- Language: PHP 7.3
-- Framework: Laravel 7
-- Database: PostgreSQL 12
+- Language: PHP 8.0
+- Framework: Laravel 8
+- Database: PostgreSQL 13
 
 ## Goodies
 - OAuth2 Authentication with [Passport](https://laravel.com/docs/7.x/passport)

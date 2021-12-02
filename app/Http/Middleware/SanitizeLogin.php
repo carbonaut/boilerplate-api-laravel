@@ -5,7 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Str;
 
-class SanitizeLogin {
+class SanitizeLogin
+{
     /**
      * Handle an incoming request.
      *
@@ -14,7 +15,8 @@ class SanitizeLogin {
      *
      * @return mixed
      */
-    public function handle($request, Closure $next) {
+    public function handle($request, Closure $next)
+    {
         // Lowercase email for proper login
         if ($request->username !== null && is_string($request->username)) {
             $request->request->set('username', Str::lower($request->username));

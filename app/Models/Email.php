@@ -6,7 +6,8 @@ use App\Casts\Mailable;
 use App\Jobs\ProcessEmail;
 use Carbon\Carbon;
 
-class Email extends BaseModel {
+class Email extends BaseModel
+{
     //======================================================================
     // CASTS ATTRIBUTES
     //======================================================================
@@ -52,7 +53,8 @@ class Email extends BaseModel {
      *
      * @return int
      */
-    public function getEmailIdAttribute() {
+    public function getEmailIdAttribute()
+    {
         return $this->id;
     }
 
@@ -63,21 +65,24 @@ class Email extends BaseModel {
     /**
      * Get the models that owns the emailable.
      */
-    public function emailable() {
+    public function emailable()
+    {
         return $this->morphTo();
     }
 
     /**
      * Get the user from which the email is for.
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
 
     /**
      * Get the user which sent the email.
      */
-    public function sent_by() {
+    public function sent_by()
+    {
         return $this->belongsTo('App\Models\User', 'sent_by');
     }
 
@@ -88,7 +93,8 @@ class Email extends BaseModel {
     /**
      * The "booted" method of the model.
      */
-    protected static function booted() {
+    protected static function booted()
+    {
         // On creating entry, set default values if they are null
         static::creating(function ($email) {
             if ($email->to === null && $email->user !== null) {

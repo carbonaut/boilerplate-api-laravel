@@ -5,7 +5,8 @@ namespace Tests;
 use Exception;
 use Illuminate\Contracts\Console\Kernel;
 
-trait CreatesApplication {
+trait CreatesApplication
+{
     public $currentEnvFile = '.env.test';
 
     /**
@@ -13,7 +14,8 @@ trait CreatesApplication {
      *
      * @return \Illuminate\Foundation\Application
      */
-    public function createApplication() {
+    public function createApplication()
+    {
         $app = require __DIR__ . '/../bootstrap/app.php';
 
         if (is_file($this->currentEnvFile)) {

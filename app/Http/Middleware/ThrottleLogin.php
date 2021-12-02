@@ -6,7 +6,8 @@ use Closure;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 
-class ThrottleLogin {
+class ThrottleLogin
+{
     use ThrottlesLogins;
 
     /**
@@ -17,7 +18,8 @@ class ThrottleLogin {
      *
      * @return mixed
      */
-    public function handle($request, Closure $next) {
+    public function handle($request, Closure $next)
+    {
         // BEFORE request
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -52,7 +54,8 @@ class ThrottleLogin {
      *
      * @return string
      */
-    protected function username() {
+    protected function username()
+    {
         return 'username';
     }
 }

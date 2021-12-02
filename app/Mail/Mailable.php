@@ -6,7 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable as IlluminateMailable;
 use Illuminate\Queue\SerializesModels;
 
-class Mailable extends IlluminateMailable {
+class Mailable extends IlluminateMailable
+{
     use Queueable;
     use SerializesModels;
 
@@ -22,7 +23,8 @@ class Mailable extends IlluminateMailable {
      *
      * @param string $email_id
      */
-    public function setEmailId(string $email_id) {
+    public function setEmailId(string $email_id)
+    {
         $this->email_id = $email_id;
     }
 }

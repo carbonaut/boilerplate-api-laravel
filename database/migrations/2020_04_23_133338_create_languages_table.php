@@ -1,15 +1,19 @@
 <?php
 
+use Database\Seeders\LanguageSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLanguagesTable extends Migration {
+class CreateLanguagesTable extends Migration
+{
     /**
      * Run the migrations.
      */
-    public function up() {
-        \DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+    public function up()
+    {
+        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
         Schema::create('languages', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
@@ -24,7 +28,8 @@ class CreateLanguagesTable extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('languages');
     }
 }
