@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use App\Models\Phrase;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\App;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,12 +28,22 @@ class Handler extends ExceptionHandler
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
-     * @var array
+     * @var string[]
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
+
+    /**
+     * Register the exception handling callbacks for the application.
+     */
+    public function register()
+    {
+        $this->reportable(function (Throwable $e) {
+        });
+    }
 
     /**
      * Report or log an exception.
@@ -93,13 +105,13 @@ class Handler extends ExceptionHandler
             }
 
             // Maintenance Mode exception response
-            if ($exception instanceof \Illuminate\Foundation\Http\Exceptions\MaintenanceModeException) {
+            if ($exception instanceof HttpException && App::isDownForMaintenance()) {
                 $this->json_exception_message = 'API under maintenance.';
 
                 return $this->jsonRender(
                     $this->json_exception_message,
                     'ERROR_MAINTENANCE_MODE',
-                    418
+                    $exception->getStatusCode()
                 );
             }
 
