@@ -26,7 +26,7 @@ class UserControllerTest extends TestCase
      */
     public function userCanChangePasswordWithValidRequest()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'password' => Hash::make($this->old_password),
         ]);
 
@@ -53,7 +53,7 @@ class UserControllerTest extends TestCase
      */
     public function userCannotChangePasswordWithInvalidRequest()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'password' => Hash::make($this->old_password),
         ]);
 
