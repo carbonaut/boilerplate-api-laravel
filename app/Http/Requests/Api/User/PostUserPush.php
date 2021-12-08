@@ -24,8 +24,8 @@ class PostUserPush extends FormRequest
     public function rules()
     {
         return [
-            'coldstart' => 'boolean',
-            'foreground'=> 'boolean',
+            'coldstart'  => 'boolean',
+            'foreground' => 'boolean',
         ];
     }
 }

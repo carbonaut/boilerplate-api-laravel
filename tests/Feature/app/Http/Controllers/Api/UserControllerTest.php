@@ -37,7 +37,7 @@ class UserControllerTest extends TestCase
                 'new_password'              => $this->new_password,
                 'new_password_confirmation' => $this->new_password,
             ],
-            ['Accept'       => 'application/json']
+            ['Accept' => 'application/json']
         );
 
         $user->refresh();
@@ -67,7 +67,7 @@ class UserControllerTest extends TestCase
                 'new_password'              => $this->new_password,
                 'new_password_confirmation' => $this->new_password,
             ],
-            ['Accept'       => 'application/json']
+            ['Accept' => 'application/json']
         );
         $user->refresh();
 
@@ -78,10 +78,10 @@ class UserControllerTest extends TestCase
         $response = $this->post(
             '/user/password/change',
             [
-                'old_password'              => $this->old_password,
-                'new_password'              => $this->new_password,
+                'old_password' => $this->old_password,
+                'new_password' => $this->new_password,
             ],
-            ['Accept'       => 'application/json']
+            ['Accept' => 'application/json']
         );
         $user->refresh();
 
@@ -92,10 +92,10 @@ class UserControllerTest extends TestCase
         $response = $this->post(
             '/user/password/change',
             [
-                'new_password'              => $this->new_password,
-                'new_password'              => $this->new_password,
+                'new_password' => $this->new_password,
+                'new_password' => $this->new_password,
             ],
-            ['Accept'       => 'application/json']
+            ['Accept' => 'application/json']
         );
         $user->refresh();
 
@@ -106,11 +106,11 @@ class UserControllerTest extends TestCase
         $response = $this->post(
             '/user/password/change',
             [
-                'old_password'              => $this->old_password,
-                'new_password'              => $this->new_password,
-                'new_password'              => 'MyNewDifferentPassword123!',
+                'old_password' => $this->old_password,
+                'new_password' => $this->new_password,
+                'new_password' => 'MyNewDifferentPassword123!',
             ],
-            ['Accept'       => 'application/json']
+            ['Accept' => 'application/json']
         );
         $user->refresh();
 

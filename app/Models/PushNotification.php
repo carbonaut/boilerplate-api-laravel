@@ -17,10 +17,10 @@ class PushNotification extends BaseModel
      * @var array
      */
     protected $casts = [
-        'sent_at'        => 'datetime',
-        'failed_at'      => 'datetime',
-        'opened_at'      => 'datetime',
-        'scheduled_for'  => 'datetime',
+        'sent_at'       => 'datetime',
+        'failed_at'     => 'datetime',
+        'opened_at'     => 'datetime',
+        'scheduled_for' => 'datetime',
     ];
 
     //======================================================================

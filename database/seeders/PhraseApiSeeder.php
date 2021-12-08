@@ -11,19 +11,19 @@ class PhraseApiSeeder extends Seeder
 
     private $phrases = [
         'ERROR_EMAIL_VERIFIED_OR_NOT_FOUND' => [
-            'en'    => "This email doesn't exist or was already verified",
+            'en' => "This email doesn't exist or was already verified",
         ],
         'ERROR_EMAIL_OR_VERIFICATION_CODE_NOT_FOUND' => [
-            'en'    => "This email doesn't exist or the verification code was not found",
+            'en' => "This email doesn't exist or the verification code was not found",
         ],
         'ERROR_EMAIL_VERIFICATION_CODE_EXPIRED' => [
-            'en'    => 'The verification code has expired. Please request a new one.',
+            'en' => 'The verification code has expired. Please request a new one.',
         ],
         'ERROR_PUSH_FROM_ANOTHER_USER' => [
-            'en'    => 'This push is for another person',
+            'en' => 'This push is for another person',
         ],
         'ERROR_EMAIL_NOT_VERIFIED' => [
-            'en'    => 'The email address is not verified',
+            'en' => 'The email address is not verified',
         ],
     ];
 

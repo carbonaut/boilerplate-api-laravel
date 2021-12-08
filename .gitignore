@@ -13,6 +13,6 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-.php_cs.cache
+.php-cs-fixer.cache
 /storage/clockwork
 .env.test
