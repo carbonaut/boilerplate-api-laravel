@@ -25,8 +25,8 @@ class PostPasswordChange extends FormRequest
     public function rules()
     {
         return [
-            'old_password'              => ['required', 'password'],
-            'new_password'              => ['required', 'confirmed', new PasswordStrength()],
+            'old_password' => ['required', 'password'],
+            'new_password' => ['required', 'confirmed', new PasswordStrength()],
         ];
     }
 }

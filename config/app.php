@@ -13,8 +13,8 @@ return [
     'domain' => env('APP_DOMAIN', 'localhost'),
     'scheme' => env('APP_SCHEME', 'https'),
 
-    'development_domain'      => 'https://carbonaut.io',
-    'production_domain'       => 'https://carbonaut.io',
+    'development_domain' => 'https://carbonaut.io',
+    'production_domain'  => 'https://carbonaut.io',
 
     /*
     |--------------------------------------------------------------------------
@@ -25,13 +25,13 @@ return [
     |
     */
 
-    'team'                   => '',
-    'support_email'          => '',
-    'support_phone'          => '',
-    'mail_header_name'       => '',
-    'mail_header_url'        => '',
-    'mail_header_logo'       => '',
-    'slack_help_channel'     => '',
+    'team'               => '',
+    'support_email'      => '',
+    'support_phone'      => '',
+    'mail_header_name'   => '',
+    'mail_header_url'    => '',
+    'mail_header_logo'   => '',
+    'slack_help_channel' => '',
 
     /*
     |--------------------------------------------------------------------------

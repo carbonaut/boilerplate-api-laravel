@@ -137,19 +137,19 @@ return [
     |
     */
 
-    'svnr'                        => 'Die :attribute ist ungültig.',
-    'password_strength'           => 'Das Passwort muss aus mindestens 8 Zeichen, je einem Klein- und Großbuchstaben, einer Zahl und einem Sonderzeichen bestehen.',
-    'zip_code'                    => 'Die :attribute ist ungültig.',
-    'uppercase'                   => 'Das :attribute muss vollständig in Großbuchstaben geschrieben sein',
-    'phrase_key'                  => 'Der key darf nur Großbuchstaben, Zahlen, Bindestriche, Unterstriche und Punkte enthalten',
-    'custom'                      => [
-        'code'                    => [
+    'svnr'              => 'Die :attribute ist ungültig.',
+    'password_strength' => 'Das Passwort muss aus mindestens 8 Zeichen, je einem Klein- und Großbuchstaben, einer Zahl und einem Sonderzeichen bestehen.',
+    'zip_code'          => 'Die :attribute ist ungültig.',
+    'uppercase'         => 'Das :attribute muss vollständig in Großbuchstaben geschrieben sein',
+    'phrase_key'        => 'Der key darf nur Großbuchstaben, Zahlen, Bindestriche, Unterstriche und Punkte enthalten',
+    'custom'            => [
+        'code' => [
             'exists' => 'Der gewählte :attribute ist ungültig',
         ],
         'email_verification_code' => [
             'integer' => 'Der :attribute darf nur Zahlen enthalten.',
         ],
-        'identifier'              => [
+        'identifier' => [
             'unique' => 'Der :attribute ist bereits vergeben.',
         ],
     ],

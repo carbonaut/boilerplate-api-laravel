@@ -122,11 +122,11 @@ return [
         ],
 
         'rollbar' => [
-            'driver'           => 'monolog',
-            'handler'          => MonologHandler::class,
-            'access_token'     => env('ROLLBAR_TOKEN'),
-            'level'            => 'error',
-            'capture_ip'       => 'anonymize',
+            'driver'       => 'monolog',
+            'handler'      => MonologHandler::class,
+            'access_token' => env('ROLLBAR_TOKEN'),
+            'level'        => 'error',
+            'capture_ip'   => 'anonymize',
         ],
     ],
 ];

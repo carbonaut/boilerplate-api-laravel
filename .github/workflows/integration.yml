@@ -58,7 +58,9 @@ jobs:
           tools: composer:v2
 
       - name: Lint Test
-        uses: StephaneBour/actions-php-cs-fixer@1.0
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --diff --dry-run
 
   test:
     needs: lint

@@ -119,13 +119,13 @@ class UserController extends Controller
         // Set the devices with this UUID to not active
         // This prevents a device from being active for two different users
         Device::where('uuid', $request->uuid)->update([
-            'is_active'=> false,
+            'is_active' => false,
         ]);
 
         $device = Device::firstOrNew([
-            'uuid'    => strip_tags($request->uuid),
-            'platform'=> strip_tags($request->platform),
-            'user_id' => $this->user->id,
+            'uuid'     => strip_tags($request->uuid),
+            'platform' => strip_tags($request->platform),
+            'user_id'  => $this->user->id,
         ]);
 
         // Update the device information
@@ -166,8 +166,8 @@ class UserController extends Controller
     {
         if ($push->device->user->id !== $this->user->id) {
             return response()->json([
-                'error'    => 'This push notification is from another user',
-                'message'  => Phrase::getPhrase('ERROR_PUSH_FROM_ANOTHER_USER', 'api'),
+                'error'   => 'This push notification is from another user',
+                'message' => Phrase::getPhrase('ERROR_PUSH_FROM_ANOTHER_USER', 'api'),
             ], 403);
         }
 
