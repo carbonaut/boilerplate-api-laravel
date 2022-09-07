@@ -24,7 +24,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - CI and CD flows for GitHub Actions
 - Email and Push Notifications already set up
 - Configuration files for deploying into AWS Elastic Beanstalk
-- [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) configuration file for code styling
+- [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) configuration file for code styling (PhpCsFixer rule-set with minor customizations)
 
 ## Getting started
 
