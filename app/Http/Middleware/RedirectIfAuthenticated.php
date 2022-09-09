@@ -13,10 +13,10 @@ class RedirectIfAuthenticated
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     * @param null|string              ...$guards
+     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
+     * @param null|string ...$guards
      *
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {

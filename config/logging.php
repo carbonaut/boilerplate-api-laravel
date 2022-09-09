@@ -3,7 +3,6 @@
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
-use Rollbar\Laravel\MonologHandler;
 
 return [
     /*
@@ -30,7 +29,10 @@ return [
     |
     */
 
-    'deprecations' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
+    'deprecations' => [
+        'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
+        'trace'   => false,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -57,21 +59,14 @@ return [
         'single' => [
             'driver' => 'single',
             'path'   => storage_path('logs/laravel.log'),
-            'level'  => 'debug',
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
         'daily' => [
             'driver' => 'daily',
             'path'   => storage_path('logs/laravel.log'),
-            'level'  => 'debug',
-            'days'   => 7,
-        ],
-
-        'requests' => [
-            'driver' => 'daily',
-            'path'   => storage_path('logs/requests.log'),
-            'level'  => 'info',
-            'days'   => 3,
+            'level'  => env('LOG_LEVEL', 'debug'),
+            'days'   => 14,
         ],
 
         'slack' => [
@@ -79,16 +74,17 @@ return [
             'url'      => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
             'emoji'    => ':boom:',
-            'level'    => 'critical',
+            'level'    => env('LOG_LEVEL', 'critical'),
         ],
 
         'papertrail' => [
             'driver'       => 'monolog',
-            'level'        => 'debug',
-            'handler'      => SyslogUdpHandler::class,
+            'level'        => env('LOG_LEVEL', 'debug'),
+            'handler'      => env('LOG_PAPERTRAIL_HANDLER', SyslogUdpHandler::class),
             'handler_with' => [
-                'host' => env('PAPERTRAIL_URL'),
-                'port' => env('PAPERTRAIL_PORT'),
+                'host'             => env('PAPERTRAIL_URL'),
+                'port'             => env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
         ],
 
@@ -104,12 +100,12 @@ return [
 
         'syslog' => [
             'driver' => 'syslog',
-            'level'  => 'debug',
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
         'errorlog' => [
             'driver' => 'errorlog',
-            'level'  => 'debug',
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
         'null' => [
