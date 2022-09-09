@@ -28,32 +28,9 @@ That's why we've built this awesome boilerplate so you can focus on your project
 
 ## Getting started
 
-### With Docker
-First, make sure to have **Docker** and **Docker Compose** correctly set up.
-
-Then, you can run the following:
-```sh  
-$ git clone https://github.com/carbonaut/boilerplate-api-laravel
-$ cd boilerplate-api-laravel
-$ docker-compose up
-# Some time later...
-$ docker-compose down
-```
-With just that, you should be up and running and have the documentation available at `http://api.localhost:8000`
-
-No need to install PHP and its extensions or PostgreSQL.
-
-If you ever need extra extensions or native dependencies, 
-you can refer to the provided `Dockerfile` and customize whatever the built container has.
-
-Additionally, you can customize the `docker_postgres_init.sql` file for initial bootstrapping of the PostgreSQL database. 
-It's important to note that this file is only sourced when creating the `postgres` Docker volume.
 
 ### Existing environment
-You also have the option to use your existing local environment for PHP and PostgreSQL.
-
-Just ignore everything related to Docker and Docker Compose and change the defaults from the 
-`.env.example` files and you're good to go.
+Make sure you have PHP and PostgreSQL installed and running locally. Rename `.env.example.local` to `.env` and change the default falues. You're good to go!
 
 ```sh
 $ git clone https://github.com/carbonaut/boilerplate-api-laravel
@@ -65,69 +42,13 @@ $ cp .env.example.test .env.test
 $ php artisan migrate
 $ php artisan db:seed
 $ php artisan serve
-# Docs at http://api.localhost:8000
+# API docs at http://api.localhost:8000
 ```
 
-## Additional Info and Troubleshooting 
-- **Important**: If you run into any problem related to permissions, it may be necessary to rebuild the API image with your user and group ID.
-  This is because Docker runs as root by default which leaves us with permission issues for any    files created inside the container. This is why we want to run the container as the current user.
-  
-  You can see your User ID and Group ID as follows:
-  ```sh
-  $ echo $UID
-  1000
-  $ echo $GID
-  998
-  ```
+### Laravel Sail
+The manual dockerization was removed in favor of [Laravel Sail](https://laravel.com/docs/9.x/sail), which is yet to be added to this project. Feel free to open a PR!
 
-  You can then edit the `docker-compose.yml` file with your IDs:
-  ```yaml
-  [...]
-  api:
-  build:
-      [...]
-      args:
-      UID: 1000 # <- Change the UID here
-      GID: 998 # <- Change the GID here
-  [...]
-  ```
-  And rebuild the image:
-  ```sh
-  $ docker-compose up --build
-  ```
 
-- You can run the containers in the background with the `-d` flag:
-  ```
-  docker-compose up -d 
-  ```
-  If later you want to see the logs for a container, you can use the `logs` command
-  For example, you can attach to the logs of the `api` container like so:
-  ```
-  docker-compose logs --follow api 
-  ```
-
-- To run the commands inside the containers, you can run the following pattern:
-
-  `docker-compose exec $service_name $command`
-
-  For example, running `composer` and `artisan` inside the API container is simple: 
-  ```sh 
-  $ docker-compose exec api composer require abc/def
-  $ docker-compose exec api composer dump-autload
-  $ docker-compose exec api php artisan migrate
-  $ docker-compose exec api php artisan make:model Astrounauts
-  ```
-  Another example is if you want to connect to the database:
-  ```sh 
-  $ docker-compose exec database psql -U carbonaut -d api
-  ```
-
-  You could also startup a shell, like Bash, inside the container and send commands from it:
-  ```sh
-  $ docker-compose exec api bash 
-  # Now, you're inside the container
-  $ php artisan migrate
-  ```
 
 ## Contributing
 
