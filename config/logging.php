@@ -3,6 +3,7 @@
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use Rollbar\Laravel\MonologHandler;
 
 return [
     /*
@@ -52,7 +53,7 @@ return [
     'channels' => [
         'stack' => [
             'driver'            => 'stack',
-            'channels'          => ['rollbar', 'daily'],
+            'channels'          => ['rollbar', 'single'],
             'ignore_exceptions' => false,
         ],
 
@@ -121,7 +122,7 @@ return [
             'driver'       => 'monolog',
             'handler'      => MonologHandler::class,
             'access_token' => env('ROLLBAR_TOKEN'),
-            'level'        => 'error',
+            'level'        => env('ROLLBAR_LEVEL', 'error'),
             'capture_ip'   => 'anonymize',
         ],
     ],

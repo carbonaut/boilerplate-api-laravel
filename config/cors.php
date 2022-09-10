@@ -19,15 +19,16 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'null',
-        'https://my.example.domain',
+        '*',
+        // 'null',
+        // 'https://my.example.domain',
     ],
 
     'allowed_origins_patterns' => [
-        '/localhost/',
-        '/127\.0\.0\.1/',
-        '/::1/',
-        '/my-example-string/',
+        // '/localhost/',
+        // '/127\.0\.0\.1/',
+        // '/::1/',
+        // '/my-example-string/',
     ],
 
     'allowed_headers' => ['*'],
