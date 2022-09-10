@@ -13,23 +13,28 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * The path to the "home" route for your application.
      *
-     * This is used by Laravel authentication to redirect users after login.
+     * Typically, users are redirected here after authentication.
      *
      * @var string
      */
     public const HOME = '/home';
 
     /**
-     * The controller namespace for the application.
+     * Configure the rate limiters for the application.
      *
-     * When present, controller route declarations will automatically be prefixed with this namespace.
-     *
-     * @var null|string
+     * @return void
      */
-    // protected $namespace = 'App\\Http\\Controllers';
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+    }
 
     /**
-     * Define your route model bindings, pattern filters, etc.
+     * Define your route model bindings, pattern filters, and other route configuration.
+     *
+     * @return void
      */
     public function boot()
     {
@@ -38,28 +43,15 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::middleware('api')
                 ->domain('api.' . config('app.domain'))
-                ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
-        });
 
-        $uuid = '^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$';
+            Route::middleware('web')
+                ->domain('www.' . config('app.domain'))
+                ->group(base_path('routes/web.php'));
 
-        $bindings = ['push', 'email'];
-
-        foreach ($bindings as $binding) {
-            Route::pattern($binding, $uuid);
-        }
-
-        parent::boot();
-    }
-
-    /**
-     * Configure the rate limiters for the application.
-     */
-    protected function configureRateLimiting()
-    {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+            Route::middleware('web')
+                ->domain(config('app.domain'))
+                ->group(base_path('routes/web.php'));
         });
     }
 }
