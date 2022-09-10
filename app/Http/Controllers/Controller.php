@@ -14,11 +14,17 @@ class Controller extends BaseController
     use DispatchesJobs;
     use ValidatesRequests;
 
+    /**
+     * Current authenticated User.
+     *
+     * @var null|User
+     */
     protected $user;
 
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
+            // If an authenticated User is present, store it in the $user property.
             if ($request->user() instanceof User) {
                 $this->user = $request->user();
             }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\EmailController;
 use App\Http\Controllers\Api\MaintenanceController;
@@ -20,9 +21,12 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 |
 */
 
-Route::get('/', [ApiController::class, 'getDocumentation'])->name('api');
-Route::get('/docs', [ApiController::class, 'getDocs'])->name('docs');
-Route::get('/status', [ApiController::class, 'getStatus']);
+Route::middleware(['block-in-production'])->group(function () {
+    Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
+    Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
+});
+
+Route::get('/status', [StatusController::class, 'getStatus']);
 
 // Auth routes
 Route::post('/auth/login', [AccessTokenController::class, 'issueToken'])->middleware(['set_oauth_client', 'sanitize_login', 'throttle_login']);

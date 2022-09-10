@@ -74,7 +74,7 @@ class Kernel extends HttpKernel
         'sanitize_login'      => \App\Http\Middleware\SanitizeLogin::class,
         'lowercase_email'     => \App\Http\Middleware\LowercaseEmail::class,
         'throttle_login'      => \App\Http\Middleware\ThrottleLogin::class,
-        'block_in_production' => \App\Http\Middleware\BlockInProduction::class,
+        'block-in-production' => \App\Http\Middleware\BlockInProduction::class,
         'set_oauth_client'    => \App\Http\Middleware\SetOAuthClient::class,
         'sanitize_refresh'    => \App\Http\Middleware\SanitizeRefresh::class,
     ];

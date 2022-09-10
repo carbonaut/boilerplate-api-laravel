@@ -1,0 +1,162 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Carbonaut API
+  description: Carbonaut API
+  termsOfService: https://carbonaut.io/
+  contact:
+    name: Carbonaut
+    email: hi@carbonaut.io
+    url: https://carbonaut.io/
+  license:
+    name: Proprietary
+    url: http://carbonaut.io/
+servers:
+  - description: Select an environment
+  - url: http://api.localhost:8000
+    description: Local environment
+  - url: https://api.carbonaut.dev
+    description: Development environment
+  - url: https://api.carbonaut.io
+    description: Production environment
+tags:
+  - name: status
+    description: Status routes
+
+paths:
+  /status:
+    get:
+      tags:
+        - status
+      summary: Returns the API status
+      description: Returns the API status
+      responses:
+        200:
+          $ref: "#/components/responses/StatusGet"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      description: Token obtained in the `access_token` property of an authentication route response (no need to add the `Bearer` in front).
+      type: http
+      scheme: bearer
+
+  responses:
+    200:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+            maxItems: 0
+    401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "AuthenticationException in Authenticate.php line 82: Unauthenticated."
+              message:
+                type: string
+                example: Login and try again.
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "AuthorizationException in FormRequest.php line 190: This action is unauthorized."
+              message:
+                type: string
+                example: You don't have permission to access this resource.
+    404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "ModelNotFoundException in ImplicitRouteBinding.php line 60: No query results for model."
+              message:
+                type: string
+                example: The requested resource could not be found.
+    422:
+      description: Unprocessable Entity (Usually when the parameters didn't pass validation)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Meaningful
+              message:
+                type: string
+                example: Friendly message that can be displayed to the user in the application.
+    500:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Call to undefined method method() on Controller.php line 100.
+              message:
+                type: string
+                example: Something's wrong! Try again later.
+    503:
+      description: Service Unavailable
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: We're under maintenance and will be back shortly!
+              message:
+                type: string
+                example: We're under maintenance and will be back shortly!
+    StatusGet:
+      description: Success - API is up and functional.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+            maxItems: 0
+
+  parameters:
+    ExampleParameter:
+      name: "type"
+      in: "path"
+      description: "Example Parameter"
+      required: true
+      schema:
+        type: "string"
+
+  schemas:
+    ExampleSchema:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string

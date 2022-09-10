@@ -3,57 +3,28 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\App;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\File;
 
 class ApiController extends Controller
 {
-    public function __construct()
-    {
-    }
-
     /**
      * Returns the swagger UI.
      *
-     * @return view
+     * @return View
      */
-    public function getDocumentation()
+    public function getApi(): View
     {
-        if (App::environment() === 'production') {
-            abort(404);
-        }
-
-        return view('api.layouts.main');
+        return view('api.swagger.ui');
     }
 
     /**
      * Returns API documentation.
      *
-     * @return view
+     * @return string
      */
-    public function getDocs()
+    public function getApiDocumentation(): string
     {
-        if (App::environment() === 'production') {
-            abort(404);
-        }
-
-        if (config('app.env') == 'local') {
-            $host = 'api.localhost:8000';
-        } else {
-            $host = 'api.' . config('app.domain');
-        }
-
-        return view('api.openapi')->with([
-            'host' => $host,
-        ]);
-    }
-
-    /**
-     * Returns API status.
-     *
-     * @return array
-     */
-    public function getStatus()
-    {
-        return [];
+        return File::get(resource_path() . '/api/documentation.yaml');
     }
 }
