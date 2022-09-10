@@ -15,10 +15,13 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - Database: PostgreSQL 13
 
 ## Goodies
-- OAuth2 Authentication with [Passport](https://laravel.com/docs/7.x/passport)
+- [Passport](https://laravel.com/docs/9.x/passport) for OAuth2 Authentication;
+  - Using UUIDs both internally and for associated providers;
+  - Hashed client-ids;
+  - Token lifespan was reduced (see `app\Providers\AuthServiceProvider.php`). You can either implement the refresh logic on your application or increase the token lifespan;
 - [Rollbar](https://docs.rollbar.com/docs/laravel) integration for error tracking
 - [Swagger](https://swagger.io) (OpenAPI 3.0) for API documentation
-- Multi language support with [spatie/laravel-translatable](https://github.com/spatie/laravel-translatable)
+- [Laravel Translatable](https://github.com/spatie/laravel-translatable) for multi-language support;
 - Password Reset and Email Verification flows built in
 - CI and CD flows for GitHub Actions
 - Email and Push Notifications already set up
@@ -26,6 +29,11 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) configuration file for code styling (PhpCsFixer rule-set with minor customizations);
 - [Clockwork](https://github.com/itsgoingd/clockwork) gives you an insight into your application runtime - including request data, performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs, rendered views and more - for HTTP requests, commands, queue jobs and tests;
 - [Eloquent Sortable](https://github.com/spatie/eloquent-sortable) that adds sortable behaviour to an Eloquent model.
+- [Secure Headers](https://github.com/bepsvpt/secure-headers) for adding security related headers to HTTP response. The following configs were changed from default: `x-frame-options`, `default-src`, `font-src`, `img-src`, `script-src` (`self`, `unsafe-inline` and `unsafe-eval`), `style-src`
+  - ⚠️ Once you set up SSL/TLS, remember to enable `hsts`; 
+- [Belongs-to-through](https://github.com/staudenmeir/belongs-to-through) adds the inverse version of `HasManyThrough`, allowing `BelongsToThrough` relationships with unlimited intermediate models;
+- [Validation rules](https://github.com/mattkingshott/axiom) to augment the existing set provided by Laravel itself;
+- [Slack Notifications](https://laravel.com/docs/9.x/notifications#slack-notifications) for sending notifications via Slack;
 
 ## Getting started
 
@@ -42,6 +50,8 @@ $ cp .env.example.test .env.test
 # Edit .env files...
 $ php artisan key:generate
 $ php artisan migrate
+$ php artisan passport:keys
+$ php artisan passport:client --password --provider=users
 $ php artisan db:seed
 $ php artisan serve
 # API docs at http://api.localhost:8000
