@@ -37,6 +37,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Belongs-to-through](https://github.com/staudenmeir/belongs-to-through) adds the inverse version of `HasManyThrough`, allowing `BelongsToThrough` relationships with unlimited intermediate models;
 - [Validation rules](https://github.com/mattkingshott/axiom) to augment the existing set provided by Laravel itself;
 - [Slack Notifications](https://laravel.com/docs/9.x/notifications#slack-notifications) for sending notifications via Slack;
+- [Boosted Enums](https://github.com/archtechx/enums) for [native PHP 8.1 Enums](https://php.watch/versions/8.1/enums);
 - Route groups are attached to application subdomains (see `app\Providers\RouteServiceProvider.php`);
 
 ## Getting started

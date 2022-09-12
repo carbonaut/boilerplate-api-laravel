@@ -20,10 +20,25 @@ servers:
   - url: https://api.carbonaut.io
     description: Production environment
 tags:
+  - name: resources
+    description: Resources routes
   - name: status
     description: Status routes
 
 paths:
+  /resources/languages:
+    get:
+      tags:
+        - resources
+      summary: Return all languages available in the application.
+      description: Return an associative array (locale => label) of available languages.
+      responses:
+        200:
+          $ref: "#/components/responses/ResourcesGetLanguages"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
   /status:
     get:
       tags:
@@ -133,6 +148,21 @@ components:
               message:
                 type: string
                 example: We're under maintenance and will be back shortly!
+    ResourcesGetLanguages:
+      description: Success - An array of available languages.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                value:
+                  type: string
+                  example: "pt-BR"
+                label:
+                  type: string
+                  example: "Português do Brasil"
     StatusGet:
       description: Success - API is up and functional.
       content:

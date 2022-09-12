@@ -40,9 +40,9 @@ Route::post('/auth/email/verification/confirm', [AuthController::class, 'postEma
 // Email routes
 Route::get('/emails/{email}/read', [EmailController::class, 'getEmailRead'])->name('email-read');
 
-// Metadata routes
+// Resources routes
 Route::get('/metadata/phrases/{type}', [MetadataController::class, 'getPhrases']);
-Route::get('/metadata/languages/{search_string?}', [MetadataController::class, 'getLanguagesSearch']);
+Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
 
 Route::middleware(['auth:api', 'email_verified'])->group(function () {
     // Maintenance routes
