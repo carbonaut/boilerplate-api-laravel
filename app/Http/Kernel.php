@@ -37,14 +37,12 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            'permissions',
             'localize',
         ],
 
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            'permissions',
             'localize',
             'lowercase_email',
         ],
@@ -68,7 +66,6 @@ class Kernel extends HttpKernel
         'signed'              => \App\Http\Middleware\ValidateSignature::class,
         'throttle'            => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'            => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'permissions'         => \App\Http\Middleware\LoadPermissions::class,
         'localize'            => \App\Http\Middleware\Localize::class,
         'email_verified'      => \App\Http\Middleware\EmailVerified::class,
         'sanitize_login'      => \App\Http\Middleware\SanitizeLogin::class,

@@ -10,7 +10,7 @@ parts of bootstrapping a project, right?
 
 That's why we've built this awesome boilerplate so you can focus on your project's ideas and get the boring, albeit important, parts out of the way.
 
-- Language: PHP 8.0
+- Language: PHP 8.1
 - Framework: Laravel 9
 - Database: PostgreSQL 13
 
@@ -21,6 +21,9 @@ That's why we've built this awesome boilerplate so you can focus on your project
   - Token lifespan was reduced (see `app\Providers\AuthServiceProvider.php`). You can either implement the refresh logic on your application or increase the token lifespan;
 - [Rollbar](https://docs.rollbar.com/docs/laravel) integration for error tracking
 - [Swagger](https://swagger.io) (OpenAPI 3.0) for API documentation
+  - The documentation is available on the `api.` subdomain of your application;
+  - The documentation is disabled when the application is running in production (see `routes\api.php`);
+  - Keep the documentation up-to-date on `resources\api\documentation.yaml`
 - [Laravel Translatable](https://github.com/spatie/laravel-translatable) for multi-language support;
 - Password Reset and Email Verification flows built in
 - CI and CD flows for GitHub Actions
@@ -34,6 +37,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Belongs-to-through](https://github.com/staudenmeir/belongs-to-through) adds the inverse version of `HasManyThrough`, allowing `BelongsToThrough` relationships with unlimited intermediate models;
 - [Validation rules](https://github.com/mattkingshott/axiom) to augment the existing set provided by Laravel itself;
 - [Slack Notifications](https://laravel.com/docs/9.x/notifications#slack-notifications) for sending notifications via Slack;
+- Route groups are attached to application subdomains (see `app\Providers\RouteServiceProvider.php`);
 
 ## Getting started
 
