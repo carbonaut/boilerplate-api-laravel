@@ -15,10 +15,8 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - Database: PostgreSQL 13
 
 ## Goodies
-- [Passport](https://laravel.com/docs/9.x/passport) for OAuth2 Authentication;
-  - Using UUIDs both internally and for associated providers;
-  - Hashed client-ids;
-  - Token lifespan was reduced (see `app\Providers\AuthServiceProvider.php`). You can either implement the refresh logic on your application or increase the token lifespan;
+- [Sanctum](https://laravel.com/docs/9.x/sanctum) for Authentication;
+  - Using UUIDs for the PersonalAccessTokens and for the Authenticable models;
 - [Rollbar](https://docs.rollbar.com/docs/laravel) integration for error tracking
 - [Swagger](https://swagger.io) (OpenAPI 3.0) for API documentation
   - The documentation is available on the `api.` subdomain of your application;
@@ -55,8 +53,6 @@ $ cp .env.example.test .env.test
 # Edit .env files...
 $ php artisan key:generate
 $ php artisan migrate
-$ php artisan passport:keys
-$ php artisan passport:client --password --provider=users
 $ php artisan db:seed
 $ php artisan serve
 # API docs at http://api.localhost:8000
