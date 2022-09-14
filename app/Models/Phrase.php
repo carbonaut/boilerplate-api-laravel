@@ -2,64 +2,67 @@
 
 namespace App\Models;
 
-use App;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use Astrotomic\Translatable\Translatable;
-use Log;
+use App\Enums\PhraseType;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
-class Phrase extends BaseModel implements TranslatableContract
+class Phrase extends BaseModel
 {
-    use Translatable;
-
-    //======================================================================
-    // EAGER-LOADED RELATIONS
-    //======================================================================
-    protected $with = [
-        'translations',
-    ];
-
-    //======================================================================
-    // TRANSLATED ATTRIBUTES
-    //======================================================================
-
-    public $translatedAttributes = [
-        'value',
-    ];
-
-    //======================================================================
-    // HIDDEN ATTRIBUTES
-    //======================================================================
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'id',
-    ];
-
-    //======================================================================
-    // APPENDED ATTRIBUTES
-    //======================================================================
-
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
     protected $appends = [
-        'phrase_id',
+        'handle',
     ];
 
     /**
-     * Get the phrase id for the phrase.
+     * The attributes that should be cast.
      *
-     * @return int
+     * @var array
      */
-    public function getPhraseIdAttribute()
+    protected $casts = [
+        'type' => PhraseType::class,
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<string>
+     */
+    protected $fillable = [
+        'type',
+        'key',
+    ];
+
+    /**
+     * The attributes that are translatable.
+     *
+     * @var array<string>
+     */
+    public $translatable = ['value'];
+
+    /**
+     * Interact with the phrase's key.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function key(): Attribute
     {
-        return $this->id;
+        return Attribute::make(
+            set: fn ($value) => Str::of($value)->replace(' ', '_')->upper()->__toString(),
+        );
+    }
+
+    /**
+     * Returns the handle of the phrase (type.KEY).
+     *
+     * @return string
+     */
+    public function getHandleAttribute(): string
+    {
+        return "{$this->type?->value}.{$this->key}";
     }
 
     //======================================================================

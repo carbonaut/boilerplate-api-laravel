@@ -41,8 +41,8 @@ Route::post('/auth/email/verification/confirm', [AuthController::class, 'postEma
 Route::get('/emails/{email}/read', [EmailController::class, 'getEmailRead'])->name('email-read');
 
 // Resources routes
-Route::get('/metadata/phrases/{type}', [MetadataController::class, 'getPhrases']);
 Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
+Route::get('/resources/phrases/{type}', [ResourcesController::class, 'getPhrasesByType']);
 
 Route::middleware(['auth:api', 'email_verified'])->group(function () {
     // Maintenance routes

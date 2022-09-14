@@ -39,6 +39,24 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
+  /resources/phrases/{type}:
+    get:
+      tags:
+        - resources
+      summary: Return all phrases from the specified phrase type.
+      description: Return all phrases from the specified phrase type.
+      parameters:
+        - $ref: "#/components/parameters/PhraseType"
+      responses:
+        200:
+          $ref: "#/components/responses/ResourcesGetPhrases"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+
   /status:
     get:
       tags:
@@ -118,7 +136,7 @@ components:
             properties:
               error:
                 type: string
-                example: Meaningful
+                example: Meaningful message for developers.
               message:
                 type: string
                 example: Friendly message that can be displayed to the user in the application.
@@ -163,6 +181,21 @@ components:
                 label:
                   type: string
                   example: "Português do Brasil"
+    ResourcesGetPhrases:
+      description: Success - An array of phrases.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                key:
+                  type: string
+                  example: "ERROR.SOMETHING_WENT_WRONG"
+                value:
+                  type: string
+                  example: "Something went wrong! Try again later."
     StatusGet:
       description: Success - API is up and functional.
       content:
@@ -181,6 +214,14 @@ components:
       required: true
       schema:
         type: "string"
+    PhraseType:
+      name: "type"
+      in: "path"
+      description: "Phrase Type"
+      required: true
+      schema:
+        type: "string"
+        enum: [api, app, email]
 
   schemas:
     ExampleSchema:
