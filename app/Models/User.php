@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Traits\NestedRelations;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,20 +19,26 @@ class User extends Authenticatable
     use NestedRelations;
 
     /**
-     * The "type" of the auto-incrementing ID.
+     * The "type" of the primary key ID.
      *
      * @var string
      */
     protected $keyType = 'string';
 
-    //======================================================================
-    // FILLABLE ATTRIBUTES
-    //======================================================================
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'user_id',
+        'email_verified',
+    ];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -39,83 +46,49 @@ class User extends Authenticatable
         'password',
     ];
 
-    //======================================================================
-    // HIDDEN ATTRIBUTES
-    //======================================================================
-
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'id',
         'password',
         'remember_token',
     ];
-
-    //======================================================================
-    // APPENDED ATTRIBUTES
-    //======================================================================
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'user_id',
-        'email_verified',
-        'full_name',
-    ];
-
-    /**
-     * Get the user id.
-     *
-     * @return int
-     */
-    public function getUserIdAttribute()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Returns if the user email was verified.
-     *
-     * @return bool
-     */
-    public function getEmailVerifiedAttribute()
-    {
-        return $this->email_verified_at !== null;
-    }
-
-    /**
-     * Returns user full name (concat of first and last).
-     *
-     * @return string
-     */
-    public function getFullNameAttribute()
-    {
-        if ($this->title !== null) {
-            return $this->title . ' ' . $this->first_name . ' ' . $this->last_name;
-        }
-
-        return $this->first_name . ' ' . $this->last_name;
-    }
-
-    //======================================================================
-    // CAST ATTRIBUTES
-    //======================================================================
-
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at'                  => 'datetime',
         'email_verification_code_expires_at' => 'datetime',
     ];
+
+    /**
+     * Interact with the user's email_verified.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function emailVerified(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->email_verified_at !== null,
+        );
+    }
+
+    /**
+     * Interact with the user's user_id.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function userId(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->id,
+        );
+    }
 
     //======================================================================
     // RELATIONSHIPS

@@ -68,11 +68,8 @@ class Kernel extends HttpKernel
         'verified'            => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'localize'            => \App\Http\Middleware\Localize::class,
         'email_verified'      => \App\Http\Middleware\EmailVerified::class,
-        'sanitize_login'      => \App\Http\Middleware\SanitizeLogin::class,
         'lowercase_email'     => \App\Http\Middleware\LowercaseEmail::class,
         'throttle_login'      => \App\Http\Middleware\ThrottleLogin::class,
         'block-in-production' => \App\Http\Middleware\BlockInProduction::class,
-        'set_oauth_client'    => \App\Http\Middleware\SetOAuthClient::class,
-        'sanitize_refresh'    => \App\Http\Middleware\SanitizeRefresh::class,
     ];
 }

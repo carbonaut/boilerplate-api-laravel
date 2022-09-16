@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Auth\PostLogin;
+use App\Http\Resources\Models\PersonalAccessTokenResource;
 use App\Http\Requests\Api\Auth\PostEmailVerificationConfirm;
 use App\Http\Requests\Api\Auth\PostEmailVerificationRequest;
 use App\Http\Requests\Api\Auth\PostPasswordResetRequest;
@@ -13,6 +15,8 @@ use App\Mail\PasswordReset;
 use App\Models\Email;
 use App\Models\Phrase;
 use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Auth;
 use App\Support\Helpers;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -22,20 +26,25 @@ use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
-    use ResetsPasswords;
-
-    //======================================================================
-    // CONSTRUCTOR
-    //
-    // Avoid calling parent controller as auth routes are not auth'ed
-    //======================================================================
-    public function __construct(Request $request)
+    /**
+     * Authenticate a user.
+     *
+     * @param PostLogin $request
+     *
+     * @return PersonalAccessTokenResource
+     *
+     * @throws AuthenticationException
+     */
+    public function postLogin(PostLogin $request)// : PersonalAccessTokenResource
     {
-    }
+        if (!Auth::attempt($request->only(['email', 'password']))) {
+            throw new AuthenticationException();
+        }
 
-    //======================================================================
-    // ROUTER METHODS
-    //======================================================================
+        return new PersonalAccessTokenResource(
+            User::findOrFail(Auth::user()->id)->createToken('api')
+        );
+    }
 
     /**
      * Returns user data.

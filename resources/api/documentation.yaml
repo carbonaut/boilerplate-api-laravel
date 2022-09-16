@@ -20,12 +20,37 @@ servers:
   - url: https://api.carbonaut.io
     description: Production environment
 tags:
+  - name: auth
+    description: Authentication routes
   - name: resources
     description: Resources routes
   - name: status
     description: Status routes
 
 paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: User Authentication
+      description: Authenticates a user using Email and Password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostLogin"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthPostLogin"
+        401:
+          $ref: "#/components/responses/401"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
   /resources/languages:
     get:
       tags:
@@ -166,6 +191,20 @@ components:
               message:
                 type: string
                 example: We're under maintenance and will be back shortly!
+    AuthPostLogin:
+      description: Success - An authentication token.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                example: "2e0a79a7-69e1-4f29-965f-06e627206d26|8BHhZCyXSkujT7lfbzJMTIljvWkvnU3wMfjfGLJQ"
+              expires_at:
+                type: string
+                format: date-time
+                nullable: true
     ResourcesGetLanguages:
       description: Success - An array of available languages.
       content:
@@ -231,3 +270,12 @@ components:
           type: string
         password:
           type: string
+    AuthPostLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "hello@carbonaut.io"
+        password:
+          type: string
+          example: "password"
