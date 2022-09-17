@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\PostLogin;
 use App\Http\Resources\Models\PersonalAccessTokenResource;
+use App\Http\Resources\Models\UserResource;
 use App\Http\Requests\Api\Auth\PostEmailVerificationConfirm;
 use App\Http\Requests\Api\Auth\PostEmailVerificationRequest;
 use App\Http\Requests\Api\Auth\PostPasswordResetRequest;
@@ -16,6 +17,7 @@ use App\Models\Email;
 use App\Models\Phrase;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Support\Helpers;
 use Carbon\Carbon;
@@ -35,7 +37,7 @@ class AuthController extends Controller
      *
      * @throws AuthenticationException
      */
-    public function postLogin(PostLogin $request)// : PersonalAccessTokenResource
+    public function postLogin(PostLogin $request): PersonalAccessTokenResource
     {
         if (!Auth::attempt($request->only(['email', 'password']))) {
             throw new AuthenticationException();
@@ -44,6 +46,18 @@ class AuthController extends Controller
         return new PersonalAccessTokenResource(
             User::findOrFail(Auth::user()->id)->createToken('api')
         );
+    }
+
+    /**
+     * Returns the authenticated user information.
+     *
+     * @param Request $request
+     *
+     * @return UserResource
+     */
+    public function getUser(Request $request): UserResource
+    {
+        return new UserResource($this->user);
     }
 
     /**

@@ -51,6 +51,28 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
+  /auth/user:
+    get:
+      tags:
+        - auth
+      summary: Authenticated user information
+      description: Return the authenticated user information
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/AuthGetUser"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+
   /resources/languages:
     get:
       tags:
@@ -196,15 +218,13 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              token:
-                type: string
-                example: "2e0a79a7-69e1-4f29-965f-06e627206d26|8BHhZCyXSkujT7lfbzJMTIljvWkvnU3wMfjfGLJQ"
-              expires_at:
-                type: string
-                format: date-time
-                nullable: true
+            $ref: '#/components/schemas/Token'
+    AuthGetUser:
+      description: Success - Authenticated user information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
     ResourcesGetLanguages:
       description: Success - An array of available languages.
       content:
@@ -212,14 +232,7 @@ components:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                value:
-                  type: string
-                  example: "pt-BR"
-                label:
-                  type: string
-                  example: "Português do Brasil"
+              $ref: '#/components/schemas/Language'
     ResourcesGetPhrases:
       description: Success - An array of phrases.
       content:
@@ -227,14 +240,7 @@ components:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                key:
-                  type: string
-                  example: "ERROR.SOMETHING_WENT_WRONG"
-                value:
-                  type: string
-                  example: "Something went wrong! Try again later."
+              $ref: '#/components/schemas/Phrase'
     StatusGet:
       description: Success - API is up and functional.
       content:
@@ -263,6 +269,53 @@ components:
         enum: [api, app, email]
 
   schemas:
+    # Schemas that represent a model
+    Language:
+      type: object
+      properties:
+        value:
+          type: string
+          example: "pt-BR"
+        label:
+          type: string
+          example: "Português do Brasil"
+    Phrase:
+      type: object
+      properties:
+        key:
+          type: string
+          example: "ERROR.SOMETHING_WENT_WRONG"
+        value:
+          type: string
+          example: "Something went wrong! Try again later."
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "2e0a79a7-69e1-4f29-965f-06e627206d26|8BHhZCyXSkujT7lfbzJMTIljvWkvnU3wMfjfGLJQ"
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "Carbonaut"
+        email:
+          type: string
+          example: "hello@carbonaut.io"
+        language:
+          type: string
+          example: "pt-BR"
+        email_verified:
+          type: boolean
+          example: false
     ExampleSchema:
       type: object
       properties:
@@ -270,6 +323,7 @@ components:
           type: string
         password:
           type: string
+    # Schemas that represent a route payload
     AuthPostLogin:
       type: object
       properties:

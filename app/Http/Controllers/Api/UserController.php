@@ -35,30 +35,6 @@ class UserController extends Controller
     // ROUTER METHODS
     //======================================================================
 
-    /**
-     * Returns user data.
-     *
-     * @param Request $request
-     *
-     * @return array
-     */
-    public function getUser(Request $request)
-    {
-        $this->user->load('language');
-
-        return Helpers::recursive_array_only($this->user->toArray(), [
-            'user_id',
-            'title',
-            'first_name',
-            'last_name',
-            'email',
-            'gender',
-            'language',
-            'language.language_id',
-            'language.name',
-            'language.locale',
-        ]);
-    }
 
     /**
      * @param request $request

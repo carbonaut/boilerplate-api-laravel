@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\EmailController;
@@ -8,7 +10,6 @@ use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\MetadataController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,13 +45,13 @@ Route::get('/emails/{email}/read', [EmailController::class, 'getEmailRead'])->na
 Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
 Route::get('/resources/phrases/{type}', [ResourcesController::class, 'getPhrasesByType']);
 
-Route::middleware(['auth:api', 'email_verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     // Maintenance routes
     Route::post('/maintenance/enable', [MaintenanceController::class, 'postEnable']);
     Route::post('/maintenance/disable', [MaintenanceController::class, 'postDisable']);
 
     // User routes
-    Route::get('/user', [UserController::class, 'getUser']);
+    Route::get('/auth/user', [AuthController::class, 'getUser']);
     Route::patch('/user', [UserController::class, 'patchUser']);
     Route::post('/user/devices', [UserController::class, 'postUserDevices']);
     Route::post('/user/pushes/{push}', [UserController::class, 'postUserPush']);
