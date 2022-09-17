@@ -30,8 +30,7 @@ Route::middleware(['block-in-production'])->group(function () {
 Route::get('/status', [StatusController::class, 'getStatus']);
 
 // Auth routes
-Route::post('/auth/login', [AccessTokenController::class, 'issueToken'])->middleware(['set_oauth_client', 'sanitize_login', 'throttle_login']);
-Route::post('/auth/refresh', [AccessTokenController::class, 'issueToken'])->middleware(['set_oauth_client', 'sanitize_refresh', 'throttle_login']);
+Route::post('/auth/login', [AuthController::class, 'postLogin']); // ->middleware(['throttle_login']);
 Route::post('/auth/register', [AuthController::class, 'postRegister']);
 Route::post('/auth/password/reset/request', [AuthController::class, 'postPasswordResetRequest']);
 Route::post('/auth/password/reset/submit', [AuthController::class, 'postPasswordResetSubmit']);
@@ -55,7 +54,7 @@ Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     Route::patch('/user', [UserController::class, 'patchUser']);
     Route::post('/user/devices', [UserController::class, 'postUserDevices']);
     Route::post('/user/pushes/{push}', [UserController::class, 'postUserPush']);
-    Route::post('/user/logout', [UserController::class, 'postUserLogout']);
-    Route::post('/user/logout/all', [UserController::class, 'postUserLogoutAll']);
+    Route::post('/auth/logout', [AuthController::class, 'postLogout']);
+    Route::post('/auth/logout/all', [AuthController::class, 'postLogoutAll']);
     Route::post('/user/password/change', [UserController::class, 'postPasswordChange']);
 });

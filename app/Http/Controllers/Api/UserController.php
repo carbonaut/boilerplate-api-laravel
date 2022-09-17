@@ -52,38 +52,6 @@ class UserController extends Controller
     }
 
     /**
-     * Revoke current user authorization token.
-     *
-     * @param Request $request
-     *
-     * @return array
-     */
-    public function postUserLogout(Request $request)
-    {
-        User::revokeToken($this->user->token());
-
-        return [];
-    }
-
-    /**
-     * Revoke all user authorization tokens.
-     *
-     * @param Request $request
-     *
-     * @return array
-     */
-    public function postUserLogoutAll(Request $request)
-    {
-        $tokens = $this->user->tokens;
-
-        foreach ($tokens as $token) {
-            User::revokeToken($token);
-        }
-
-        return [];
-    }
-
-    /**
      * Post a device for the user.
      *
      * @param Request $request

@@ -61,6 +61,34 @@ class AuthController extends Controller
     }
 
     /**
+     * Revoke the current user access token.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function postLogout(Request $request): array
+    {
+        $this->user->currentAccessToken()->delete();
+
+        return [];
+    }
+
+    /**
+     * Revoke all user access tokens.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function postLogoutAll(Request $request): array
+    {
+        $this->user->tokens()->delete();
+
+        return [];
+    }
+
+    /**
      * Returns user data.
      *
      * @param Request $request
