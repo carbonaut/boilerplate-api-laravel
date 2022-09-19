@@ -122,17 +122,17 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
-  /resources/phrases/{type}:
+  /resources/language-lines/{group}:
     get:
       tags:
         - resources
-      summary: Return all phrases from the specified phrase type.
-      description: Return all phrases from the specified phrase type.
+      summary: Return all language lines from the specified group.
+      description: Return all language lines from the specified group.
       parameters:
-        - $ref: "#/components/parameters/PhraseType"
+        - $ref: "#/components/parameters/LanguageLineGroup"
       responses:
         200:
-          $ref: "#/components/responses/ResourcesGetPhrases"
+          $ref: "#/components/responses/ResourcesGetLanguageLines"
         422:
           $ref: "#/components/responses/422"
         500:
@@ -269,14 +269,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Language'
-    ResourcesGetPhrases:
-      description: Success - An array of phrases.
+    ResourcesGetLanguageLines:
+      description: Success - An array of language lines.
       content:
         application/json:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Phrase'
+              $ref: '#/components/schemas/LanguageLine'
     EmptyResponse:
       description: Success.
       content:
@@ -295,10 +295,10 @@ components:
       required: true
       schema:
         type: "string"
-    PhraseType:
-      name: "type"
+    LanguageLineGroup:
+      name: "group"
       in: "path"
-      description: "Phrase Type"
+      description: "Language Line Group"
       required: true
       schema:
         type: "string"
@@ -315,13 +315,13 @@ components:
         label:
           type: string
           example: "Português do Brasil"
-    Phrase:
+    LanguageLine:
       type: object
       properties:
         key:
           type: string
           example: "ERROR.SOMETHING_WENT_WRONG"
-        value:
+        text:
           type: string
           example: "Something went wrong! Try again later."
     Token:

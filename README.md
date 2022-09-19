@@ -23,6 +23,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
   - The documentation is disabled when the application is running in production (see `routes\api.php`);
   - Keep the documentation up-to-date on `resources\api\documentation.yaml`
 - [Laravel Translatable](https://github.com/spatie/laravel-translatable) for multi-language support;
+- [Laravel Translations Loader](https://github.com/spatie/laravel-translation-loader) helps you provide translations from the database to your application using the API;
 - Password Reset and Email Verification flows built in
 - CI and CD flows for GitHub Actions
 - Email and Push Notifications already set up

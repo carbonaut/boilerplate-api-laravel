@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Phrase;
+use App\Models\LanguageLine;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PhrasePolicy
+class LanguageLinePolicy
 {
     use HandlesAuthorization;
 
@@ -26,11 +26,11 @@ class PhrasePolicy
      * Determine whether the user can view the model.
      *
      * @param \App\Models\User   $user
-     * @param \App\Models\Phrase $phrase
+     * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function view(User $user, Phrase $phrase)
+    public function view(User $user, LanguageLine $languageLine)
     {
         return true;
     }
@@ -51,11 +51,11 @@ class PhrasePolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User   $user
-     * @param \App\Models\Phrase $phrase
+     * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function update(User $user, Phrase $phrase)
+    public function update(User $user, LanguageLine $languageLine)
     {
         return false;
     }
@@ -64,11 +64,11 @@ class PhrasePolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User   $user
-     * @param \App\Models\Phrase $phrase
+     * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function delete(User $user, Phrase $phrase)
+    public function delete(User $user, LanguageLine $languageLine)
     {
         return false;
     }
@@ -77,11 +77,11 @@ class PhrasePolicy
      * Determine whether the user can restore the model.
      *
      * @param \App\Models\User   $user
-     * @param \App\Models\Phrase $phrase
+     * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function restore(User $user, Phrase $phrase)
+    public function restore(User $user, LanguageLine $languageLine)
     {
         return false;
     }
@@ -90,11 +90,11 @@ class PhrasePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param \App\Models\User   $user
-     * @param \App\Models\Phrase $phrase
+     * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function forceDelete(User $user, Phrase $phrase)
+    public function forceDelete(User $user, LanguageLine $languageLine)
     {
         return false;
     }

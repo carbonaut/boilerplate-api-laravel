@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum PhraseType: string
+enum LanguageLineGroup: string
 {
     use EnumTrait;
 
@@ -20,9 +20,9 @@ enum PhraseType: string
     public static function getLabel(self $value): string
     {
         return match ($value) {
-            PhraseType::Api   => 'Phrases used in the API',
-            PhraseType::App   => 'Phrases used in the App',
-            PhraseType::Email => 'Phrases used in emails',
+            LanguageLineGroup::Api   => 'Language-lines used in the API',
+            LanguageLineGroup::App   => 'Language-lines used in the App',
+            LanguageLineGroup::Email => 'Language-lines used in emails',
         };
     }
 }

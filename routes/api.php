@@ -42,7 +42,7 @@ Route::get('/emails/{email}/read', [EmailController::class, 'getEmailRead'])->na
 
 // Resources routes
 Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
-Route::get('/resources/phrases/{type}', [ResourcesController::class, 'getPhrasesByType']);
+Route::get('/resources/language-lines/{group}', [ResourcesController::class, 'getLanguageLinesByGroup']);
 
 Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     // Maintenance routes

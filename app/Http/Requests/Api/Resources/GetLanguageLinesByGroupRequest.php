@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Api\Resources;
 
-use App\Enums\PhraseType;
+use App\Enums\LanguageLineGroup;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class GetPhrasesByTypeRequest extends FormRequest
+class GetLanguageLinesByGroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,10 @@ class GetPhrasesByTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => [
+            'group' => [
                 'required',
                 'string',
-                new Enum(PhraseType::class),
+                new Enum(LanguageLineGroup::class),
             ],
         ];
     }
@@ -47,7 +47,7 @@ class GetPhrasesByTypeRequest extends FormRequest
         return array_merge(
             parent::all(),
             [
-                'type' => $this->route('type'),
+                'group' => $this->route('group'),
             ]
         );
     }

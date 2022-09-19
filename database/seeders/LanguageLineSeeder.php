@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Services\PhraseService;
+use App\Services\LanguageLineService;
 use Illuminate\Database\Seeder;
 
-class PhraseSeeder extends Seeder
+class LanguageLineSeeder extends Seeder
 {
     /**
-     * Array of phrases to be created.
+     * Array of language lines to be created.
      *
      * @var array
      */
-    private $phrases = [
+    private $languageLines = [
         'api' => [
             'ERROR.SOMETHING_WENT_WRONG' => [
                 'en'    => 'Something went wrong! Try again later.',
@@ -28,6 +28,6 @@ class PhraseSeeder extends Seeder
      */
     public function run()
     {
-        PhraseService::createPhrases($this->phrases);
+        LanguageLineService::createLanguageLines($this->languageLines);
     }
 }

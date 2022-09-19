@@ -4,7 +4,7 @@ namespace App\Http\Resources\Models;
 
 use App\Http\Resources\BaseResource;
 
-class PhraseResource extends BaseResource
+class LanguageLineResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,8 @@ class PhraseResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'key'   => $this->key,
-            'value' => $this->value,
+            'key'  => $this->key,
+            'text' => __($this->handle),
         ];
     }
 }

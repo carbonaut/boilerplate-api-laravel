@@ -1,12 +1,13 @@
 <?php
 
-use Database\Seeders\PhraseSeeder;
+use Database\Seeders\LanguageLineSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+class CreateLanguageLinesTable extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -16,17 +17,15 @@ return new class() extends Migration {
     {
         DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
-        Schema::create('phrases', function (Blueprint $table) {
+        Schema::create('language_lines', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
-            $table->string('type');
+            $table->string('group')->index();
             $table->string('key');
-            $table->jsonb('value');
+            $table->jsonb('text');
             $table->timestamps();
-
-            $table->unique(['key', 'type']);
         });
 
-        (new PhraseSeeder())->run();
+        (new LanguageLineSeeder())->run();
     }
 
     /**
@@ -36,6 +35,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('phrases');
+        Schema::drop('language_lines');
     }
-};
+}

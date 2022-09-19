@@ -2,12 +2,24 @@
 
 namespace App\Models;
 
-use App\Enums\PhraseType;
+use App\Enums\LanguageLineGroup;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Spatie\TranslationLoader\LanguageLine as SpatieLanguageLine;
 
-class Phrase extends BaseModel
+class LanguageLine extends SpatieLanguageLine
 {
+    use HasFactory;
+
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -23,7 +35,8 @@ class Phrase extends BaseModel
      * @var array
      */
     protected $casts = [
-        'type' => PhraseType::class,
+        'group' => LanguageLineGroup::class,
+        'text'  => 'array',
     ];
 
     /**
@@ -32,7 +45,7 @@ class Phrase extends BaseModel
      * @var array<string>
      */
     protected $fillable = [
-        'type',
+        'group',
         'key',
     ];
 
@@ -41,7 +54,7 @@ class Phrase extends BaseModel
      *
      * @var array<string>
      */
-    public $translatable = ['value'];
+    public $translatable = ['text'];
 
     /**
      * Interact with the phrase's key.
@@ -62,6 +75,18 @@ class Phrase extends BaseModel
      */
     public function getHandleAttribute(): string
     {
-        return "{$this->type?->value}.{$this->key}";
+        return "{$this->group?->value}.{$this->key}";
+    }
+
+    /**
+     * This method had to be overwritten so we can use ->group as a LanguageLineGroup enum.
+     *
+     * @return void
+     */
+    public function flushGroupCache()
+    {
+        foreach ($this->getTranslatedLocales() as $locale) {
+            Cache::forget(static::getCacheKey($this->group->value, $locale));
+        }
     }
 }
