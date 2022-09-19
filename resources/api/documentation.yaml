@@ -22,6 +22,8 @@ servers:
 tags:
   - name: auth
     description: Authentication routes
+  - name: maintenance
+    description: Maintenance routes
   - name: resources
     description: Resources routes
   - name: status
@@ -49,8 +51,6 @@ paths:
           $ref: "#/components/responses/422"
         500:
           $ref: "#/components/responses/500"
-        503:
-          $ref: "#/components/responses/503"
   /auth/user:
     get:
       tags:
@@ -135,6 +135,41 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
+
+  /maintenance/up:
+    post:
+      tags:
+        - maintenance
+      summary: Puts the application up from maintenance
+      description: Puts the application up from maintenance
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+  /maintenance/down:
+    post:
+      tags:
+        - maintenance
+      summary: Puts the application down for maintenance
+      description: Puts the application down for maintenance
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
 
   /resources/languages:
     get:

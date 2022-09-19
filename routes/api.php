@@ -46,8 +46,8 @@ Route::get('/resources/language-lines/{group}', [ResourcesController::class, 'ge
 
 Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     // Maintenance routes
-    Route::post('/maintenance/enable', [MaintenanceController::class, 'postEnable']);
-    Route::post('/maintenance/disable', [MaintenanceController::class, 'postDisable']);
+    Route::post('/maintenance/up', [MaintenanceController::class, 'postUp']);
+    Route::post('/maintenance/down', [MaintenanceController::class, 'postDown']);
 
     // User routes
     Route::get('/auth/user', [AuthController::class, 'getUser']);
