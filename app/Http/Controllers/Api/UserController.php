@@ -128,28 +128,4 @@ class UserController extends Controller
             'foreground',
         ]);
     }
-
-    /**
-     * Changes the user password if given the old password.
-     *
-     * @param Request $request
-     *
-     * @return array
-     */
-    public function postPasswordChange(PostPasswordChange $request)
-    {
-        $this->user->password = Hash::make($request->new_password);
-        $this->user->save();
-
-        $tokens = $this->user->tokens()->where('revoked', false)->get();
-
-        foreach ($tokens as $token) {
-            // Don't revoke the token currently being used by the user
-            if ($token->id !== $this->user->token()->id) {
-                User::revokeToken($token);
-            }
-        }
-
-        return [];
-    }
 }

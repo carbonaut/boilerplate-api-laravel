@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\PersonalAccessToken;
 use Illuminate\Support\ServiceProvider;
 use URL;
+use Illuminate\Validation\Rules\Password;
 use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,5 +29,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         URL::forceScheme(config('app.scheme'));
+        Password::defaults(function () {
+            return Password::min(8)->letters();
+        });
     }
 }

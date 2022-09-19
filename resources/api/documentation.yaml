@@ -108,6 +108,33 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
+  /auth/password/change:
+    post:
+      tags:
+        - auth
+      summary: Change the authenticated user password
+      description: Change the authenticated user password and invalidate other tokens
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostPasswordChange"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
 
   /resources/languages:
     get:
@@ -369,3 +396,12 @@ components:
         password:
           type: string
           example: "password"
+    AuthPostPasswordChange:
+      type: object
+      properties:
+        current_password:
+          type: string
+          example: "password"
+        new_password:
+          type: string
+          example: "new-password"

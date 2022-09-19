@@ -56,5 +56,5 @@ Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     Route::post('/user/pushes/{push}', [UserController::class, 'postUserPush']);
     Route::post('/auth/logout', [AuthController::class, 'postLogout']);
     Route::post('/auth/logout/all', [AuthController::class, 'postLogoutAll']);
-    Route::post('/user/password/change', [UserController::class, 'postPasswordChange']);
+    Route::post('/auth/password/change', [AuthController::class, 'postPasswordChange']);
 });

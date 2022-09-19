@@ -18,6 +18,10 @@ class LanguageLineSeeder extends Seeder
                 'en'    => 'Something went wrong! Try again later.',
                 'pt-BR' => 'Algo deu errado! Tente novamente mais tarde.',
             ],
+            'ERROR.CURRENT_PASSWORD_DOES_NOT_MATCH' => [
+                'en'    => 'The provided password does not match your current password.',
+                'pt-BR' => 'A senha informada não corresponde à sua senha atual.',
+            ],
         ],
     ];
 

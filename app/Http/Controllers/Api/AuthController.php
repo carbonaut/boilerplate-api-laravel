@@ -16,6 +16,7 @@ use App\Mail\PasswordReset;
 use App\Models\Email;
 use App\Models\Phrase;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,6 +85,20 @@ class AuthController extends Controller
     public function postLogoutAll(Request $request): array
     {
         $this->user->tokens()->delete();
+
+        return [];
+    }
+
+    /**
+     * Changes to a new user password given the current password.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function postPasswordChange(Request $request, UserService $userService): array
+    {
+        $userService->changePassword($this->user, $request->all());
 
         return [];
     }
