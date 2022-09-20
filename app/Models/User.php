@@ -29,7 +29,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'user_id',
         'email_verified',
     ];
 
@@ -73,18 +72,6 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn () => $this->email_verified_at !== null,
-        );
-    }
-
-    /**
-     * Interact with the user's user_id.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
-     */
-    protected function userId(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->id,
         );
     }
 

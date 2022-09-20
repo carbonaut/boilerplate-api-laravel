@@ -16,7 +16,7 @@ class UserResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'user_id'        => $this->user_id,
+            'user_id'        => $this->id,
             'name'           => $this->name,
             'email'          => $this->email,
             'language'       => $this->language,
