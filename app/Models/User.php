@@ -87,4 +87,16 @@ class User extends Authenticatable
             get: fn () => $this->id,
         );
     }
+
+    /**
+     * Interact with the user's email.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => strtolower($value),
+        );
+    }
 }

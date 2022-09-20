@@ -6,6 +6,7 @@ use App\Http\Traits\NestedRelations;
 use App\Http\Traits\TranslationAccessors;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class BaseModel extends Model
 {

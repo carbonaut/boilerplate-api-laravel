@@ -50,6 +50,20 @@ class AuthController extends Controller
     }
 
     /**
+     * Creates a new user.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function postRegister(Request $request, UserService $userService)
+    {
+        $user = $userService->createUser($request->all());
+
+        return new UserResource($user);
+    }
+
+    /**
      * Returns the authenticated user information.
      *
      * @param Request $request
@@ -92,7 +106,8 @@ class AuthController extends Controller
     /**
      * Changes to a new user password given the current password.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
      *
      * @return array
      */

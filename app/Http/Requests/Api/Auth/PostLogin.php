@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Auth;
 
+use Axiom\Rules\Lowercase;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostLogin extends FormRequest
@@ -27,10 +28,32 @@ class PostLogin extends FormRequest
             'email' => [
                 'required',
                 'email:filter',
+                new Lowercase(),
             ],
             'password' => [
                 'required',
             ],
         ];
+    }
+
+    /**
+     * Tap into the parameters to make sure the email is lowercased.
+     *
+     * @param null|array|mixed $keys
+     *
+     * @return array
+     */
+    public function all($keys = null): array
+    {
+        if ($this->get('email')) {
+            return array_merge(
+                parent::all(),
+                [
+                    'email' => strtolower($this->get('email')),
+                ]
+            );
+        }
+
+        return parent::all();
     }
 }

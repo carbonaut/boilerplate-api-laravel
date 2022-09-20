@@ -51,6 +51,27 @@ paths:
           $ref: "#/components/responses/422"
         500:
           $ref: "#/components/responses/500"
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Creates a new user account
+      description: Creates a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPost"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthPostRegister"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
   /auth/user:
     get:
       tags:
@@ -317,6 +338,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Token'
+    AuthPostRegister:
+      description: Success - Registered user information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
     AuthGetUser:
       description: Success - Authenticated user information.
       content:
@@ -414,6 +441,21 @@ components:
         email_verified:
           type: boolean
           example: false
+    UserPost:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Carbonaut 2"
+        email:
+          type: string
+          example: "hello2@carbonaut.io"
+        language:
+          type: string
+          example: "pt-BR"
+        password:
+          type: string
+          example: "password2"
     ExampleSchema:
       type: object
       properties:

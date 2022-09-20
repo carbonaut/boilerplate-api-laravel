@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\AuthController;
