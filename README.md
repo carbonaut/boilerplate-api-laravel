@@ -42,6 +42,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - Route groups are attached to application subdomains (see `app\Providers\RouteServiceProvider.php`);
 - [Prevents Lazy Loading](https://laravel.com/docs/9.x/eloquent-relationships#preventing-lazy-loading) helps you prevent shipping code that does not perform well;
 - [Login Throttling](app/Http/Middleware/ThrottleLogin.php) based on [Laravel UI](https://github.com/laravel/ui/blob/master/auth-backend/ThrottlesLogins.php);
+- [Application Localization](app/Http/Middleware/Localize.php) based on user preferences and `Accept-Language` header;
 
 ## Getting started
 

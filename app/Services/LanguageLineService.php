@@ -13,7 +13,7 @@ class LanguageLineService
      *         'api' => [
      *             'LANGUAGE_LINE_KEY' => [
      *                 'en'    => 'English translation.',
-     *                 'pt-BR' => 'Portuguese translation.',
+     *                 'pt_BR' => 'Portuguese translation.',
      *             ],
      *         ],
      *     ];
@@ -52,7 +52,7 @@ class LanguageLineService
      *         'api' => [
      *             'LANGUAGE_LINE_KEY' => [
      *                 'en'    => 'English translation.',
-     *                 'pt-BR' => 'Portuguese translation.',
+     *                 'pt_BR' => 'Portuguese translation.',
      *             ],
      *         ],
      *     ];

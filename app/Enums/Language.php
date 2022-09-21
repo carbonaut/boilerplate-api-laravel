@@ -7,7 +7,7 @@ enum Language: string
     use EnumTrait;
 
     case English = 'en';
-    case BrazilianPortuguese = 'pt-BR';
+    case BrazilianPortuguese = 'pt_BR';
 
     /**
      * Custom labels defined for each enum case.

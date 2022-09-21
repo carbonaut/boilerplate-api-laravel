@@ -475,7 +475,7 @@ components:
       properties:
         value:
           type: string
-          example: "pt-BR"
+          example: "pt_BR"
         label:
           type: string
           example: "Português do Brasil"
@@ -512,7 +512,7 @@ components:
           example: "hello@carbonaut.io"
         language:
           type: string
-          example: "pt-BR"
+          example: "pt_BR"
         email_verified:
           type: boolean
           example: false
@@ -527,7 +527,7 @@ components:
           example: "hello2@carbonaut.io"
         language:
           type: string
-          example: "pt-BR"
+          example: "pt_BR"
         password:
           type: string
           example: "password2"
@@ -539,7 +539,7 @@ components:
           example: "Carbonaut New Name"
         language:
           type: string
-          example: "pt-BR"
+          example: "pt_BR"
     Device:
       type: object
       properties:
