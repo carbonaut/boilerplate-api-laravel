@@ -1,6 +1,5 @@
 <?php
 
-use Database\Seeders\LanguageLineSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -24,8 +23,6 @@ class CreateLanguageLinesTable extends Migration
             $table->jsonb('text');
             $table->timestamps();
         });
-
-        (new LanguageLineSeeder())->run();
     }
 
     /**

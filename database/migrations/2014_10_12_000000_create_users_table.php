@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\Language;
-use Database\Seeders\UserSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -29,8 +28,6 @@ return new class() extends Migration {
             $table->datetime('email_verification_code_expires_at')->nullable();
             $table->timestamps();
         });
-
-        (new UserSeeder())->run();
     }
 
     /**

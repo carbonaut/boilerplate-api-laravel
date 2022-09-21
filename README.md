@@ -56,8 +56,7 @@ $ cp .env.example.local .env
 $ cp .env.example.test .env.test
 # Edit .env files...
 $ php artisan key:generate
-$ php artisan migrate
-$ php artisan db:seed
+$ php artisan migrate:fresh --seed
 $ php artisan serve
 # API docs at http://api.localhost:8000
 ```
