@@ -395,9 +395,9 @@ return [
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src
         'connect-src' => [
             'self'  => true,
-            'allow' => config('app.env') === 'production' ? [] : [
-                config('app.development_domain'),
-                config('app.production_domain'),
+            'allow' => [
+                'carbonaut.dev',
+                'carbonaut.io',
             ],
         ],
 

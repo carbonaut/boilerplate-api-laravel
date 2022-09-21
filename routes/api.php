@@ -31,7 +31,7 @@ Route::middleware(['block-in-production'])->group(function () {
 Route::get('/status', [StatusController::class, 'getStatus']);
 
 // Auth routes
-Route::post('/auth/login', [AuthController::class, 'postLogin']); // ->middleware(['throttle_login']);
+Route::post('/auth/login', [AuthController::class, 'postLogin'])->middleware(['throttle_login']);
 Route::post('/auth/register', [AuthController::class, 'postRegister']);
 Route::post('/auth/password/reset/request', [AuthController::class, 'postPasswordResetRequest']);
 Route::post('/auth/password/reset/submit', [AuthController::class, 'postPasswordResetSubmit']);

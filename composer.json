@@ -10,10 +10,11 @@
         "bepsvpt/secure-headers": "^7.2",
         "doctrine/dbal": "^3.4",
         "guzzlehttp/guzzle": "^7.2",
+        "illuminate/console": "^9.29",
         "itsgoingd/clockwork": "^5.1",
         "kreait/laravel-firebase": "^3.3",
         "laravel/framework": "^9.19",
-        "laravel/passport": "^11.1",
+        "laravel/sanctum": "^3.0",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.5",
         "league/flysystem-aws-s3-v3": "^3.3",
@@ -22,6 +23,7 @@
         "rollbar/rollbar-laravel": "^7.2",
         "spatie/eloquent-sortable": "^4.0",
         "spatie/laravel-translatable": "^6.0",
+        "spatie/laravel-translation-loader": "^2.7",
         "staudenmeir/belongs-to-through": "^2.12"
     },
     "require-dev": {
