@@ -91,6 +91,32 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
+    patch:
+      tags:
+        - auth
+      summary: Update the authenticated user.
+      description: Update the authenticated user. Fields missing from the request won't be touched.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPatch"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthPatchUser"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
   /auth/logout:
     post:
       tags:
@@ -350,6 +376,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/User'
+    AuthPatchUser:
+      description: Success - Patched user information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
     ResourcesGetLanguages:
       description: Success - An array of available languages.
       content:
@@ -456,6 +488,15 @@ components:
         password:
           type: string
           example: "password2"
+    UserPatch:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Carbonaut New Name"
+        language:
+          type: string
+          example: "pt-BR"
     ExampleSchema:
       type: object
       properties:

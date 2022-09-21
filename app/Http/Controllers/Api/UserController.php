@@ -36,20 +36,6 @@ class UserController extends Controller
     //======================================================================
 
 
-    /**
-     * @param request $request
-     *
-     * Update the user data
-     *
-     * @return array
-     */
-    public function patchUser(PatchUser $request)
-    {
-        $this->user->language_id = $request->language_id ?: $this->user->language_id;
-        $this->user->save();
-
-        return [];
-    }
 
     /**
      * Post a device for the user.

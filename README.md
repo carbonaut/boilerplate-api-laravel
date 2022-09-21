@@ -17,6 +17,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 ## Goodies
 - [Sanctum](https://laravel.com/docs/9.x/sanctum) for Authentication;
   - Using UUIDs for the PersonalAccessTokens and for the Authenticable models;
+  - Added routes for authentication
 - [Rollbar](https://docs.rollbar.com/docs/laravel) integration for error tracking
 - [Swagger](https://swagger.io) (OpenAPI 3.0) for API documentation
   - The documentation is available on the `api.` subdomain of your application;
@@ -37,6 +38,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Validation rules](https://github.com/mattkingshott/axiom) to augment the existing set provided by Laravel itself;
 - [Slack Notifications](https://laravel.com/docs/9.x/notifications#slack-notifications) for sending notifications via Slack;
 - [Boosted Enums](https://github.com/archtechx/enums) for [native PHP 8.1 Enums](https://php.watch/versions/8.1/enums);
+- Several endpoints that will help you quickly bootstrap your application. See `routes\api.php`;
 - Route groups are attached to application subdomains (see `app\Providers\RouteServiceProvider.php`);
 
 ## Getting started
@@ -72,3 +74,7 @@ Also, PRs are always welcome :)
 
 ## Known Issues
 - `psr/log` is locked to `v2.0.0` due to `rollbar/rollbar-laravel` not being compatible with `v3.0.0`. This is a minor issue since `v3.0.0` is [only adding return types](https://github.com/php-fig/log/compare/2.0.0...3.0.0). More on this: [rollbar/rollbar-php-laravel#138](https://github.com/rollbar/rollbar-php-laravel/issues/138) and [rollbar/rollbar-php#570](https://github.com/rollbar/rollbar-php/issues/570)
+- [preventSilentlyDiscardingAttributes](https://laravel.com/docs/9.x/eloquent#mass-assignment-exceptions) is not working on the current Laravel version. This should be addressed as soon as a fix is available so we know when fields are being discarded. [1](https://devscope.io/code/laravel/framework/issues/44094) [2](https://github.com/laravel/framework/commit/eff2275d1fae7a15ba91685b8e94e730108be9f4) [3]](https://github.com/laravel/framework/pull/43893)
+
+## Acknowledgements
+- OAuth2 (implemented by Passport) does not recommend the use of Password Grants anymore and suggests using [Authorization Code Grant](https://oauth2.thephpleague.com/authorization-server/which-grant/) instead. Since we'll not be authenticating third-party applications, we changed from [Passport](https://laravel.com/docs/9.x/passport) to [Sanctum](https://laravel.com/docs/9.x/sanctum);

@@ -58,7 +58,7 @@ class UserService
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function createUser($input): User
+    public function createUser(array $input): User
     {
         // Make sure the email is lowercased
         if (isset($input['email'])) {
@@ -109,5 +109,39 @@ class UserService
             'email_verification_code'            => rand(100000, 999999),
             'email_verification_code_expires_at' => now()->addHour(),
         ]);
+    }
+
+    /**
+     * Update certain user fields.
+     *
+     * @param User  $user
+     * @param array $input
+     *
+     * @return User
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function patchUser(User $user, array $input): User
+    {
+        // Validate input
+        $validated = Validator::make($input, [
+            'name' => [
+                'sometimes',
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+            ],
+            'language' => [
+                'sometimes',
+                'required',
+                'string',
+                new Enum(Language::class),
+            ],
+        ])->validate();
+
+        $user->update($validated);
+
+        return $user;
     }
 }

@@ -50,9 +50,9 @@ Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     Route::post('/maintenance/up', [MaintenanceController::class, 'postUp']);
     Route::post('/maintenance/down', [MaintenanceController::class, 'postDown']);
 
-    // User routes
+    // Auth routes
     Route::get('/auth/user', [AuthController::class, 'getUser']);
-    Route::patch('/user', [UserController::class, 'patchUser']);
+    Route::patch('/auth/user', [AuthController::class, 'patchUser']);
     Route::post('/user/devices', [UserController::class, 'postUserDevices']);
     Route::post('/user/pushes/{push}', [UserController::class, 'postUserPush']);
     Route::post('/auth/logout', [AuthController::class, 'postLogout']);

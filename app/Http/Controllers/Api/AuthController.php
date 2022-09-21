@@ -76,6 +76,20 @@ class AuthController extends Controller
     }
 
     /**
+     * Update user attributes.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function patchUser(Request $request, UserService $userService)
+    {
+        $user = $userService->patchUser($request->all());
+
+        return new UserResource($user);
+    }
+
+    /**
      * Revoke the current user access token.
      *
      * @param Request $request
@@ -116,39 +130,6 @@ class AuthController extends Controller
         $userService->changePassword($this->user, $request->all());
 
         return [];
-    }
-
-    /**
-     * Returns user data.
-     *
-     * @param Request $request
-     *
-     * @return array
-     */
-    public function postRegister(PostRegister $request)
-    {
-        $user = new User();
-        $user->first_name = strip_tags($request->first_name);
-        $user->last_name = strip_tags($request->last_name);
-        $user->email = strip_tags($request->email);
-        $user->gender = intval($request->gender);
-        $user->password = Hash::make($request->password);
-        $user->email_verification_code = User::generateVerificationCode();
-        $user->email_verification_code_expires_at = Carbon::now()->addMinutes(15);
-        $user->language_id = $request->language_id;
-        $user->date_of_birth = $request->date_of_birth;
-        $user->save();
-
-        // Send the email verification email
-        $email = new Email();
-        $email->user_id = $user->user_id;
-        $email->mailable = new EmailVerification($user);
-        $email->type = 'email-verification';
-        $email->save();
-
-        return Helpers::recursive_array_only($user->toArray(), [
-            'email_verified',
-        ]);
     }
 
     /**

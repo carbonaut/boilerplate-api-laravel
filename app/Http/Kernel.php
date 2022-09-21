@@ -44,7 +44,6 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             'localize',
-            'lowercase_email',
         ],
     ];
 
@@ -68,7 +67,6 @@ class Kernel extends HttpKernel
         'verified'            => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'localize'            => \App\Http\Middleware\Localize::class,
         'email_verified'      => \App\Http\Middleware\EmailVerified::class,
-        'lowercase_email'     => \App\Http\Middleware\LowercaseEmail::class,
         'throttle_login'      => \App\Http\Middleware\ThrottleLogin::class,
         'block-in-production' => \App\Http\Middleware\BlockInProduction::class,
     ];
