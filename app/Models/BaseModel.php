@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use App\Http\Traits\NestedRelations;
 use App\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    use NestedRelations;
     use HasFactory;
     use HasTranslations;
 

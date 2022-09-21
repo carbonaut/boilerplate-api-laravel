@@ -40,6 +40,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Boosted Enums](https://github.com/archtechx/enums) for [native PHP 8.1 Enums](https://php.watch/versions/8.1/enums);
 - Several endpoints that will help you quickly bootstrap your application. See `routes\api.php`;
 - Route groups are attached to application subdomains (see `app\Providers\RouteServiceProvider.php`);
+- [Prevents Lazy Loading](https://laravel.com/docs/9.x/eloquent-relationships#preventing-lazy-loading) helps you prevent shipping code that does not perform well;
 
 ## Getting started
 
@@ -78,3 +79,5 @@ Also, PRs are always welcome :)
 
 ## Acknowledgements
 - OAuth2 (implemented by Passport) does not recommend the use of Password Grants anymore and suggests using [Authorization Code Grant](https://oauth2.thephpleague.com/authorization-server/which-grant/) instead. Since we'll not be authenticating third-party applications, we changed from [Passport](https://laravel.com/docs/9.x/passport) to [Sanctum](https://laravel.com/docs/9.x/sanctum);
+- Even though a way of storing user devices is available, there's no scaffolding or examples on how to send a message. This should be implemented in future versions using [Notifications](https://laravel.com/docs/9.x/notifications) and [Notification Channels](https://laravel-notification-channels.com/). See [previous implementation](https://github.com/carbonaut/boilerplate-api-laravel/commit/3db896a57091e13c83cb2f134539870da44ef10c);
+- Our [custom user profile](https://github.com/carbonaut/boilerplate-api-laravel/commit/4489b533fe24f0a6148c82d8cdb92cb42ba5d5c8) solution was removed. You should either use [spatie/laravel-permission](https://github.com/spatie/laravel-permission) or wait until we release our custom package;

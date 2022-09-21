@@ -18,26 +18,6 @@ return [
     'domain' => env('APP_DOMAIN', 'localhost'),
     'scheme' => env('APP_SCHEME', 'https'),
 
-    'development_domain' => 'https://carbonaut.io',
-    'production_domain'  => 'https://carbonaut.io',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Config
-    |--------------------------------------------------------------------------
-    |
-    | Custom vars created to use as global constants
-    |
-    */
-
-    'team'               => '',
-    'support_email'      => '',
-    'support_phone'      => '',
-    'mail_header_name'   => '',
-    'mail_header_url'    => '',
-    'mail_header_logo'   => '',
-    'slack_help_channel' => '',
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -161,6 +141,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Maintenance Mode Driver
+    |--------------------------------------------------------------------------
+    |
+    | These configuration options determine the driver used to determine and
+    | manage Laravel's "maintenance mode" status. The "cache" driver will
+    | allow maintenance mode to be controlled across multiple machines.
+    |
+    | Supported drivers: "file", "cache"
+    |
+    */
+
+    'maintenance' => [
+        'driver' => 'file',
+        // 'store'  => 'redis',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -191,7 +189,7 @@ return [
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
-        Illuminate\Translation\TranslationServiceProvider::class,
+        Spatie\TranslationLoader\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
