@@ -53,8 +53,7 @@ Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     // Auth routes
     Route::get('/auth/user', [AuthController::class, 'getUser']);
     Route::patch('/auth/user', [AuthController::class, 'patchUser']);
-    Route::post('/user/devices', [UserController::class, 'postUserDevices']);
-    Route::post('/user/pushes/{push}', [UserController::class, 'postUserPush']);
+    Route::put('/auth/user/devices/{uuid}', [AuthController::class, 'putUserDevice']);
     Route::post('/auth/logout', [AuthController::class, 'postLogout']);
     Route::post('/auth/logout/all', [AuthController::class, 'postLogoutAll']);
     Route::post('/auth/password/change', [AuthController::class, 'postPasswordChange']);

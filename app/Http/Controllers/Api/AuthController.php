@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\PostLogin;
+use App\Http\Resources\Models\DeviceResource;
 use App\Http\Resources\Models\PersonalAccessTokenResource;
 use App\Http\Resources\Models\UserResource;
 use App\Http\Requests\Api\Auth\PostEmailVerificationConfirm;
@@ -52,11 +53,12 @@ class AuthController extends Controller
     /**
      * Creates a new user.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
      *
-     * @return array
+     * @return UserResource
      */
-    public function postRegister(Request $request, UserService $userService)
+    public function postRegister(Request $request, UserService $userService): UserResource
     {
         $user = $userService->createUser($request->all());
 
@@ -78,15 +80,32 @@ class AuthController extends Controller
     /**
      * Update user attributes.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
+     *
+     * @return UserResource
+     */
+    public function patchUser(Request $request, UserService $userService): UserResource
+    {
+        $user = $userService->patchUser($this->user, $request->all());
+
+        return new UserResource($user);
+    }
+
+    /**
+     * Upsert a user device.
+     *
+     * @param Request     $request
+     * @param UserService $userService
+     * @param string      $uuid
      *
      * @return array
      */
-    public function patchUser(Request $request, UserService $userService)
+    public function putUserDevice(Request $request, UserService $userService, string $uuid): DeviceResource
     {
-        $user = $userService->patchUser($request->all());
+        $device = $userService->upsertUserDevice($this->user, $uuid, $request->all());
 
-        return new UserResource($user);
+        return new DeviceResource($device);
     }
 
     /**

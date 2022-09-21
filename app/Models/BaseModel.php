@@ -19,4 +19,11 @@ class BaseModel extends Model
      * @var string
      */
     protected $keyType = 'string';
+
+    /**
+     * The attributes that are translatable.
+     *
+     * @var array<string>
+     */
+    public $translatable = [];
 }

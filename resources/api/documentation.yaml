@@ -117,6 +117,34 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
+  /auth/user/devices/{uuid}:
+    put:
+      tags:
+        - auth
+      summary: Upsert a user device.
+      description: Creates a new user device or updates if a matching uuid already exists.
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/DeviceUuid"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DevicePut"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthPutUserDevice"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
   /auth/logout:
     post:
       tags:
@@ -382,6 +410,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/User'
+    AuthPutUserDevice:
+      description: Success - Upserted user device.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Device'
     ResourcesGetLanguages:
       description: Success - An array of available languages.
       content:
@@ -416,6 +450,15 @@ components:
       required: true
       schema:
         type: "string"
+    DeviceUuid:
+      name: "uuid"
+      in: "path"
+      description: "Device Unique Identifier"
+      required: true
+      schema:
+        type: "string"
+        format: uuid
+        example: "47b6d37b-3fd2-4335-a954-c1c0ba2e4d6c"
     LanguageLineGroup:
       name: "group"
       in: "path"
@@ -497,6 +540,86 @@ components:
         language:
           type: string
           example: "pt-BR"
+    Device:
+      type: object
+      properties:
+        device_id:
+          type: string
+          format: uuid
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "Carbonaut's iPhone"
+          nullable: true
+        platform:
+          type: string
+          example: "ios"
+        operating_system:
+          type: string
+          example: "ios"
+        os_version:
+          type: string
+          example: "16.0.0"
+        manufacturer:
+          type: string
+          example: "Apple"
+        model:
+          type: string
+          example: "iPhone"
+        web_view_version:
+          type: string
+          example: "1.0.0"
+          nullable: true
+        app_version:
+          type: string
+          example: "0.0.1"
+          nullable: true
+        is_virtual:
+          type: boolean
+        push_token:
+          type: string
+          format: uuid
+          nullable: true
+        is_active:
+          type: boolean
+    DevicePut:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Carbonaut's iPhone"
+          nullable: true
+        platform:
+          type: string
+          example: "ios"
+        operating_system:
+          type: string
+          example: "ios"
+        os_version:
+          type: string
+          example: "16.0.0"
+        manufacturer:
+          type: string
+          example: "Apple"
+        model:
+          type: string
+          example: "iPhone"
+        web_view_version:
+          type: string
+          example: "1.0.0"
+          nullable: true
+        app_version:
+          type: string
+          example: "0.0.1"
+          nullable: true
+        is_virtual:
+          type: boolean
+        push_token:
+          type: string
+          format: uuid
+          nullable: true
     ExampleSchema:
       type: object
       properties:

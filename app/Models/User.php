@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Traits\NestedRelations;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -41,6 +42,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'language',
+        'email_verified_at',
+        'email_verification_code',
+        'email_verification_code_expires_at',
     ];
 
     /**
@@ -85,5 +90,19 @@ class User extends Authenticatable
         return Attribute::make(
             set: fn ($value) => strtolower($value),
         );
+    }
+
+    // ======================================================================
+    // RELATIONSHIPS
+    // ======================================================================
+
+    /**
+     * Get the devices owned by the user.
+     *
+     * @return HasMany
+     */
+    public function devices(): HasMany
+    {
+        return $this->hasMany(Device::class);
     }
 }
