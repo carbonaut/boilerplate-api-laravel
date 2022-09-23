@@ -67,7 +67,13 @@ $ php artisan serve
 ### Laravel Sail
 The manual dockerization was removed in favor of [Laravel Sail](https://laravel.com/docs/9.x/sail), which is yet to be added to this project. Feel free to open a PR!
 
+## Deployment
+We recommend using [Laravel Forge](https://forge.laravel.com/) or [Laravel Vapor](https://vapor.laravel.com/) to deploy your Laravel application. More information can be found on their respective documentations. 
 
+### Deployment Checklist
+- [ ] Make sure you are using the correct environment variables, specially `APP_ENV=production` and `APP_DEBUG=false`;
+- [ ] Enable HSTS on `config\secure-headers.php`;
+- [ ] Update `config\cors.php` to only allow calls from trusted sources;
 
 ## Contributing
 
