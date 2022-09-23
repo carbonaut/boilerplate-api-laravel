@@ -25,10 +25,6 @@ That's why we've built this awesome boilerplate so you can focus on your project
   - Keep the documentation up-to-date on `resources\api\documentation.yaml`
 - [Laravel Translatable](https://github.com/spatie/laravel-translatable) for multi-language support;
 - [Laravel Translations Loader](https://github.com/spatie/laravel-translation-loader) helps you provide translations from the database to your application using the API;
-- Password Reset and Email Verification flows built in
-- CI and CD flows for GitHub Actions
-- Email and Push Notifications already set up
-- Configuration files for deploying into AWS Elastic Beanstalk
 - [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) configuration file for code styling (PhpCsFixer rule-set with minor customizations);
 - [Clockwork](https://github.com/itsgoingd/clockwork) gives you an insight into your application runtime - including request data, performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs, rendered views and more - for HTTP requests, commands, queue jobs and tests;
 - [Eloquent Sortable](https://github.com/spatie/eloquent-sortable) that adds sortable behaviour to an Eloquent model.
@@ -44,6 +40,8 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Login Throttling](app/Http/Middleware/ThrottleLogin.php) based on [Laravel UI](https://github.com/laravel/ui/blob/master/auth-backend/ThrottlesLogins.php);
 - [Application Localization](app/Http/Middleware/Localize.php) based on user preferences and `Accept-Language` header;
 - [Custom error handling](app/Exceptions/Handler.php) to have standardized errors returned on the API endpoints. `message` is a localized field that can be displayed to the user, as `error` is a more meaningful message for the developers;
+- [Queue](https://laravel.com/docs/9.x/queues) setup to use the database driver;
+- [Emails](https://laravel.com/docs/9.x/mail) already set up for email verification and password reset. It will take into account the [user preferred language](https://laravel.com/docs/9.x/mail#user-preferred-locales) when sending the email;
 
 ## Getting started
 
@@ -73,9 +71,10 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) or [Laravel Vapor
 If you want to deploy on AWS ElasticBeanstalk using Github Actions, check the [files that were removed](https://github.com/carbonaut/boilerplate-api-laravel/commit/a6edcc336d9cfb0bdedd5ec209b0d66f18bf410d) from this boilerplate.
 
 ### Deployment Checklist
-- [ ] Make sure you are using the correct environment variables, specially `APP_ENV=production` and `APP_DEBUG=false`;
-- [ ] Enable HSTS on `config\secure-headers.php`;
-- [ ] Update `config\cors.php` to only allow calls from trusted sources;
+- [ ] I have used the correct environment variables, especially `APP_ENV=production` and `APP_DEBUG=false`;
+- [ ] I have enabled HSTS on `config\secure-headers.php`;
+- [ ] I have updated `config\cors.php` to only allow calls from trusted sources;
+- [ ] I am running the queue worker on my server;
 
 ## Contributing
 
@@ -85,7 +84,7 @@ Also, PRs are always welcome :)
 
 ## Known Issues
 - `psr/log` is locked to `v2.0.0` due to `rollbar/rollbar-laravel` not being compatible with `v3.0.0`. This is a minor issue since `v3.0.0` is [only adding return types](https://github.com/php-fig/log/compare/2.0.0...3.0.0). More on this: [rollbar/rollbar-php-laravel#138](https://github.com/rollbar/rollbar-php-laravel/issues/138) and [rollbar/rollbar-php#570](https://github.com/rollbar/rollbar-php/issues/570)
-- [preventSilentlyDiscardingAttributes](https://laravel.com/docs/9.x/eloquent#mass-assignment-exceptions) is not working on the current Laravel version. This should be addressed as soon as a fix is available so we know when fields are being discarded. [1](https://devscope.io/code/laravel/framework/issues/44094) [2](https://github.com/laravel/framework/commit/eff2275d1fae7a15ba91685b8e94e730108be9f4) [3]](https://github.com/laravel/framework/pull/43893)
+- [preventSilentlyDiscardingAttributes](https://laravel.com/docs/9.x/eloquent#mass-assignment-exceptions) is not working on the current Laravel version. This should be addressed as soon as a fix is available so we know when fields are being discarded. [1](https://devscope.io/code/laravel/framework/issues/44094) [2](https://github.com/laravel/framework/commit/eff2275d1fae7a15ba91685b8e94e730108be9f4) [3](https://github.com/laravel/framework/pull/43893)
 
 ## Acknowledgements
 - OAuth2 (implemented by Passport) does not recommend the use of Password Grants anymore and suggests using [Authorization Code Grant](https://oauth2.thephpleague.com/authorization-server/which-grant/) instead. Since we'll not be authenticating third-party applications, we changed from [Passport](https://laravel.com/docs/9.x/passport) to [Sanctum](https://laravel.com/docs/9.x/sanctum);

@@ -51,6 +51,31 @@ class LanguageLineSeeder extends Seeder
                 'pt_BR' => 'Não encontramos o que você está procurando.',
             ],
         ],
+        'email' => [
+            // Global Email Phrases
+            'GLOBAL.INTRO-WITH-NAME' => [
+                'en' => 'Hi :name,',
+                'pt_BR' => 'Olá :name,',
+            ],
+            'GLOBAL.INTRO-WITHOUT-NAME' => [
+                'en' => 'Hi,',
+                'pt_BR' => 'Olá,',
+            ],
+            'GLOBAL.OUTRO-WITH-NAME' => [
+                'en' => 'Thanks,<br>:name',
+                'pt_BR' => 'Obrigado,<br>:name,',
+            ],
+            
+            // Mail\User\EmailVerification
+            'USER.EMAIL-VERIFICATION.SUBJECT' => [
+                'en' => 'Welcome! Use :code to confirm your email address',
+                'pt_BR' => 'Olá! Use :code para confirmar o seu endereço de email',
+            ],
+            'USER.EMAIL-VERIFICATION.CONTENT' => [
+                'en' => 'Use the following code to confirm your email address:',
+                'pt_BR' => 'Use o código abaixo para confirmar o seu endereço de email:',
+            ],
+        ]
     ];
 
     /**

@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use App\Enums\Language;
+use App\Mail\User\EmailVerification;
 use App\Models\Device;
 use App\Models\User;
 use Axiom\Rules\Lowercase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
@@ -95,14 +97,7 @@ class UserService
             ],
         ])->validate();
 
-        // // TODO: Send the email verification email
-        // $email = new Email();
-        // $email->user_id = $user->user_id;
-        // $email->mailable = new EmailVerification($user);
-        // $email->type = 'email-verification';
-        // $email->save();
-
-        return User::create([
+        $user = User::create([
             'name'                               => $validated['name'],
             'email'                              => $validated['email'],
             'password'                           => Hash::make($validated['password']),
@@ -112,6 +107,10 @@ class UserService
             'email_verification_code_expires_at' => now()->addHour(),
             'remember_token'                     => Str::random(10),
         ]);
+
+        Mail::to($user)->queue(new EmailVerification($user));
+
+        return $user;
     }
 
     /**
