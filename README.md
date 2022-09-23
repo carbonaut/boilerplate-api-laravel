@@ -70,6 +70,8 @@ The manual dockerization was removed in favor of [Laravel Sail](https://laravel.
 ## Deployment
 We recommend using [Laravel Forge](https://forge.laravel.com/) or [Laravel Vapor](https://vapor.laravel.com/) to deploy your Laravel application. More information can be found on their respective documentations. 
 
+If you want to deploy on AWS ElasticBeanstalk using Github Actions, check the [files that were removed](https://github.com/carbonaut/boilerplate-api-laravel/commit/a6edcc336d9cfb0bdedd5ec209b0d66f18bf410d) from this boilerplate.
+
 ### Deployment Checklist
 - [ ] Make sure you are using the correct environment variables, specially `APP_ENV=production` and `APP_DEBUG=false`;
 - [ ] Enable HSTS on `config\secure-headers.php`;
