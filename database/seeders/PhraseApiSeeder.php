@@ -19,12 +19,6 @@ class PhraseApiSeeder extends Seeder
         'ERROR_EMAIL_VERIFICATION_CODE_EXPIRED' => [
             'en' => 'The verification code has expired. Please request a new one.',
         ],
-        'ERROR_PUSH_FROM_ANOTHER_USER' => [
-            'en' => 'This push is for another person',
-        ],
-        'ERROR_EMAIL_NOT_VERIFIED' => [
-            'en' => 'The email address is not verified',
-        ],
     ];
 
     /**

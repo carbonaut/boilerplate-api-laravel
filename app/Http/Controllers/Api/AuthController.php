@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\StandardException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\PostLogin;
 use App\Http\Resources\Models\DeviceResource;
@@ -42,7 +43,11 @@ class AuthController extends Controller
     public function postLogin(PostLogin $request): PersonalAccessTokenResource
     {
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            throw new AuthenticationException();
+            throw new StandardException(
+                401,
+                'Invalid credentials.',
+                __('api.ERROR.AUTH.INVALID_CREDENTIALS')
+            );
         }
 
         return new PersonalAccessTokenResource(

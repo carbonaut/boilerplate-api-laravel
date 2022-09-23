@@ -2,8 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Phrase;
-use App\Models\User;
+use App\Exceptions\StandardException;
 use Closure;
 
 class EmailVerified
@@ -18,11 +17,12 @@ class EmailVerified
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user() instanceof User && $request->user()->email_verified_at === null) {
-            return response()->json([
-                'error'   => 'User email not verified.',
-                'message' => Phrase::getPhrase('ERROR_EMAIL_NOT_VERIFIED', 'api'),
-            ], 500);
+        if (empty($request->user()?->email_verified_at)) {
+            throw new StandardException(
+                422,
+                'User email must be verified before accessing protected routes.',
+                __('api.ERROR.EMAIL.NOT_VERIFIED')
+            );
         }
 
         return $next($request);

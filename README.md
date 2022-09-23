@@ -43,6 +43,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Prevents Lazy Loading](https://laravel.com/docs/9.x/eloquent-relationships#preventing-lazy-loading) helps you prevent shipping code that does not perform well;
 - [Login Throttling](app/Http/Middleware/ThrottleLogin.php) based on [Laravel UI](https://github.com/laravel/ui/blob/master/auth-backend/ThrottlesLogins.php);
 - [Application Localization](app/Http/Middleware/Localize.php) based on user preferences and `Accept-Language` header;
+- [Custom error handling](app/Exceptions/Handler.php) to have standardized errors returned on the API endpoints. `message` is a localized field that can be displayed to the user, as `error` is a more meaningful message for the developers;
 
 ## Getting started
 

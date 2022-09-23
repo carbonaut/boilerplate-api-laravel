@@ -2,172 +2,124 @@
 
 namespace App\Exceptions;
 
-use App\Models\Phrase;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\App;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that are not reported.
+     * A list of exception types with their corresponding custom log levels.
      *
-     * @var array
+     * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
      */
-    protected $dontReport = [
+    protected $levels = [
     ];
 
     /**
-     * Custom exception message returned in json.
+     * A list of the exception types that are not reported.
      *
-     * @var string
+     * @var array<int, class-string<\Throwable>>
      */
-    protected $json_exception_message = 'JSON exception message not set';
+    protected $dontReport = [
+        \Illuminate\Auth\AuthenticationException::class,
+        \Illuminate\Auth\Access\AuthorizationException::class,
+        \Illuminate\Validation\ValidationException::class,
+        \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException::class,
+        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+    ];
 
     /**
-     * A list of the inputs that are never flashed for validation exceptions.
+     * A list of the inputs that are never flashed to the session on validation exceptions.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $dontFlash = [
         'current_password',
+        'new_password',
         'password',
         'password_confirmation',
     ];
 
     /**
      * Register the exception handling callbacks for the application.
+     *
+     * @return void
      */
     public function register()
     {
         $this->reportable(function (Throwable $e) {
         });
-    }
 
-    /**
-     * Report or log an exception.
-     *
-     * @param \Throwable $exception
-     *
-     * @throws \Exception
-     */
-    public function report(Throwable $exception)
-    {
-        parent::report($exception);
-    }
+        // We'll register a renderable for all throwables, so we can rethrow it
+        // using our standardized exception.
+        $this->renderable(function (Throwable $e, $request) {
+            if (!$request->expectsJson()) {
+                return;
+            }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Throwable               $exception
-     *
-     * @throws \Throwable
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function render($request, Throwable $exception)
-    {
-        // On JSON we need to keep the response structure so the apps know what to expect
-        if ($request->expectsJson()) {
-            // Set a custom message for json
-            $this->json_exception_message = class_basename($exception) . ' in ' . basename($exception->getFile()) . ' line ' . $exception->getLine() . ': ' . $exception->getMessage();
-
-            // Custom exception for model not found (used in route model binding)
-            if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
-                return $this->jsonRender(
-                    'Object not found (' . $exception->getMessage() . ')',
-                    'ERROR_MODEL_NOT_FOUND',
-                    404
+            if ($e instanceof AuthenticationException) {
+                throw new StandardException(
+                    401,
+                    'Unauthenticated.',
+                    __('api.ERROR.AUTH.UNAUTHENTICATED'),
+                    $e
                 );
             }
 
-            // Custom auth exception response
-            if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
-                return $this->jsonRender(
-                    'Unauthenticated',
-                    'ERROR_UNAUTHENTICATED',
-                    401
-                );
-            }
-
-            // Custom Validator exception response
-            if ($exception instanceof \Illuminate\Validation\ValidationException) {
-                $this->json_exception_message = collect($exception->errors())->flatten()->implode(' ');
-
-                return $this->jsonRender(
-                    $this->json_exception_message,
-                    collect($exception->errors())->flatten()->first(),
-                    422,
-                    false
-                );
-            }
-
-            // Maintenance Mode exception response
-            if ($exception instanceof HttpException && App::isDownForMaintenance()) {
-                $this->json_exception_message = 'API under maintenance.';
-
-                return $this->jsonRender(
-                    $this->json_exception_message,
-                    'ERROR_MAINTENANCE_MODE',
-                    $exception->getStatusCode()
-                );
-            }
-
-            // Unauthorized exception response
-            if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-                return $this->jsonRender(
-                    'User has no permission to access the resource.',
-                    'ERROR_UNAUTHORIZED',
+            if ($e instanceof AuthorizationException || $e instanceof AccessDeniedHttpException) {
+                throw new StandardException(
                     403,
+                    'This action is unauthorized.',
+                    __('api.ERROR.AUTH.UNAUTHORIZED'),
+                    $e
                 );
             }
 
-            // File not found on S3
-            if ($exception instanceof \League\Flysystem\FileNotFoundException) {
-                return $this->jsonRender(
-                    'Requested file was not found.',
-                    'ERROR_FILE_NOT_FOUND',
+            if ($e instanceof ModelNotFoundException || $e instanceof NotFoundHttpException) {
+                throw new StandardException(
                     404,
+                    'Object not found (' . $e->getMessage() . ')',
+                    __('api.ERROR.MODEL_NOT_FOUND'),
+                    $e
                 );
             }
 
-            // Custom OAuth exceptions response
-            if ($exception instanceof \Laravel\Passport\Exceptions\OAuthServerException && $exception->getPrevious() instanceof \League\OAuth2\Server\Exception\OAuthServerException) {
-                switch ($exception->getPrevious()->getErrorType()) {
-                    case 'invalid_credentials':
-                    case 'invalid_grant':
-                        return $this->jsonRender(
-                            $exception->getPrevious()->getErrorType(),
-                            'OAUTH_ERROR_INVALID_CREDENTIALS',
-                            401
-                        );
-                    default:
-                        return $this->jsonRender(
-                            $exception->getPrevious()->getErrorType(),
-                            'ERROR_SOMETHING_WRONG',
-                            $exception->getPrevious()->getHttpStatusCode()
-                        );
-                }
+            if ($e instanceof ValidationException) {
+                throw new StandardException(
+                    $e->status,
+                    collect($e->errors())->flatten()->implode(' '),
+                    (string) collect($e->errors())->flatten()->first(),
+                    $e
+                );
             }
 
-            // Generic response to other exceptions
-            return $this->jsonRender(
-                class_basename($exception),
-                'ERROR_SOMETHING_WRONG',
-                (method_exists($exception, 'getStatusCode') && $exception->getStatusCode() !== null ? $exception->getStatusCode() : 500)
+            if ($e instanceof HttpException && App::isDownForMaintenance()) {
+                throw new StandardException(
+                    $e->getStatusCode(),
+                    'Application under maintenance.',
+                    __('api.ERROR.MAINTENANCE'),
+                    $e
+                );
+            }
+
+            // Generic response to other exceptions, hiding important data when debug is disabled.
+            $error = get_class($e) . ' in ' . basename($e->getFile()) . ' line ' . $e->getLine() . ': ' . $e->getMessage();
+
+            throw new StandardException(
+                method_exists($e, 'getStatusCode') && $e->getStatusCode() !== null ? $e->getStatusCode() : 500,
+                config('app.debug') && !App::runningUnitTests() ? $error : 'Server Error',
+                __('api.ERROR.SOMETHING_WENT_WRONG'),
+                $e
             );
-        }
-
-        return parent::render($request, $exception);
-    }
-
-    protected function jsonRender(string $error, $message, int $statusCode, bool $use_phrase = true)
-    {
-        return response()->json([
-            'error'   => config('app.debug') ? $this->json_exception_message : $error,
-            'message' => $use_phrase ? Phrase::getPhrase($message, 'api') : $message,
-        ], $statusCode);
+        });
     }
 }
