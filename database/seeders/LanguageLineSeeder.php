@@ -22,6 +22,10 @@ class LanguageLineSeeder extends Seeder
                 'en'    => 'The provided password does not match your current password.',
                 'pt_BR' => 'A senha informada não corresponde à sua senha atual.',
             ],
+            'ERROR.PASSWORD-RESET.INVALID-INPUT' => [
+                'en'    => 'The provided email or token are not valid.',
+                'pt_BR' => 'O token ou email informados não são válidos.',
+            ],
             'ERROR.EMAIL.NOT_VERIFIED' => [
                 'en'    => 'Please verify your email address.',
                 'pt_BR' => 'Por favor confirme seu endereço de email.',

@@ -11,11 +11,10 @@ use App\Models\User;
 use Axiom\Rules\Lowercase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password as FacadesPassword;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules;
 
 class UserService
 {
@@ -40,7 +39,7 @@ class UserService
             'new_password' => [
                 'required',
                 'string',
-                Password::defaults(),
+                Rules\Password::defaults(),
             ],
         ])->after(function ($validator) use ($user, $input) {
             if (!isset($input['current_password']) || !Hash::check($input['current_password'], $user->password)) {
@@ -91,12 +90,12 @@ class UserService
             'password' => [
                 'required',
                 'string',
-                Password::defaults(),
+                Rules\Password::defaults(),
             ],
             'language' => [
                 'required',
                 'string',
-                new Enum(Language::class),
+                new Rules\Enum(Language::class),
             ],
         ])->validate();
 
@@ -141,7 +140,7 @@ class UserService
                 'sometimes',
                 'required',
                 'string',
-                new Enum(Language::class),
+                new Rules\Enum(Language::class),
             ],
         ])->validate();
 
@@ -275,7 +274,7 @@ class UserService
     }
 
     /**
-     * Verify the user email.
+     * Sends a password-reset token to the user email.
      *
      * @param User  $user
      * @param array $input
@@ -297,8 +296,52 @@ class UserService
             return;
         }
 
-        $token = FacadesPassword::broker()->createToken($user);
+        $token = Password::broker()->createToken($user);
 
         Mail::to($user)->queue(new PasswordReset($user, $token));
+    }
+
+    /**
+     * Resets the user password.
+     *
+     * @param array $input
+     *
+     * @return void
+     *
+     * @throws StandardException
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function resetPassword(array $input): void
+    {
+        // Validate input
+        $validated = Validator::make($input, [
+            'token'        => ['required'],
+            'email'        => ['required', 'email:filter'],
+            'new_password' => ['required', 'string', Rules\Password::defaults()],
+        ])->validate();
+
+        $reset = Password::broker()->reset(
+            [
+                'token'                 => $validated['token'],
+                'email'                 => $validated['email'],
+                'password'              => $validated['new_password'],
+                'password_confirmation' => $validated['new_password'],
+            ],
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->setRememberToken(Str::random(60));
+                $user->save();
+
+                $user->tokens()->delete();
+            }
+        );
+
+        if ($reset !== Password::PASSWORD_RESET) {
+            throw new StandardException(
+                422,
+                'Invalid input for resetting the password.',
+                __('api.ERROR.PASSWORD-RESET.INVALID-INPUT')
+            );
+        }
     }
 }

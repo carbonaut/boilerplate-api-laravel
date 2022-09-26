@@ -8,26 +8,11 @@ use App\Http\Requests\Api\Auth\PostLogin;
 use App\Http\Resources\Models\DeviceResource;
 use App\Http\Resources\Models\PersonalAccessTokenResource;
 use App\Http\Resources\Models\UserResource;
-use App\Http\Requests\Api\Auth\PostEmailVerificationConfirm;
-use App\Http\Requests\Api\Auth\PostEmailVerificationRequest;
-use App\Http\Requests\Api\Auth\PostPasswordResetRequest;
-use App\Http\Requests\Api\Auth\PostPasswordResetSubmit;
-use App\Http\Requests\Api\Auth\PostRegister;
-use App\Mail\EmailVerification;
-use App\Mail\PasswordReset;
-use App\Models\Email;
-use App\Models\Phrase;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Support\Helpers;
-use Carbon\Carbon;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -204,24 +189,15 @@ class AuthController extends Controller
     /**
      * Resets the user password if token is valid.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
      *
      * @return array
      */
-    public function postPasswordResetSubmit(PostPasswordResetSubmit $request)
+    public function postPasswordResetSubmit(Request $request, UserService $userService): array
     {
-        $request->validate();
+        $userService->resetPassword($request->all());
 
-        // Response is only sent on success, otherwise exception is thrown
-        $response = $this->reset($request);
-
-        // Since reset was successful, invalidate all previous tokens
-        $tokens = User::where('email', $request->email)->first()->tokens;
-
-        foreach ($tokens as $token) {
-            User::revokeToken($token);
-        }
-
-        return $response;
+        return [];
     }
 }

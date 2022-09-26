@@ -257,7 +257,6 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
-
   /auth/password/reset/request:
     post:
       tags:
@@ -270,6 +269,27 @@ paths:
           application/json:
             schema:
               $ref : "#/components/schemas/AuthPostPasswordResetRequest"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/password/reset/submit:
+    post:
+      tags:
+        - auth
+      summary: Resets the user password with the token provided by email
+      description: Resets the user password with the token provided by email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostPasswordResetSubmit"
       responses:
         200:
           $ref: "#/components/responses/EmptyResponse"
@@ -333,7 +353,7 @@ paths:
       tags:
         - resources
       summary: Return all language lines from the specified group.
-      description: Return all language lines from the specified group.
+      description: Return all language lines from the specified group. You can use the Accept-Language header to specify the language.
       parameters:
         - $ref: "#/components/parameters/LanguageLineGroup"
       responses:
@@ -727,3 +747,14 @@ components:
         email:
           type: string
           example: "hello@carbonaut.io"
+    AuthPostPasswordResetSubmit:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "hello@carbonaut.io"
+        new_password:
+          type: string
+          example: "new-password"
+        token:
+          type: string
