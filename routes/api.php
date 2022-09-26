@@ -38,9 +38,6 @@ Route::post('/auth/password/reset/submit', [AuthController::class, 'postPassword
 Route::post('/auth/email/verification/request', [AuthController::class, 'postEmailVerificationRequest']);
 Route::post('/auth/email/verification/confirm', [AuthController::class, 'postEmailVerificationConfirm']);
 
-// Email routes
-Route::get('/emails/{email}/read', [EmailController::class, 'getEmailRead'])->name('email-read');
-
 // Resources routes
 Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
 Route::get('/resources/language-lines/{group}', [ResourcesController::class, 'getLanguageLinesByGroup']);
