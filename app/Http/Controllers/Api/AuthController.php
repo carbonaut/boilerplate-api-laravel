@@ -189,21 +189,14 @@ class AuthController extends Controller
     /**
      * Sends a password reset token by email to the user.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
      *
      * @return array
      */
-    public function postPasswordResetRequest(PostPasswordResetRequest $request)
+    public function postPasswordResetRequest(Request $request, UserService $userService): array
     {
-        $user = User::where('email', $request->email)->first();
-        $token = Password::broker()->createToken($user);
-
-        // Send the password reset email
-        $email = new Email();
-        $email->user_id = $user->user_id;
-        $email->mailable = new PasswordReset($user, $token);
-        $email->type = 'password-reset';
-        $email->save();
+        $userService->requestPasswordResetToken($request->all());
 
         return [];
     }

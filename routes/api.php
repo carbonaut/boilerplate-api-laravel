@@ -5,11 +5,6 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\StatusController;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\EmailController;
-use App\Http\Controllers\Api\MaintenanceController;
-use App\Http\Controllers\Api\MetadataController;
-use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*

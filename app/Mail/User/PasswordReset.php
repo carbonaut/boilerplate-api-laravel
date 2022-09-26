@@ -1,30 +1,37 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\User;
 
-use App\Models\Phrase;
 use App\Models\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 class PasswordReset extends Mailable
 {
+    use Queueable;
+    use SerializesModels;
+
     /**
      * The user instance.
      *
      * @var User
      */
-    public $user;
+    private $user;
 
     /**
-     * The token.
+     * Password reset token.
      *
      * @var string
      */
-    public $token;
+    private $token;
 
     /**
      * Create a new message instance.
      *
      * @param User $user
+     *
+     * @return void
      */
     public function __construct(User $user, string $token)
     {
@@ -39,13 +46,11 @@ class PasswordReset extends Mailable
      */
     public function build()
     {
-        $this->user->setLocale();
-
         return $this
-            ->subject(Phrase::getPhrase('EMAIL_PASSWORD_RESET_SUBJECT', 'email'))
-            ->markdown('emails.password-reset')
-            ->with([
-                'url' => 'https://reset.' . config('app.domain') . '/?token=' . $this->token . ($this->user->language_id !== null ? '&lang=' . $this->user->language->locale : ''),
+            ->subject(__('email.USER.PASSWORD-RESET.SUBJECT'))
+            ->markdown('emails.user.password-reset', [
+                'user'  => $this->user,
+                'token' => $this->token,
             ]);
     }
 }

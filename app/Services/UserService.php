@@ -5,11 +5,13 @@ namespace App\Services;
 use App\Enums\Language;
 use App\Exceptions\StandardException;
 use App\Mail\User\EmailVerification;
+use App\Mail\User\PasswordReset;
 use App\Models\Device;
 use App\Models\User;
 use Axiom\Rules\Lowercase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password as FacadesPassword;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
@@ -232,6 +234,7 @@ class UserService
      * @return void
      *
      * @throws StandardException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function verifyEmail(User $user, array $input): void
     {
@@ -269,5 +272,33 @@ class UserService
             'email_verification_code_expires_at' => null,
             'email_verified_at'                  => now(),
         ]);
+    }
+
+    /**
+     * Verify the user email.
+     *
+     * @param User  $user
+     * @param array $input
+     *
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function requestPasswordResetToken(array $input): void
+    {
+        // Validate input
+        $validated = Validator::make($input, [
+            'email' => ['required', 'email:filter'],
+        ])->validate();
+
+        $user = User::firstWhere('email', $validated['email']);
+
+        if ($user === null) {
+            return;
+        }
+
+        $token = FacadesPassword::broker()->createToken($user);
+
+        Mail::to($user)->queue(new PasswordReset($user, $token));
     }
 }
