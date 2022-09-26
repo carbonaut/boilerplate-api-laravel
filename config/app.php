@@ -9,8 +9,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | The application domain is used by the route service provider to assign
-    | a route group to a subdomain. You should set this to the main domain that 
-    | your application is running on, without any protocol, application 
+    | a route group to a subdomain. You should set this to the main domain that
+    | your application is running on, without any protocol, application
     | subdomain or port.
     |
     */

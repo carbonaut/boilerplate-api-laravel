@@ -5,7 +5,7 @@ on:
     branches:
       - development
       - staging
-      - master
+      - main
 
 env:
   CI: true
@@ -20,7 +20,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           tools: composer:v2
 
       - name: Get Composer Cache Directory
@@ -54,7 +54,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           tools: composer:v2
 
       - name: Lint Test
@@ -71,7 +71,7 @@ jobs:
           env:
             POSTGRES_USER: carbonaut
             POSTGRES_PASSWORD: carbonaut
-            POSTGRES_DB: api_testing
+            POSTGRES_DB: carbonaut_testing
           ports:
           - 5432:5432
           options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -83,7 +83,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           tools: composer:v2
 
       - name: Setup Configuration Environment File

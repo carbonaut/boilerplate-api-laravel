@@ -16,7 +16,7 @@ trait EnumTrait
 
     /**
      * Returns an associative array of [value => label|name] of all enum cases.
-     * 
+     *
      * If a label is not defined, the enum name is used instead.
      *
      * @return array<string>
