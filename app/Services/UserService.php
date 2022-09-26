@@ -19,6 +19,30 @@ use Illuminate\Validation\Rules;
 class UserService
 {
     /**
+     * Revoke the current user access token, logging the user out from the current device.
+     *
+     * @param User $user
+     *
+     * @return void
+     */
+    public function revokeCurrentAccessToken(User $user): void
+    {
+        $user->currentAccessToken()->delete();
+    }
+
+    /**
+     * Revoke all user access tokens, logging the user out from all devices.
+     *
+     * @param User $user
+     *
+     * @return void
+     */
+    public function revokeAllAccessTokens(User $user): void
+    {
+        $user->tokens()->delete();
+    }
+
+    /**
      * Change the user password.
      *
      * @param User  $user

@@ -101,13 +101,14 @@ class AuthController extends Controller
     /**
      * Revoke the current user access token.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
      *
      * @return array
      */
-    public function postLogout(Request $request): array
+    public function postLogout(Request $request, UserService $userService): array
     {
-        $this->user->currentAccessToken()->delete();
+        $userService->revokeCurrentAccessToken($this->user);
 
         return [];
     }
@@ -115,13 +116,14 @@ class AuthController extends Controller
     /**
      * Revoke all user access tokens.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
      *
      * @return array
      */
-    public function postLogoutAll(Request $request): array
+    public function postLogoutAll(Request $request, UserService $userService): array
     {
-        $this->user->tokens()->delete();
+        $userService->revokeAllAccessTokens($this->user);
 
         return [];
     }
