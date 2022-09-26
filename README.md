@@ -17,7 +17,8 @@ That's why we've built this awesome boilerplate so you can focus on your project
 ## Goodies
 - [Sanctum](https://laravel.com/docs/9.x/sanctum) for Authentication;
   - Using UUIDs for the PersonalAccessTokens and for the Authenticable models;
-  - Added routes for authentication
+  - Custom routes for authentication;
+  - Tokens expire in [one year](config/sanctum.php);
 - [Rollbar](https://docs.rollbar.com/docs/laravel) integration for error tracking
 - [Swagger](https://swagger.io) (OpenAPI 3.0) for API documentation
   - The documentation is available on the `api.` subdomain of your application;
@@ -76,6 +77,7 @@ If you want to deploy on AWS ElasticBeanstalk using Github Actions, check the [f
 - [ ] I have enabled HSTS on `config\secure-headers.php`;
 - [ ] I have updated `config\cors.php` to only allow calls from trusted sources;
 - [ ] I am running the queue worker on my server;
+- [ ] I have added [Laravel Scheduled](https://laravel.com/docs/9.x/scheduling#running-the-scheduler) to my server cron;
 
 ## Contributing
 

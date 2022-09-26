@@ -64,7 +64,7 @@ paths:
             schema:
               $ref: "#/components/schemas/UserPost"
       responses:
-        200:
+        201:
           $ref: "#/components/responses/AuthPostRegister"
         422:
           $ref: "#/components/responses/422"
@@ -134,6 +134,8 @@ paths:
               $ref: "#/components/schemas/DevicePut"
       responses:
         200:
+          $ref: "#/components/responses/AuthPutUserDevice"
+        201:
           $ref: "#/components/responses/AuthPutUserDevice"
         401:
           $ref: "#/components/responses/401"
@@ -482,7 +484,7 @@ components:
           schema:
             $ref: '#/components/schemas/Token'
     AuthPostRegister:
-      description: Success - Registered user information.
+      description: Success - Created user information.
       content:
         application/json:
           schema:
@@ -500,7 +502,7 @@ components:
           schema:
             $ref: '#/components/schemas/User'
     AuthPutUserDevice:
-      description: Success - Upserted user device.
+      description: Success - Created (201) or updated (200) user device.
       content:
         application/json:
           schema:
