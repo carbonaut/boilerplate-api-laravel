@@ -42,6 +42,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Custom error handling](app/Exceptions/Handler.php) to have standardized errors returned on the API endpoints. `message` is a localized field that can be displayed to the user, as `error` is a more meaningful message for the developers;
 - [Queue](https://laravel.com/docs/9.x/queues) setup to use the database driver;
 - [Emails](https://laravel.com/docs/9.x/mail) already set up for email verification and password reset. It will take into account the [user preferred language](https://laravel.com/docs/9.x/mail#user-preferred-locales) when sending the email;
+- [Pull-request template](.github/pull_request_template.md) so you don't forget about important things when merging code;
 
 ## Getting started
 
