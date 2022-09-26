@@ -28,7 +28,6 @@ class GetLanguageLinesByGroupRequest extends FormRequest
         return [
             'group' => [
                 'required',
-                'string',
                 new Enum(LanguageLineGroup::class),
             ],
         ];

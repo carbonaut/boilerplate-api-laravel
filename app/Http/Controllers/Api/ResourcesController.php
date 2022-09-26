@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\Language;
+use App\Enums\LanguageLineGroup;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Resources\GetLanguageLinesByGroupRequest;
 use App\Http\Resources\Models\LanguageLineResource;
@@ -29,14 +30,14 @@ class ResourcesController extends Controller
      * Return all language lines from the specified group.
      *
      * @param GetLanguageLinesByGroupRequest $request
-     * @param string                         $group
+     * @param LanguageLineGroup              $group
      *
      * @return ResourceCollection
      */
-    public function getLanguageLinesByGroup(GetLanguageLinesByGroupRequest $request, string $group): ResourceCollection
+    public function getLanguageLinesByGroup(GetLanguageLinesByGroupRequest $request, LanguageLineGroup $group): ResourceCollection
     {
         $languageLines = LanguageLine::query()
-            ->where('group', $group)
+            ->where('group', $group->value)
             ->orderBy('key')
             ->get();
 

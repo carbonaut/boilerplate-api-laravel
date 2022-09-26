@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ResolveRouteBinding;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ class User extends Authenticatable implements HasLocalePreference
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use ResolveRouteBinding;
 
     /**
      * The "type" of the primary key ID.
