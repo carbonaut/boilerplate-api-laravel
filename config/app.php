@@ -16,7 +16,6 @@ return [
     */
 
     'domain' => env('APP_DOMAIN', 'localhost'),
-    'scheme' => env('APP_SCHEME', 'https'),
 
     /*
     |--------------------------------------------------------------------------

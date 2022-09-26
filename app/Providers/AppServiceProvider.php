@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Models\PersonalAccessToken;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use URL;
 use Illuminate\Validation\Rules\Password;
 use Laravel\Sanctum\Sanctum;
 
@@ -29,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        URL::forceScheme(config('app.scheme'));
         Model::preventLazyLoading();
 
         Password::defaults(function () {
