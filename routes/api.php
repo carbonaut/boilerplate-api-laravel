@@ -35,12 +35,15 @@ Route::post('/auth/login', [AuthController::class, 'postLogin'])->middleware(['t
 Route::post('/auth/register', [AuthController::class, 'postRegister']);
 Route::post('/auth/password/reset/request', [AuthController::class, 'postPasswordResetRequest']);
 Route::post('/auth/password/reset/submit', [AuthController::class, 'postPasswordResetSubmit']);
-Route::post('/auth/email/verification/request', [AuthController::class, 'postEmailVerificationRequest']);
-Route::post('/auth/email/verification/confirm', [AuthController::class, 'postEmailVerificationConfirm']);
 
 // Resources routes
 Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
 Route::get('/resources/language-lines/{group}', [ResourcesController::class, 'getLanguageLinesByGroup']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/auth/email/verification', [AuthController::class, 'getEmailVerification']);
+    Route::post('/auth/email/verification', [AuthController::class, 'postEmailVerification']);
+});
 
 Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     // Maintenance routes

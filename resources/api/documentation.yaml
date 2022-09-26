@@ -210,6 +210,53 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
+  /auth/email/verification:
+    get:
+      tags:
+        - auth
+      summary: Requests an email verification code
+      description: Requests an email verification code to be sent to the account's email
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+    post:
+      tags:
+        - auth
+      summary: Submits an email verification code
+      description: Confirm the email address by submitting the code that was sent to the user's email address
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostEmailVerification"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
 
   /maintenance/up:
     post:
@@ -646,3 +693,9 @@ components:
         new_password:
           type: string
           example: "new-password"
+    AuthPostEmailVerification:
+      type: object
+      properties:
+        email_verification_code:
+          type: integer
+          example: 123456

@@ -26,6 +26,18 @@ class LanguageLineSeeder extends Seeder
                 'en'    => 'Please verify your email address.',
                 'pt_BR' => 'Por favor confirme seu endereço de email.',
             ],
+            'ERROR.EMAIL.ALREADY_VERIFIED' => [
+                'en' => "This email was already verified.",
+                'pt_BR' => "O email já foi verificado.",
+            ],
+            'ERROR.EMAIL.VERIFICATION_CODE_EXPIRED' => [
+                'en' => 'The verification code has expired. A new code was sent to your email.',
+                'pt_BR' => 'O código de verificação expirou. Um novo código foi enviado para o seu email.',
+            ],
+            'ERROR.EMAIL.VERIFICATION_CODE_MISMATCH' => [
+                'en' => "The verification code is invalid.",
+                'pt_BR' => "O código de verificação é inválido.",
+            ],
             'ERROR.MAINTENANCE' => [
                 'en'    => 'We\'re under maintanance and will be back shortly.',
                 'pt_BR' => 'Estamos em manutenção e voltamos em breve.',

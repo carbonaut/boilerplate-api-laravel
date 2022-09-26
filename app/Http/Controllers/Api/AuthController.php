@@ -159,66 +159,29 @@ class AuthController extends Controller
     /**
      * Requests an email verification code to be sent to the requested email.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
      *
      * @return array
      */
-    public function postEmailVerificationRequest(PostEmailVerificationRequest $request)
+    public function getEmailVerification(Request $request, UserService $userService): array
     {
-        $user = User::where('email', $request->email)->where('email_verified_at', null)->first();
+        $userService->requestEmailVerificationCode($this->user);
 
-        if ($user === null) {
-            return response()->json([
-                'error'   => 'Email was not found or the user already had the email verified.',
-                'message' => Phrase::getPhrase('ERROR_EMAIL_VERIFIED_OR_NOT_FOUND', 'api'),
-            ], 400);
-        }
-
-        $user->email_verification_code = User::generateVerificationCode();
-        $user->email_verification_code_expires_at = Carbon::now()->addMinutes(15);
-        $user->save();
-
-        // Send the email verification email
-        $email = new Email();
-        $email->user_id = $user->user_id;
-        $email->mailable = new EmailVerification($user);
-        $email->type = 'email-verification';
-        $email->save();
-
-        return Helpers::recursive_array_only($user->toArray(), [
-            'email_verified',
-        ]);
+        return [];
     }
 
     /**
      * Verifies an email by the verification code.
      *
-     * @param Request $request
+     * @param Request     $request
+     * @param UserService $userService
      *
      * @return array
      */
-    public function postEmailVerificationConfirm(PostEmailVerificationConfirm $request)
+    public function postEmailVerification(Request $request, UserService $userService): array
     {
-        $user = User::where('email', $request->email)->where('email_verification_code', intval($request->email_verification_code))->first();
-
-        if ($user === null) {
-            return response()->json([
-                'error'   => 'No user with the requested email and verification code.',
-                'message' => Phrase::getPhrase('ERROR_EMAIL_OR_VERIFICATION_CODE_NOT_FOUND', 'api'),
-            ], 400);
-        }
-
-        if (Carbon::now() > $user->email_verification_code_expires_at) {
-            return response()->json([
-                'error'   => 'The verification code has expired.',
-                'message' => Phrase::getPhrase('ERROR_EMAIL_VERIFICATION_CODE_EXPIRED', 'api'),
-            ], 400);
-        }
-
-        $user->email_verified_at = Carbon::now();
-        $user->email_verification_code = null;
-        $user->email_verification_code_expires_at = null;
-        $user->save();
+        $userService->verifyEmail($this->user, $request->all());
 
         return [];
     }

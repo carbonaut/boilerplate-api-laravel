@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\Language;
+use App\Exceptions\StandardException;
 use App\Mail\User\EmailVerification;
 use App\Models\Device;
 use App\Models\User;
@@ -192,6 +193,81 @@ class UserService
             'is_virtual'       => $validated['is_virtual'],
             'push_token'       => $validated['push_token'],
             'is_active'        => true,
+        ]);
+    }
+
+    /**
+     * Request user email verification code.
+     *
+     * @param User $user
+     *
+     * @return void
+     *
+     * @throws StandardException
+     */
+    public function requestEmailVerificationCode(User $user): void
+    {
+        if ($user->email_verified_at !== null) {
+            throw new StandardException(
+                422,
+                'Email already verified.',
+                __('api.ERROR.EMAIL.ALREADY_VERIFIED')
+            );
+        }
+
+        $user->update([
+            'email_verification_code'            => rand(100000, 999999),
+            'email_verification_code_expires_at' => now()->addHour(),
+        ]);
+
+        Mail::to($user)->queue(new EmailVerification($user));
+    }
+
+    /**
+     * Verify the user email.
+     *
+     * @param User  $user
+     * @param array $input
+     *
+     * @return void
+     *
+     * @throws StandardException
+     */
+    public function verifyEmail(User $user, array $input): void
+    {
+        // Validate input
+        $validated = Validator::make($input, [
+            'email_verification_code' => ['required', 'integer'],
+        ])->validate();
+
+        if ($user->email_verified_at !== null) {
+            return;
+        }
+
+        // Expired code
+        if ($user->email_verification_code_expires_at->lt(now())) {
+            $this->requestEmailVerificationCode($user);
+
+            throw new StandardException(
+                422,
+                'Verification code expired. A new code was sent.',
+                __('api.ERROR.EMAIL.VERIFICATION_CODE_EXPIRED')
+            );
+        }
+
+        // Code mismatch
+        if ($user->email_verification_code !== intval($validated['email_verification_code'])) {
+            throw new StandardException(
+                422,
+                'Invalid verification code.',
+                __('api.ERROR.EMAIL.VERIFICATION_CODE_MISMATCH')
+            );
+        }
+
+        $user->update([
+            'email_verification_code'            => null,
+            'email_verification_code_expires_at' => null,
+            'email_verified_at'                  => now(),
         ]);
     }
 }
