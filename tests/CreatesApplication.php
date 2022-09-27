@@ -2,30 +2,37 @@
 
 namespace Tests;
 
-use Exception;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Application;
 
 trait CreatesApplication
 {
-    public $currentEnvFile = '.env.test';
+    /**
+     * The default test env file.
+     *
+     * @var string
+     */
+    public string $currentEnvFile = '.env.test';
 
     /**
      * Creates the application.
      *
+     * WARNING: Avoid adding code here, as this method
+     * is called before each test for each data set.
+     *
      * @return \Illuminate\Foundation\Application
      */
-    public function createApplication()
+    public function createApplication(): Application
     {
+        // Fetch application;
         $app = require __DIR__ . '/../bootstrap/app.php';
 
-        if (is_file($this->currentEnvFile)) {
-            $app->loadEnvironmentFrom($this->currentEnvFile);
-        } else {
-            throw new Exception("Configuration file \"{$this->currentEnvFile}\" not found.");
-            exit();
-        }
+        // Load the conf from the env file;
+        $app->loadEnvironmentFrom($this->currentEnvFile);
 
-        $app->make(Kernel::class)->bootstrap();
+        // Bootstraps the app;
+        $app->make(Kernel::class)
+            ->bootstrap();
 
         return $app;
     }
