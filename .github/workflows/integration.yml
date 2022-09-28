@@ -22,6 +22,10 @@ jobs:
         with:
           args: --diff --dry-run
 
+      - name: Cancel workflow on job failure
+        if: failure()
+        uses: andymckay/cancel-action@0.2
+
   test:
     runs-on: ubuntu-latest
     services:
@@ -59,6 +63,10 @@ jobs:
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
         run: vendor/bin/phpunit
 
+      - name: Cancel workflow on job failure
+        if: failure()
+        uses: andymckay/cancel-action@0.2
+
   static-analysis:
     runs-on: ubuntu-latest
     steps:
@@ -76,3 +84,7 @@ jobs:
 
       - name: Run Static Analysis
         run: vendor/bin/phpstan analyse
+
+      - name: Cancel workflow on job failure
+        if: failure()
+        uses: andymckay/cancel-action@0.2
