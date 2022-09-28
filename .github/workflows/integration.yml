@@ -96,8 +96,8 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
 
-      # - name: Install Dependencies
-      #   run: composer install --prefer-dist
+      - name: Install Dependencies
+        run: composer install --prefer-dist
 
       - name: Run Integration Tests
         env:
@@ -130,8 +130,8 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
 
-      # - name: Install Dependencies
-      #   run: composer install --prefer-dist
+      - name: Install Dependencies
+        run: composer install --prefer-dist
 
       - name: Run Static Analysis
         run: vendor/bin/phpstan analyse
