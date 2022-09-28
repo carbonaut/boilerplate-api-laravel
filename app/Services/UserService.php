@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Enums\Language;
-use App\Exceptions\StandardException;
+use App\Exceptions\TranslatableException;
 use App\Mail\User\EmailVerification;
 use App\Mail\User\PasswordReset;
 use App\Models\Device;
+use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Axiom\Rules\Lowercase;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +28,12 @@ class UserService
      */
     public function revokeCurrentAccessToken(User $user): void
     {
-        $user->currentAccessToken()->delete();
+        /**
+         * @var PersonalAccessToken $currentAccessToken
+         */
+        $currentAccessToken = $user->currentAccessToken();
+
+        $currentAccessToken->delete();
     }
 
     /**
@@ -45,8 +51,8 @@ class UserService
     /**
      * Change the user password.
      *
-     * @param User  $user
-     * @param array $input
+     * @param User                  $user
+     * @param array<string, string> $input
      *
      * @return void
      *
@@ -75,14 +81,19 @@ class UserService
         $user->password = Hash::make($input['new_password']);
         $user->save();
 
+        /**
+         * @var PersonalAccessToken $currentAccessToken
+         */
+        $currentAccessToken = $user->currentAccessToken();
+
         // Revoke other tokens
-        $user->tokens()->whereNot('id', $user->currentAccessToken()->id)->delete();
+        $user->tokens()->whereNot('id', $currentAccessToken->id)->delete();
     }
 
     /**
      * Create a new user.
      *
-     * @param array $input
+     * @param array<string, string> $input
      *
      * @return User
      *
@@ -142,8 +153,8 @@ class UserService
     /**
      * Update certain user fields.
      *
-     * @param User  $user
-     * @param array $input
+     * @param User                  $user
+     * @param array<string, string> $input
      *
      * @return User
      *
@@ -176,9 +187,9 @@ class UserService
     /**
      * Upsert a user device.
      *
-     * @param User   $user
-     * @param string $uuid
-     * @param array  $input
+     * @param User                  $user
+     * @param string                $uuid
+     * @param array<string, string> $input
      *
      * @return Device
      *
@@ -228,15 +239,15 @@ class UserService
      *
      * @return void
      *
-     * @throws StandardException
+     * @throws TranslatableException
      */
     public function requestEmailVerificationCode(User $user): void
     {
         if ($user->email_verified_at !== null) {
-            throw new StandardException(
+            throw new TranslatableException(
                 422,
                 'Email already verified.',
-                __('api.ERROR.EMAIL.ALREADY_VERIFIED')
+                'api.ERROR.EMAIL.ALREADY_VERIFIED'
             );
         }
 
@@ -251,12 +262,12 @@ class UserService
     /**
      * Verify the user email.
      *
-     * @param User  $user
-     * @param array $input
+     * @param User                  $user
+     * @param array<string, string> $input
      *
      * @return void
      *
-     * @throws StandardException
+     * @throws TranslatableException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function verifyEmail(User $user, array $input): void
@@ -271,22 +282,22 @@ class UserService
         }
 
         // Expired code
-        if ($user->email_verification_code_expires_at->lt(now())) {
+        if (now()->gt($user->email_verification_code_expires_at)) {
             $this->requestEmailVerificationCode($user);
 
-            throw new StandardException(
+            throw new TranslatableException(
                 422,
                 'Verification code expired. A new code was sent.',
-                __('api.ERROR.EMAIL.VERIFICATION_CODE_EXPIRED')
+                'api.ERROR.EMAIL.VERIFICATION_CODE_EXPIRED'
             );
         }
 
         // Code mismatch
         if ($user->email_verification_code !== intval($validated['email_verification_code'])) {
-            throw new StandardException(
+            throw new TranslatableException(
                 422,
                 'Invalid verification code.',
-                __('api.ERROR.EMAIL.VERIFICATION_CODE_MISMATCH')
+                'api.ERROR.EMAIL.VERIFICATION_CODE_MISMATCH'
             );
         }
 
@@ -300,8 +311,7 @@ class UserService
     /**
      * Sends a password-reset token to the user email.
      *
-     * @param User  $user
-     * @param array $input
+     * @param array<string, string> $input
      *
      * @return void
      *
@@ -328,11 +338,11 @@ class UserService
     /**
      * Resets the user password.
      *
-     * @param array $input
+     * @param array<string, string> $input
      *
      * @return void
      *
-     * @throws StandardException
+     * @throws TranslatableException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function resetPassword(array $input): void
@@ -361,10 +371,10 @@ class UserService
         );
 
         if ($reset !== Password::PASSWORD_RESET) {
-            throw new StandardException(
+            throw new TranslatableException(
                 422,
                 'Invalid input for resetting the password.',
-                __('api.ERROR.PASSWORD-RESET.INVALID-INPUT')
+                'api.ERROR.PASSWORD-RESET.INVALID-INPUT'
             );
         }
     }

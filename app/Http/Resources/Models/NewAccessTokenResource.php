@@ -3,14 +3,15 @@
 namespace App\Http\Resources\Models;
 
 use App\Http\Resources\BaseResource;
-use App\Models\LanguageLine;
+use Carbon\Carbon;
+use Laravel\Sanctum\NewAccessToken;
 
-class LanguageLineResource extends BaseResource
+class NewAccessTokenResource extends BaseResource
 {
     /**
      * Current resource.
      *
-     * @var LanguageLine
+     * @var NewAccessToken
      */
     public $resource;
 
@@ -19,13 +20,13 @@ class LanguageLineResource extends BaseResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array<string, string>
+     * @return array<string, null|Carbon|string>
      */
     public function toArray($request): array
     {
         return [
-            'key'  => $this->resource->key,
-            'text' => strval(__($this->resource->handle)),
+            'token'      => $this->resource->plainTextToken,
+            'expires_at' => $this->resource->accessToken->expires_at,
         ];
     }
 }

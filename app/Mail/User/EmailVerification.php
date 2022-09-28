@@ -48,9 +48,9 @@ class EmailVerification extends Mailable
         }
 
         return $this
-            ->subject(__('email.USER.EMAIL-VERIFICATION.SUBJECT', [
+            ->subject(strval(__('email.USER.EMAIL-VERIFICATION.SUBJECT', [
                 'code' => $this->user->email_verification_code,
-            ]))
+            ])))
             ->markdown('emails.user.email-verification', [
                 'user' => $this->user,
             ]);

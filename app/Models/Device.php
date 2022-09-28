@@ -39,6 +39,7 @@ class Device extends BaseModel
      * @var array<int, string>
      */
     protected $hidden = [];
+
     /**
      * The attributes that should be cast.
      *
@@ -53,7 +54,7 @@ class Device extends BaseModel
     /**
      * Gets the user that owns the device.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, Device>
      */
     public function user(): BelongsTo
     {

@@ -3,8 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Throwable;
 
-class StandardException extends Exception
+class TranslatableException extends Exception
 {
     /**
      * error .
@@ -16,16 +17,21 @@ class StandardException extends Exception
     /**
      * Create a new exception instance.
      *
-     * @param \Illuminate\Contracts\Validation\Validator      $validator
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @param string                                          $errorBag
-     * @param null|mixed                                      $previous
+     * @param int            $status
+     * @param string         $error
+     * @param string         $message
+     * @param null|Throwable $previous
+     * @param bool           $isMessageTranslatable
      *
      * @return void
      */
-    public function __construct(int $status, string $error, string $message, $previous = null)
+    public function __construct(int $status, string $error, string $message, ?Throwable $previous = null, $isMessageTranslatable = true)
     {
         $this->error = $error;
+
+        if ($isMessageTranslatable) {
+            $message = strval(__($message));
+        }
 
         parent::__construct($message, $status, $previous);
     }
@@ -35,7 +41,7 @@ class StandardException extends Exception
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function render($request)
     {

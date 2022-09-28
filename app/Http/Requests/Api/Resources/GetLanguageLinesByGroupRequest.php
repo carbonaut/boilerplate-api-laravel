@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\Resources;
 
 use App\Enums\LanguageLineGroup;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -21,7 +22,7 @@ class GetLanguageLinesByGroupRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array<string, array<Rule|string>>
      */
     public function rules()
     {
@@ -38,7 +39,7 @@ class GetLanguageLinesByGroupRequest extends FormRequest
      *
      * @param null|array|mixed $keys
      *
-     * @return array
+     * @return array<string, string>
      */
     public function all($keys = null): array
     {

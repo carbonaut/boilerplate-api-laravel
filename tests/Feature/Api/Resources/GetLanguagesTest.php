@@ -51,7 +51,7 @@ class GetLanguagesTest extends TestCase
      *
      * @dataProvider availableLanguages
      *
-     * @param array $languages
+     * @param array<string, array<int, array<int, array<string, string>>>> $languages
      *
      * @return void
      */

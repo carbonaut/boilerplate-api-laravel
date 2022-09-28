@@ -52,7 +52,7 @@ class GetLanguageLinesByGroupTest extends TestCase
      */
     public function testReturnsErrorOnInvalidGroup(): void
     {
-        $response = $this->get(strtr($this->endpoint, ['{group}' => 'invalid-group']));
+        $response = $this->json($this->method, strtr($this->endpoint, ['{group}' => 'invalid-group']));
 
         $response->assertNotFound();
     }
@@ -71,7 +71,7 @@ class GetLanguageLinesByGroupTest extends TestCase
         // Assert that no API line exists
         $this->assertDatabaseMissing('language_lines', ['group' => 'api']);
 
-        $response = $this->get(strtr($this->endpoint, ['{group}' => 'api']));
+        $response = $this->json($this->method, strtr($this->endpoint, ['{group}' => 'api']));
 
         $response
             ->assertOk()
@@ -103,7 +103,7 @@ class GetLanguageLinesByGroupTest extends TestCase
         $this->assertDatabaseCount('language_lines', 1);
         $this->assertDatabaseHas('language_lines', ['group' => 'api']);
 
-        $response = $this->get(strtr($this->endpoint, ['{group}' => 'api']));
+        $response = $this->json($this->method, strtr($this->endpoint, ['{group}' => 'api']));
 
         $response
             ->assertOk()
@@ -142,7 +142,8 @@ class GetLanguageLinesByGroupTest extends TestCase
             ],
         ]);
 
-        $response = $this->get(
+        $response = $this->json(
+            $this->method,
             strtr($this->endpoint, [
                 '{group}' => 'api',
             ]),

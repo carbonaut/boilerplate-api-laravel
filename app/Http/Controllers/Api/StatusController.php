@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\UnauthenticatedController;
 use Illuminate\Http\Request;
 
-class StatusController extends Controller
+class StatusController extends UnauthenticatedController
 {
     /**
      * Returns an empty 200 response.
      *
-     * @return array
+     * @return array<void>
      */
     public function getStatus(Request $request): array
     {

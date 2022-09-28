@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/** @property bool $preserveKeys */
 class BaseResourceCollection extends AnonymousResourceCollection
 {
     /**
@@ -30,14 +31,20 @@ class BaseResourceCollection extends AnonymousResourceCollection
     public function withResponse($request, $response): void
     {
         $jsonResponse = json_decode(
-            $response->getContent(),
+            $response->getContent() ?: '[]',
             true
         );
 
-        unset($jsonResponse['meta']['links']);
+        if (is_array($jsonResponse) && isset($jsonResponse['meta']['links'])) {
+            unset($jsonResponse['meta']['links']);
+        }
 
-        $response->setContent(
-            json_encode($jsonResponse)
-        );
+        $content = json_encode($jsonResponse);
+
+        if ($content) {
+            $response->setContent(
+                $content
+            );
+        }
     }
 }

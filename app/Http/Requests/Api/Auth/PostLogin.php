@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\Auth;
 
 use Axiom\Rules\Lowercase;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostLogin extends FormRequest
@@ -20,7 +21,7 @@ class PostLogin extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, array<Rule|string>>
      */
     public function rules(): array
     {
@@ -41,7 +42,7 @@ class PostLogin extends FormRequest
      *
      * @param null|array|mixed $keys
      *
-     * @return array
+     * @return array<string, string>
      */
     public function all($keys = null): array
     {
@@ -49,7 +50,7 @@ class PostLogin extends FormRequest
             return array_merge(
                 parent::all(),
                 [
-                    'email' => strtolower($this->get('email')),
+                    'email' => strtolower(strval($this->get('email'))),
                 ]
             );
         }

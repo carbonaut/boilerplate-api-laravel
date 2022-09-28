@@ -7,7 +7,7 @@ trait DataProvider
     /**
      * Available languages.
      *
-     * @return array
+     * @return array<string, array<int, array<int, array<string, string>>>>
      */
     public static function availableLanguages(): array
     {
@@ -30,7 +30,7 @@ trait DataProvider
     /**
      * Localized language line.
      *
-     * @return array
+     * @return array<string, array<string>>
      */
     public static function localizedLanguageLine(): array
     {

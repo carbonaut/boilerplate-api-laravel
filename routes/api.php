@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\StatusController;
@@ -26,18 +26,18 @@ Route::middleware(['block-in-production'])->group(function () {
 Route::get('/status', [StatusController::class, 'getStatus']);
 
 // Auth routes
-Route::post('/auth/login', [AuthController::class, 'postLogin'])->middleware(['throttle_login']);
-Route::post('/auth/register', [AuthController::class, 'postRegister']);
-Route::post('/auth/password/reset/request', [AuthController::class, 'postPasswordResetRequest']);
-Route::post('/auth/password/reset/submit', [AuthController::class, 'postPasswordResetSubmit']);
+Route::post('/auth/login', [Auth\PublicController::class, 'postLogin'])->middleware(['throttle_login']);
+Route::post('/auth/register', [Auth\PublicController::class, 'postRegister']);
+Route::post('/auth/password/reset/request', [Auth\PublicController::class, 'postPasswordResetRequest']);
+Route::post('/auth/password/reset/submit', [Auth\PublicController::class, 'postPasswordResetSubmit']);
 
 // Resources routes
 Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
 Route::get('/resources/language-lines/{group}', [ResourcesController::class, 'getLanguageLinesByGroup']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/auth/email/verification', [AuthController::class, 'getEmailVerification']);
-    Route::post('/auth/email/verification', [AuthController::class, 'postEmailVerification']);
+    Route::get('/auth/email/verification', [Auth\PrivateController::class, 'getEmailVerification']);
+    Route::post('/auth/email/verification', [Auth\PrivateController::class, 'postEmailVerification']);
 });
 
 Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
@@ -46,10 +46,10 @@ Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     Route::post('/maintenance/down', [MaintenanceController::class, 'postDown']);
 
     // Auth routes
-    Route::get('/auth/user', [AuthController::class, 'getUser']);
-    Route::patch('/auth/user', [AuthController::class, 'patchUser']);
-    Route::put('/auth/user/devices/{uuid}', [AuthController::class, 'putUserDevice']);
-    Route::post('/auth/logout', [AuthController::class, 'postLogout']);
-    Route::post('/auth/logout/all', [AuthController::class, 'postLogoutAll']);
-    Route::post('/auth/password/change', [AuthController::class, 'postPasswordChange']);
+    Route::get('/auth/user', [Auth\PrivateController::class, 'getUser']);
+    Route::patch('/auth/user', [Auth\PrivateController::class, 'patchUser']);
+    Route::put('/auth/user/devices/{uuid}', [Auth\PrivateController::class, 'putUserDevice']);
+    Route::post('/auth/logout', [Auth\PrivateController::class, 'postLogout']);
+    Route::post('/auth/logout/all', [Auth\PrivateController::class, 'postLogoutAll']);
+    Route::post('/auth/password/change', [Auth\PrivateController::class, 'postPasswordChange']);
 });

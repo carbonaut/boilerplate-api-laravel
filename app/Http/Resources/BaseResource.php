@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Interfaces\BaseResourceInterface;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BaseResource extends JsonResource
+/** @property bool $preserveKeys */
+class BaseResource extends JsonResource implements BaseResourceInterface
 {
     /**
      * The "data" wrapper that should be applied.

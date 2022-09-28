@@ -23,7 +23,7 @@ class LanguageLine extends SpatieLanguageLine
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $appends = [
         'handle',
@@ -32,7 +32,7 @@ class LanguageLine extends SpatieLanguageLine
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'group' => LanguageLineGroup::class,
@@ -42,7 +42,7 @@ class LanguageLine extends SpatieLanguageLine
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'group',
@@ -59,12 +59,12 @@ class LanguageLine extends SpatieLanguageLine
     /**
      * Interact with the phrase's key.
      *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, string>
      */
     protected function key(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => Str::of($value)->replace(' ', '_')->upper()->__toString(),
+            set: fn ($value) => Str::of(strval($value))->replace(' ', '_')->upper()->__toString(),
         );
     }
 
@@ -75,7 +75,7 @@ class LanguageLine extends SpatieLanguageLine
      */
     public function getHandleAttribute(): string
     {
-        return "{$this->group?->value}.{$this->key}";
+        return "{$this->group->value}.{$this->key}";
     }
 
     /**

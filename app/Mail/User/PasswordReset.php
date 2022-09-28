@@ -47,7 +47,7 @@ class PasswordReset extends Mailable
     public function build()
     {
         return $this
-            ->subject(__('email.USER.PASSWORD-RESET.SUBJECT'))
+            ->subject(strval(__('email.USER.PASSWORD-RESET.SUBJECT')))
             ->markdown('emails.user.password-reset', [
                 'user'  => $this->user,
                 'token' => $this->token,

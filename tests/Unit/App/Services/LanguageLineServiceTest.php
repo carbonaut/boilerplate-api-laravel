@@ -41,9 +41,11 @@ class LanguageLineServiceTest extends TestCase
         $this->expectException(ValueError::class);
 
         LanguageLineService::createLanguageLines([
-            'LANGUAGE_LINE_KEY' => [
-                'en'    => 'English translation.',
-                'pt_BR' => 'Portuguese translation.',
+            'invalid-key' => [
+                'LANGUAGE_LINE_KEY' => [
+                    'en'    => 'English translation.',
+                    'pt_BR' => 'Portuguese translation.',
+                ],
             ],
         ]);
     }

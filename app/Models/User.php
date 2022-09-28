@@ -71,7 +71,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * Interact with the user's email_verified.
      *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute<bool, never>
      */
     protected function emailVerified(): Attribute
     {
@@ -83,12 +83,12 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * Interact with the user's email.
      *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, string>
      */
     protected function email(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => strtolower($value),
+            set: fn ($value) => strtolower(strval($value)),
         );
     }
 
@@ -99,7 +99,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * Get the devices owned by the user.
      *
-     * @return HasMany
+     * @return HasMany<Device>
      */
     public function devices(): HasMany
     {
@@ -115,7 +115,7 @@ class User extends Authenticatable implements HasLocalePreference
      *
      * @return string
      */
-    public function preferredLocale()
+    public function preferredLocale(): string
     {
         return $this->language;
     }

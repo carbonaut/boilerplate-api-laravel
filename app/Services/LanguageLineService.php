@@ -18,8 +18,8 @@ class LanguageLineService
      *         ],
      *     ];
      *
-     * @param array $groups
-     * @param bool  $updateExisting update if a matching language line already exists
+     * @param array<string, array<string, array<string, string>>> $groups
+     * @param bool                                                $updateExisting update if a matching language line already exists
      *
      * @return void
      */
@@ -57,7 +57,7 @@ class LanguageLineService
      *         ],
      *     ];
      *
-     * @param array $groups
+     * @param array<string, array<string, array<string, string>>> $groups
      *
      * @return void
      */

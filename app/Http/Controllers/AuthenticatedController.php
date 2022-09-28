@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TranslatableException;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Routing\Controller;
 
-class Controller extends BaseController
+class AuthenticatedController extends Controller
 {
     use AuthorizesRequests;
     use DispatchesJobs;
@@ -17,17 +18,23 @@ class Controller extends BaseController
     /**
      * Current authenticated User.
      *
-     * @var null|User
+     * @var User
      */
     protected $user;
 
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            // If an authenticated User is present, store it in the $user property.
-            if ($request->user() instanceof User) {
-                $this->user = $request->user();
+            // For this controller, we require an authenticated user of type User
+            if (!$request->user() instanceof User) {
+                throw new TranslatableException(
+                    500,
+                    'Invalid authenticated user type.',
+                    'api.ERROR.SOMETHING_WENT_WRONG',
+                );
             }
+
+            $this->user = $request->user();
 
             return $next($request);
         });

@@ -12,7 +12,7 @@ class CreateLanguageLinesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
@@ -30,7 +30,7 @@ class CreateLanguageLinesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('language_lines');
     }

@@ -18,7 +18,7 @@ class BlockInProduction
     public function handle($request, Closure $next)
     {
         if (config('app.env') === 'production') {
-            throw new RouteNotFoundException("Route [{$request->route()->uri()}] not defined.");
+            throw new RouteNotFoundException("Route [{$request->route()?->uri()}] not defined.");
         }
 
         return $next($request);

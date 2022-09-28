@@ -67,46 +67,47 @@ class Handler extends ExceptionHandler
             }
 
             if ($e instanceof AuthenticationException) {
-                throw new StandardException(
+                throw new TranslatableException(
                     401,
                     'Unauthenticated.',
-                    __('api.ERROR.AUTH.UNAUTHENTICATED'),
+                    'api.ERROR.AUTH.UNAUTHENTICATED',
                     $e
                 );
             }
 
             if ($e instanceof AuthorizationException || $e instanceof AccessDeniedHttpException) {
-                throw new StandardException(
+                throw new TranslatableException(
                     403,
                     'This action is unauthorized.',
-                    __('api.ERROR.AUTH.UNAUTHORIZED'),
+                    'api.ERROR.AUTH.UNAUTHORIZED',
                     $e
                 );
             }
 
             if ($e instanceof ModelNotFoundException || $e instanceof NotFoundHttpException) {
-                throw new StandardException(
+                throw new TranslatableException(
                     404,
                     'Object not found (' . $e->getMessage() . ')',
-                    __('api.ERROR.MODEL_NOT_FOUND'),
+                    'api.ERROR.MODEL_NOT_FOUND',
                     $e
                 );
             }
 
             if ($e instanceof ValidationException) {
-                throw new StandardException(
+                throw new TranslatableException(
                     $e->status,
                     collect($e->errors())->flatten()->implode(' '),
-                    (string) collect($e->errors())->flatten()->first(),
-                    $e
+                    strval(collect($e->errors())->flatten()->first()),
+                    $e,
+                    false
                 );
             }
 
             if ($e instanceof HttpException && App::isDownForMaintenance()) {
-                throw new StandardException(
+                throw new TranslatableException(
                     $e->getStatusCode(),
                     'Application under maintenance.',
-                    __('api.ERROR.MAINTENANCE'),
+                    'api.ERROR.MAINTENANCE',
                     $e
                 );
             }
@@ -114,10 +115,10 @@ class Handler extends ExceptionHandler
             // Generic response to other exceptions, hiding important data when debug is disabled.
             $error = get_class($e) . ' in ' . basename($e->getFile()) . ' line ' . $e->getLine() . ': ' . $e->getMessage();
 
-            throw new StandardException(
+            throw new TranslatableException(
                 method_exists($e, 'getStatusCode') && $e->getStatusCode() !== null ? $e->getStatusCode() : 500,
                 config('app.debug') && !App::runningUnitTests() ? $error : 'Server Error',
-                __('api.ERROR.SOMETHING_WENT_WRONG'),
+                'api.ERROR.SOMETHING_WENT_WRONG',
                 $e
             );
         });

@@ -9,8 +9,10 @@ class CreateDevicesTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up()
+    public function up(): void
     {
         DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
@@ -39,8 +41,10 @@ class CreateDevicesTable extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('devices');
     }

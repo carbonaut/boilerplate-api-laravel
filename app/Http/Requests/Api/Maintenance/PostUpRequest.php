@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\Maintenance;
 
 use App\Models\User;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostUpRequest extends FormRequest
@@ -14,13 +15,14 @@ class PostUpRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('maintenance', User::class);
+        return $this->user() ?
+            $this->user()->can('maintenance', User::class) : false;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array<string, array<Rule|string>>
      */
     public function rules()
     {

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\Language;
 use App\Enums\LanguageLineGroup;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\UnauthenticatedController;
 use App\Http\Requests\Api\Resources\GetLanguageLinesByGroupRequest;
 use App\Http\Resources\Models\LanguageLineResource;
 use App\Http\Resources\Models\LanguageResource;
@@ -12,7 +12,7 @@ use App\Models\LanguageLine;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ResourcesController extends Controller
+class ResourcesController extends UnauthenticatedController
 {
     /**
      * Returns the available languages.

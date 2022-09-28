@@ -19,7 +19,7 @@ trait EnumTrait
      *
      * If a label is not defined, the enum name is used instead.
      *
-     * @return array<string>
+     * @return array<string, string>
      */
     public static function asSelectArrayUsingLabels(): array
     {

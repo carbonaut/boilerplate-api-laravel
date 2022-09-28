@@ -15,6 +15,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - Database: PostgreSQL 13
 
 ## Goodies
+- [Larastan](https://github.com/nunomaduro/larastan) passing on the highest level available;
 - [Sanctum](https://laravel.com/docs/9.x/sanctum) for Authentication;
   - Using UUIDs for the PersonalAccessTokens and for the Authenticable models;
   - Custom routes for authentication;
@@ -45,6 +46,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Emails](https://laravel.com/docs/9.x/mail) already set up for email verification and password reset. It will take into account the [user preferred language](https://laravel.com/docs/9.x/mail#user-preferred-locales) when sending the email;
 - [Pull-request template](.github/pull_request_template.md) so you don't forget about important things when merging code;
 - [Route Binding Trait](app/Traits/ResolveRouteBinding.php) to prevent QueryException when passing an invalid parameter type to a route with [Model Binding](https://laravel.com/docs/9.x/routing#route-model-binding);
+- [Example Tests](tests) for some methods and endpoints. We opted to use the Unit namespace for testing methods and internal code, and the Feature namespace to test the application from the "outside", by calling routes and accessing pages;
 
 ## Getting started
 
@@ -89,6 +91,7 @@ Also, PRs are always welcome :)
 ## Known Issues
 - `psr/log` is locked to `v2.0.0` due to `rollbar/rollbar-laravel` not being compatible with `v3.0.0`. This is a minor issue since `v3.0.0` is [only adding return types](https://github.com/php-fig/log/compare/2.0.0...3.0.0). More on this: [rollbar/rollbar-php-laravel#138](https://github.com/rollbar/rollbar-php-laravel/issues/138) and [rollbar/rollbar-php#570](https://github.com/rollbar/rollbar-php/issues/570)
 - [preventSilentlyDiscardingAttributes](https://laravel.com/docs/9.x/eloquent#mass-assignment-exceptions) is not working on the current Laravel version. This should be addressed as soon as a fix is available so we know when fields are being discarded. [1](https://devscope.io/code/laravel/framework/issues/44094) [2](https://github.com/laravel/framework/commit/eff2275d1fae7a15ba91685b8e94e730108be9f4) [3](https://github.com/laravel/framework/pull/43893)
+- Not all methods and endpoints are tested. This should be addressed in the future;
 
 ## Acknowledgements
 - OAuth2 (implemented by Passport) does not recommend the use of Password Grants anymore and suggests using [Authorization Code Grant](https://oauth2.thephpleague.com/authorization-server/which-grant/) instead. Since we'll not be authenticating third-party applications, we changed from [Passport](https://laravel.com/docs/9.x/passport) to [Sanctum](https://laravel.com/docs/9.x/sanctum);

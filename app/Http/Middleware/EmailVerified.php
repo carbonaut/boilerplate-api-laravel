@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\StandardException;
+use App\Exceptions\TranslatableException;
 use Closure;
 
 class EmailVerified
@@ -18,10 +18,10 @@ class EmailVerified
     public function handle($request, Closure $next)
     {
         if (empty($request->user()?->email_verified_at)) {
-            throw new StandardException(
+            throw new TranslatableException(
                 422,
                 'User email must be verified before accessing protected routes.',
-                __('api.ERROR.EMAIL.NOT_VERIFIED')
+                'api.ERROR.EMAIL.NOT_VERIFIED'
             );
         }
 

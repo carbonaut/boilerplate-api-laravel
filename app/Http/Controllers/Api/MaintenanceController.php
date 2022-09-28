@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AuthenticatedController;
 use App\Http\Requests\Api\Maintenance\PostDownRequest;
 use App\Http\Requests\Api\Maintenance\PostUpRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 
-class MaintenanceController extends Controller
+class MaintenanceController extends AuthenticatedController
 {
     /**
      * Puts the application down for maintenance.
      *
-     * @param Request $request
+     * @param PostDownRequest $request
      *
-     * @return array
+     * @return array<void>
      */
     public function postDown(PostDownRequest $request): array
     {
@@ -30,9 +29,9 @@ class MaintenanceController extends Controller
     /**
      * Puts the application up from maintenance.
      *
-     * @param Request $request
+     * @param PostUpRequest $request
      *
-     * @return array
+     * @return array<void>
      */
     public function postUp(PostUpRequest $request): array
     {

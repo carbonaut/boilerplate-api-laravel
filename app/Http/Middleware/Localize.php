@@ -27,11 +27,13 @@ class Localize
         // If no authenticated user, fallback to the Accept-Language header
         elseif ($request->header('Accept-Language') !== null) {
             // Match the Accept-Language header with the available languages
-            App::setLocale(
-                $request->getPreferredLanguage(
-                    array_column(Language::cases(), 'value')
-                )
+            $locale = $request->getPreferredLanguage(
+                array_column(Language::cases(), 'value')
             );
+
+            if ($locale) {
+                App::setLocale($locale);
+            }
         }
 
         return $next($request);

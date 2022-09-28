@@ -10,7 +10,7 @@ class LanguageLineSeeder extends Seeder
     /**
      * Array of language lines to be created.
      *
-     * @var array
+     * @var array<string, array<string, array<string, string>>>
      */
     private $languageLines = [
         'api' => [
@@ -57,10 +57,6 @@ class LanguageLineSeeder extends Seeder
             'ERROR.AUTH.UNAUTHORIZED' => [
                 'en'    => 'You don\'t have permissions to access this resource.',
                 'pt_BR' => 'Você não tem permissão para acessar esse recurso.',
-            ],
-            'ERROR.SOMETHING_WENT_WRONG' => [
-                'en'    => 'Something went wrong! Try again later.',
-                'pt_BR' => 'Algo deu errado! Tente novamente mais tarde.',
             ],
             'ERROR.MODEL_NOT_FOUND' => [
                 'en'    => 'We couldn\'t find what you are looking for.',

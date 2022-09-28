@@ -113,6 +113,7 @@ class ThrottleLogin
      */
     protected function throttleKey(Request $request)
     {
+        // @phpstan-ignore-next-line (this code is copied from laravel/ui and it won't be fixed for phpstan)
         return Str::transliterate(Str::lower($request->input($this->username())) . '|' . $request->ip());
     }
 
@@ -178,6 +179,7 @@ class ThrottleLogin
 
         // In case login is successful, we clear the login attemps, just in case
         // the user logs out and tries to login again.
+        // @phpstan-ignore-next-line (this code is copied from laravel/ui and it won't be fixed for phpstan)
         if ($response->status() == 200 & property_exists(json_decode($response->getContent()), 'token')) {
             $this->clearLoginAttempts($request);
         }

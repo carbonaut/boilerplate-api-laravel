@@ -13,7 +13,7 @@ trait HasTranslations
      * Convert the model instance to an array.
      * https://spatie.be/docs/laravel-translatable/v6/avanced-usage/customize-the-toarray-method.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function toArray(): array
     {

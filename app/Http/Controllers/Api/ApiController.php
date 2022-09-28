@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\UnauthenticatedController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-class ApiController extends Controller
+class ApiController extends UnauthenticatedController
 {
     /**
      * Returns the swagger UI.
