@@ -147,6 +147,7 @@ class GetLanguageLinesByGroupTest extends TestCase
             strtr($this->endpoint, [
                 '{group}' => 'api',
             ]),
+            [],
             ['Accept-Language' => $language]
         );
 
