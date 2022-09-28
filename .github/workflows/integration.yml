@@ -11,41 +11,7 @@ env:
   CI: true
 
 jobs:
-  install-dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-          tools: composer:v2
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Restore Dependencies
-        id: composer-cache-restore
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Dependencies
-        run: composer install --prefer-dist
-
-      - name: Cache Composer Dependencies
-        if: steps.composer-cache-restore.outputs.cache-hit != 'true'
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
   lint:
-    needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -57,7 +23,6 @@ jobs:
           args: --diff --dry-run
 
   test:
-    needs: install-dependencies
     runs-on: ubuntu-latest
     services:
         postgres:
@@ -85,17 +50,6 @@ jobs:
           cp .env.example.test .env.test
           sed -i 's/^DB_HOST=database$/DB_HOST=localhost/' .env.test
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Restore Dependencies
-        id: composer-cache-restore
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
       - name: Install Dependencies
         run: composer install --prefer-dist
 
@@ -107,7 +61,6 @@ jobs:
 
 
   static-analysis:
-    needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -118,17 +71,6 @@ jobs:
         with:
           php-version: '8.1'
           tools: composer:v2
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Restore Dependencies
-        id: composer-cache-restore
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
 
       - name: Install Dependencies
         run: composer install --prefer-dist
