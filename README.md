@@ -49,6 +49,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Pull-request template](.github/pull_request_template.md) so you don't forget about important things when merging code;
 - [Route Binding Trait](app/Traits/ResolveRouteBinding.php) to prevent QueryException when passing an invalid parameter type to a route with [Model Binding](https://laravel.com/docs/9.x/routing#route-model-binding);
 - [Example Tests](tests) for some methods and endpoints. We opted to use the Unit namespace for testing methods and internal code, and the Feature namespace to test the application from the "outside", by calling routes and accessing pages;
+- [Laravel Nova](https://nova.laravel.com/) is not installed but we strongly recommend it if you are looking for a beautifully-designed administration panel for your Laravel application;
 
 ## Getting started
 
