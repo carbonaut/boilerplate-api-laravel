@@ -25,6 +25,8 @@ That's why we've built this awesome boilerplate so you can focus on your project
   - The documentation is available on the `api.` subdomain of your application;
   - The documentation is disabled when the application is running in production (see `routes\api.php`);
   - Keep the documentation up-to-date on `resources\api\documentation.yaml`
+- [Github Actions Workflow](.github/workflows/integration.yml) to ensure the new code is linted, tested and [larastan](https://github.com/nunomaduro/larastan)-ed before merging into a root branch;
+  - Make sure you enable branch protection on your repository (pull request before merging, approvals, up-to-date branches, conversation resolution) and require the following status checks to pass before merging: `lint`, `test` and `static-analysis`;
 - [Laravel Translatable](https://github.com/spatie/laravel-translatable) for multi-language support;
 - [Laravel Translations Loader](https://github.com/spatie/laravel-translation-loader) helps you provide translations from the database to your application using the API;
 - [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) configuration file for code styling (PhpCsFixer rule-set with minor customizations);
