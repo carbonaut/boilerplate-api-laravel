@@ -7,6 +7,8 @@ use Tests\TestCase;
 /**
  * @internal
  *
+ * @group Api\Resources
+ *
  * @coversNothing
  */
 class GetLanguagesTest extends TestCase
@@ -42,8 +44,6 @@ class GetLanguagesTest extends TestCase
 
     /**
      * Asserts the GET /resources/languages route returns the expected languages.
-     *
-     * @group Api\Resources
      *
      * @covers \App\Enums\Language::getLabel
      * @covers \App\Http\Controllers\Api\ResourcesController::getLanguages

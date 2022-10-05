@@ -65,17 +65,14 @@ class UserService
             'current_password' => [
                 'required',
                 'string',
+                'current_password',
             ],
             'new_password' => [
                 'required',
                 'string',
                 Rules\Password::defaults(),
             ],
-        ])->after(function ($validator) use ($user, $input) {
-            if (!isset($input['current_password']) || !Hash::check($input['current_password'], $user->password)) {
-                $validator->errors()->add('current_password', __('api.ERROR.CURRENT_PASSWORD_DOES_NOT_MATCH'));
-            }
-        })->validate();
+        ])->validate();
 
         // Update password
         $user->password = Hash::make($input['new_password']);

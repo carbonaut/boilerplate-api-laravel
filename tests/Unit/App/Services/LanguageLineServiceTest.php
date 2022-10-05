@@ -10,6 +10,8 @@ use ValueError;
 /**
  * @internal
  *
+ * @group App\Services
+ *
  * @coversNothing
  */
 class LanguageLineServiceTest extends TestCase
@@ -29,8 +31,6 @@ class LanguageLineServiceTest extends TestCase
 
     /**
      * Asserts the service fails when creating phrases from invalid structure.
-     *
-     * @group App\Services
      *
      * @covers \App\Services\LanguageLineService::createLanguageLines
      *
@@ -52,8 +52,6 @@ class LanguageLineServiceTest extends TestCase
 
     /**
      * Asserts the service creates phrase from a valid structure.
-     *
-     * @group App\Services
      *
      * @covers \App\Services\LanguageLineService::createLanguageLines
      *
@@ -86,8 +84,6 @@ class LanguageLineServiceTest extends TestCase
 
     /**
      * Asserts the service respects the updateExisting flag.
-     *
-     * @group App\Services
      *
      * @covers \App\Services\LanguageLineService::createLanguageLines
      *
@@ -148,8 +144,6 @@ class LanguageLineServiceTest extends TestCase
 
     /**
      * Asserts the service deletes phrases from a valid structure.
-     *
-     * @group App\Services
      *
      * @covers \App\Services\LanguageLineService::deleteLanguageLines
      *

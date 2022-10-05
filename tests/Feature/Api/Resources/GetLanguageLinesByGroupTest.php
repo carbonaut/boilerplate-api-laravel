@@ -8,6 +8,8 @@ use Tests\TestCase;
 /**
  * @internal
  *
+ * @group Api\Resources
+ *
  * @coversNothing
  */
 class GetLanguageLinesByGroupTest extends TestCase
@@ -44,8 +46,6 @@ class GetLanguageLinesByGroupTest extends TestCase
     /**
      * Asserts the route returns an error when accesing an invalid group.
      *
-     * @group Api\Resources
-     *
      * @covers \App\Http\Controllers\Api\ResourcesController::getLanguageLinesByGroup
      *
      * @return void
@@ -59,8 +59,6 @@ class GetLanguageLinesByGroupTest extends TestCase
 
     /**
      * Asserts the route returns an empty array when passing an empty group.
-     *
-     * @group Api\Resources
      *
      * @covers \App\Http\Controllers\Api\ResourcesController::getLanguageLinesByGroup
      *
@@ -80,8 +78,6 @@ class GetLanguageLinesByGroupTest extends TestCase
 
     /**
      * Asserts the route returns a valid array for a given group.
-     *
-     * @group Api\Resources
      *
      * @covers \App\Http\Controllers\Api\ResourcesController::getLanguageLinesByGroup
      * @covers \App\Http\Resources\Models\LanguageLineResource::toArray
@@ -117,8 +113,6 @@ class GetLanguageLinesByGroupTest extends TestCase
 
     /**
      * Asserts the route respects the Accept-Language header.
-     *
-     * @group Api\Resources
      *
      * @covers \App\Http\Controllers\Api\ResourcesController::getLanguageLinesByGroup
      * @covers \App\Http\Resources\Models\LanguageLineResource::toArray

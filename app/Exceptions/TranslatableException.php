@@ -8,7 +8,7 @@ use Throwable;
 class TranslatableException extends Exception
 {
     /**
-     * error .
+     * Detailed and not user-friendly error message. Targeted to the developer.
      *
      * @var string
      */
