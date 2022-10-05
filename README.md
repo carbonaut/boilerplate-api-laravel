@@ -29,6 +29,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
   - Make sure you enable branch protection on your repository (pull request before merging, approvals, up-to-date branches, conversation resolution) and require the following status checks to pass before merging: `lint`, `test` and `static-analysis`;
 - [Laravel Translatable](https://github.com/spatie/laravel-translatable) for multi-language support;
 - [Laravel Translations Loader](https://github.com/spatie/laravel-translation-loader) helps you provide translations from the database to your application using the API;
+- [Laravel-Lang](https://github.com/Laravel-Lang/lang) and [Publisher](https://github.com/Laravel-Lang/publisher) to manage your laravel translations. Check [the documentation](https://publisher.laravel-lang.com/using/) on how to add languages or update existing;
 - [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) configuration file for code styling (PhpCsFixer rule-set with minor customizations);
 - [Clockwork](https://github.com/itsgoingd/clockwork) gives you an insight into your application runtime - including request data, performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs, rendered views and more - for HTTP requests, commands, queue jobs and tests;
 - [Eloquent Sortable](https://github.com/spatie/eloquent-sortable) that adds sortable behaviour to an Eloquent model.
