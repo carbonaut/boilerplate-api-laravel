@@ -12,33 +12,76 @@ $finder = PhpCsFixer\Finder::create()
 
 $config = new PhpCsFixer\Config();
 
+// More info on rules and rule-sets at:
+// - https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/rules/index.rst
+// - https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/ruleSets/index.rst
 return $config->setRules([
-    '@PhpCsFixer'       => true,
+    // Rule set as used by the PHP-CS-Fixer development team, highly opinionated.
+    '@PhpCsFixer' => true,
+    // Rule set as used by the PHP-CS-Fixer development team, highly opinionated. This set contains rules that are risky.
     '@PhpCsFixer:risky' => false,
-    // Align the arrow functions with the logic within
-    'binary_operator_spaces' => ['operators' => ['=>' => 'align_single_space_minimal']],
-    // Always use the '[]' instead of 'Array()' sintax
+    // Binary operators should be surrounded by space as configured.
+    'binary_operator_spaces' => [
+        'operators' => [
+            '=>' => 'align_single_space_minimal',
+        ],
+    ],
+    // PHP arrays should be declared using the configured syntax.
     'array_syntax' => ['syntax' => 'short'],
-    // No code in the file's first line
+    // Ensure there is no code on the same line as the PHP open tag.
     'linebreak_after_opening_tag' => true,
-    // Docs annotations should be ordered by @params, then @throws and then @returns
-    'phpdoc_order' => true,
-    // Orders the elements of classes by private, then proteced and then public
-    'ordered_class_elements' => false,
-    // Alphabetical ordering use statements.
+    // Orders the elements of classes/interfaces/traits/enums.
+    'ordered_class_elements' => [
+        'order' => [
+            'use_trait',
+            'case',
+            'constant_private',
+            'constant_protected',
+            'constant_public',
+            'property_private',
+            'property_protected',
+            'property_public',
+            'construct',
+            'destruct',
+            'magic',
+            'phpunit',
+            'method_private',
+            'method_protected',
+            'method_public',
+        ],
+        'sort_algorithm' => 'none',
+    ],
+    // Ordering use statements.
     'ordered_imports' => true,
-    // Keep the typical order in a conditional statement (value === true instead of true === value)
+    // Write conditions in Yoda style (true), non-Yoda style (['equal' => false, 'identical' => false, 'less_and_greater' => false]) or ignore those conditions (null) based on configuration.
     'yoda_style' => false,
-    // Prefer single quotes for simple strings ('' instead of "")
+    // Convert double quotes to single quotes for simple strings.
     'single_quote' => true,
-    // Don't remove @param and @return tags without any useful information
+    // Removes @param, @return and @var tags that don't provide any useful information.
     'no_superfluous_phpdoc_tags' => false,
-    // Post-increment and decrement operators should be used ($i++ instead of ++$i)
-    'increment_style'                        => ['style' => 'post'],
-    'phpdoc_to_comment'                      => true,
-    'single_line_comment_style'              => ['comment_types' => ['asterisk', 'hash']],
+    // Pre- or post-increment and decrement operators should be used if possible.
+    'increment_style' => ['style' => 'post'],
+    // Forbid multi-line whitespace before the closing semicolon or move the semicolon to the new line for chained calls.
     'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
-    'concat_space'                           => ['spacing' => 'one'],
-    'blank_line_before_statement'            => ['statements' => ['break', 'continue', 'declare', 'return', 'throw', 'try', 'if', 'foreach']],
+    // Concatenation should be spaced according configuration.
+    'concat_space' => ['spacing' => 'one'],
+    // An empty line feed must precede any configured statement.
+    'blank_line_before_statement' => [
+        'statements' => [
+            'break',
+            'continue',
+            'declare',
+            'return',
+            'throw',
+            'try',
+            'if',
+            'for',
+            'foreach',
+            'exit',
+            'switch',
+        ],
+    ],
+    // @return void and @return null annotations should be omitted from PHPDoc.
+    'phpdoc_no_empty_return' => false,
 ])
     ->setFinder($finder);

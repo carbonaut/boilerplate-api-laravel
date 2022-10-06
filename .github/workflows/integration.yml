@@ -5,65 +5,28 @@ on:
     branches:
       - development
       - staging
-      - master
+      - main
 
 env:
   CI: true
 
 jobs:
-  install-dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v1
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          tools: composer:v2
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Restore Dependencies
-        id: composer-cache-restore
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Dependencies
-        run: composer install --prefer-dist
-
-      - name: Cache Composer Dependencies
-        if: steps.composer-cache-restore.outputs.cache-hit != 'true'
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
   lint:
-    needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v1
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          tools: composer:v2
+        uses: actions/checkout@v3
 
       - name: Lint Test
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
           args: --diff --dry-run
 
+      - name: Cancel workflow on job failure
+        if: failure()
+        uses: andymckay/cancel-action@0.2
+
   test:
-    needs: lint
     runs-on: ubuntu-latest
     services:
         postgres:
@@ -71,36 +34,25 @@ jobs:
           env:
             POSTGRES_USER: carbonaut
             POSTGRES_PASSWORD: carbonaut
-            POSTGRES_DB: api_testing
+            POSTGRES_DB: carbonaut_testing
           ports:
           - 5432:5432
           options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           tools: composer:v2
 
       - name: Setup Configuration Environment File
         run: |
           cp .env.example.test .env.test
           sed -i 's/^DB_HOST=database$/DB_HOST=localhost/' .env.test
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Restore Dependencies
-        id: composer-cache-restore
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
 
       - name: Install Dependencies
         run: composer install --prefer-dist
@@ -111,9 +63,28 @@ jobs:
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
         run: vendor/bin/phpunit
 
-  build:
-    needs: lint
+      - name: Cancel workflow on job failure
+        if: failure()
+        uses: andymckay/cancel-action@0.2
+
+  static-analysis:
     runs-on: ubuntu-latest
     steps:
-      - name: Skip Build
-        run: echo "Nothing to be built."
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist
+
+      - name: Run Static Analysis
+        run: vendor/bin/phpstan analyse
+
+      - name: Cancel workflow on job failure
+        if: failure()
+        uses: andymckay/cancel-action@0.2

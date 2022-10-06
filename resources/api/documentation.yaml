@@ -1,0 +1,762 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Carbonaut API
+  description: Carbonaut API
+  termsOfService: https://carbonaut.io/
+  contact:
+    name: Carbonaut
+    email: hi@carbonaut.io
+    url: https://carbonaut.io/
+  license:
+    name: Proprietary
+    url: http://carbonaut.io/
+servers:
+  - description: Select an environment
+  - url: http://api.localhost:8000
+    description: Local environment
+  - url: https://api.carbonaut.dev
+    description: Development environment
+  - url: https://api.carbonaut.io
+    description: Production environment
+tags:
+  - name: auth
+    description: Authentication routes
+  - name: maintenance
+    description: Maintenance routes
+  - name: resources
+    description: Resources routes
+  - name: status
+    description: Status routes
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: User Authentication
+      description: Authenticates a user using Email and Password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostLogin"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthPostLogin"
+        401:
+          $ref: "#/components/responses/401"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Creates a new user account
+      description: Creates a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPost"
+      responses:
+        201:
+          $ref: "#/components/responses/AuthPostRegister"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/user:
+    get:
+      tags:
+        - auth
+      summary: Authenticated user information
+      description: Return the authenticated user information
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/AuthGetUser"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+    patch:
+      tags:
+        - auth
+      summary: Update the authenticated user.
+      description: Update the authenticated user. Fields missing from the request won't be touched.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPatch"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthPatchUser"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/user/devices/{uuid}:
+    put:
+      tags:
+        - auth
+      summary: Upsert a user device.
+      description: Creates a new user device or updates if a matching uuid already exists.
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/DeviceUuid"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DevicePut"
+      responses:
+        200:
+          $ref: "#/components/responses/AuthPutUserDevice"
+        201:
+          $ref: "#/components/responses/AuthPutUserDevice"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Logout the user
+      description: Revoke the authentication token currently in use by the user
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/logout/all:
+    post:
+      tags:
+        - auth
+      summary: Logout the user from all devices
+      description: Revoke all authentication tokens associated with the user
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/password/change:
+    post:
+      tags:
+        - auth
+      summary: Change the authenticated user password
+      description: Change the authenticated user password and invalidate other tokens
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostPasswordChange"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/email/verification:
+    get:
+      tags:
+        - auth
+      summary: Requests an email verification code
+      description: Requests an email verification code to be sent to the account's email
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+    post:
+      tags:
+        - auth
+      summary: Submits an email verification code
+      description: Confirm the email address by submitting the code that was sent to the user's email address
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostEmailVerification"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/password/reset/request:
+    post:
+      tags:
+        - auth
+      summary: Requests a password reset email
+      description: Requests a password reset email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref : "#/components/schemas/AuthPostPasswordResetRequest"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /auth/password/reset/submit:
+    post:
+      tags:
+        - auth
+      summary: Resets the user password with the token provided by email
+      description: Resets the user password with the token provided by email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostPasswordResetSubmit"
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+
+  /maintenance/up:
+    post:
+      tags:
+        - maintenance
+      summary: Puts the application up from maintenance
+      description: Puts the application up from maintenance
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+  /maintenance/down:
+    post:
+      tags:
+        - maintenance
+      summary: Puts the application down for maintenance
+      description: Puts the application down for maintenance
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+
+  /resources/languages:
+    get:
+      tags:
+        - resources
+      summary: Return all languages available in the application.
+      description: Return an associative array (locale => label) of available languages.
+      responses:
+        200:
+          $ref: "#/components/responses/ResourcesGetLanguages"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+  /resources/language-lines/{group}:
+    get:
+      tags:
+        - resources
+      summary: Return all language lines from the specified group.
+      description: Return all language lines from the specified group. You can use the Accept-Language header to specify the language.
+      parameters:
+        - $ref: "#/components/parameters/LanguageLineGroup"
+      responses:
+        200:
+          $ref: "#/components/responses/ResourcesGetLanguageLines"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+
+  /status:
+    get:
+      tags:
+        - status
+      summary: Returns the API status
+      description: Returns the API status
+      responses:
+        200:
+          $ref: "#/components/responses/EmptyResponse"
+        500:
+          $ref: "#/components/responses/500"
+        503:
+          $ref: "#/components/responses/503"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      description: Token obtained in the `access_token` property of an authentication route response (no need to add the `Bearer` in front).
+      type: http
+      scheme: bearer
+
+  responses:
+    200:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+            maxItems: 0
+    401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "AuthenticationException in Authenticate.php line 82: Unauthenticated."
+              message:
+                type: string
+                example: Login and try again.
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "AuthorizationException in FormRequest.php line 190: This action is unauthorized."
+              message:
+                type: string
+                example: You don't have permission to access this resource.
+    404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "ModelNotFoundException in ImplicitRouteBinding.php line 60: No query results for model."
+              message:
+                type: string
+                example: The requested resource could not be found.
+    422:
+      description: Unprocessable Entity (Usually when the parameters didn't pass validation)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Meaningful message for developers.
+              message:
+                type: string
+                example: Friendly message that can be displayed to the user in the application.
+    500:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Call to undefined method method() on Controller.php line 100.
+              message:
+                type: string
+                example: Something's wrong! Try again later.
+    503:
+      description: Service Unavailable
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: We're under maintenance and will be back shortly!
+              message:
+                type: string
+                example: We're under maintenance and will be back shortly!
+    AuthPostLogin:
+      description: Success - An authentication token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Token'
+    AuthPostRegister:
+      description: Success - Created user information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    AuthGetUser:
+      description: Success - Authenticated user information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    AuthPatchUser:
+      description: Success - Patched user information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    AuthPutUserDevice:
+      description: Success - Created (201) or updated (200) user device.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Device'
+    ResourcesGetLanguages:
+      description: Success - An array of available languages.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Language'
+    ResourcesGetLanguageLines:
+      description: Success - An array of language lines.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/LanguageLine'
+    EmptyResponse:
+      description: Success.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+            maxItems: 0
+
+  parameters:
+    ExampleParameter:
+      name: "type"
+      in: "path"
+      description: "Example Parameter"
+      required: true
+      schema:
+        type: "string"
+    DeviceUuid:
+      name: "uuid"
+      in: "path"
+      description: "Device Unique Identifier"
+      required: true
+      schema:
+        type: "string"
+        format: uuid
+        example: "47b6d37b-3fd2-4335-a954-c1c0ba2e4d6c"
+    LanguageLineGroup:
+      name: "group"
+      in: "path"
+      description: "Language Line Group"
+      required: true
+      schema:
+        type: "string"
+        enum: [api, app, email]
+
+  schemas:
+    # Schemas that represent a model
+    Language:
+      type: object
+      properties:
+        value:
+          type: string
+          example: "pt_BR"
+        label:
+          type: string
+          example: "Português do Brasil"
+    LanguageLine:
+      type: object
+      properties:
+        key:
+          type: string
+          example: "ERROR.SOMETHING_WENT_WRONG"
+        text:
+          type: string
+          example: "Something went wrong! Try again later."
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "2e0a79a7-69e1-4f29-965f-06e627206d26|8BHhZCyXSkujT7lfbzJMTIljvWkvnU3wMfjfGLJQ"
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "Carbonaut"
+        email:
+          type: string
+          example: "hello@carbonaut.io"
+        language:
+          type: string
+          example: "pt_BR"
+        email_verified:
+          type: boolean
+          example: false
+    UserPost:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Carbonaut 2"
+        email:
+          type: string
+          example: "hello2@carbonaut.io"
+        language:
+          type: string
+          example: "pt_BR"
+        password:
+          type: string
+          example: "password2"
+    UserPatch:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Carbonaut New Name"
+        language:
+          type: string
+          example: "pt_BR"
+    Device:
+      type: object
+      properties:
+        device_id:
+          type: string
+          format: uuid
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "Carbonaut's iPhone"
+          nullable: true
+        platform:
+          type: string
+          example: "ios"
+        operating_system:
+          type: string
+          example: "ios"
+        os_version:
+          type: string
+          example: "16.0.0"
+        manufacturer:
+          type: string
+          example: "Apple"
+        model:
+          type: string
+          example: "iPhone"
+        web_view_version:
+          type: string
+          example: "1.0.0"
+          nullable: true
+        app_version:
+          type: string
+          example: "0.0.1"
+          nullable: true
+        is_virtual:
+          type: boolean
+        push_token:
+          type: string
+          format: uuid
+          nullable: true
+        is_active:
+          type: boolean
+    DevicePut:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Carbonaut's iPhone"
+          nullable: true
+        platform:
+          type: string
+          example: "ios"
+        operating_system:
+          type: string
+          example: "ios"
+        os_version:
+          type: string
+          example: "16.0.0"
+        manufacturer:
+          type: string
+          example: "Apple"
+        model:
+          type: string
+          example: "iPhone"
+        web_view_version:
+          type: string
+          example: "1.0.0"
+          nullable: true
+        app_version:
+          type: string
+          example: "0.0.1"
+          nullable: true
+        is_virtual:
+          type: boolean
+        push_token:
+          type: string
+          format: uuid
+          nullable: true
+    ExampleSchema:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    # Schemas that represent a route payload
+    AuthPostLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "hello@carbonaut.io"
+        password:
+          type: string
+          example: "password"
+    AuthPostPasswordChange:
+      type: object
+      properties:
+        current_password:
+          type: string
+          example: "password"
+        new_password:
+          type: string
+          example: "new-password"
+    AuthPostEmailVerification:
+      type: object
+      properties:
+        email_verification_code:
+          type: integer
+          example: 123456
+    AuthPostPasswordResetRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "hello@carbonaut.io"
+    AuthPostPasswordResetSubmit:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "hello@carbonaut.io"
+        new_password:
+          type: string
+          example: "new-password"
+        token:
+          type: string

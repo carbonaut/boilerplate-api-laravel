@@ -2,62 +2,62 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Device extends BaseModel
 {
-    //======================================================================
-    // FILLABLE ATTRIBUTES
-    //======================================================================
-    protected $fillable = [
-        'uuid',
-        'platform',
-        'user_id',
-    ];
-
-    //======================================================================
-    // HIDDEN ATTRIBUTES
-    //======================================================================
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'id',
-    ];
-
-    //======================================================================
-    // APPENDED ATTRIBUTES
-    //======================================================================
-
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $appends = [
-        'device_id',
+    protected $appends = [];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'app_version',
+        'is_active',
+        'is_virtual',
+        'manufacturer',
+        'model',
+        'name',
+        'operating_system',
+        'os_version',
+        'platform',
+        'push_token',
+        'uuid',
+        'web_view_version',
     ];
 
     /**
-     * Get the device id for the device.
+     * The attributes that should be hidden for serialization.
      *
-     * @return int
+     * @var array<int, string>
      */
-    public function getDeviceIdAttribute()
-    {
-        return $this->id;
-    }
-
-    //======================================================================
-    // RELATIONSHIPS
-    //======================================================================
+    protected $hidden = [];
 
     /**
-     * Get the client of the voucher.
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
      */
-    public function user()
+    protected $casts = [];
+
+    // ======================================================================
+    // RELATIONSHIPS
+    // ======================================================================
+
+    /**
+     * Gets the user that owns the device.
+     *
+     * @return BelongsTo<User, Device>
+     */
+    public function user(): BelongsTo
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 }

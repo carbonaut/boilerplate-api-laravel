@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Language;
+use App\Enums\Language;
 use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Str;
 
 class Localize
 {
@@ -21,14 +20,20 @@ class Localize
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        // Handle only requests with user
+        // Use the locale of the user account
         if ($request->user() && $request->user() instanceof User) {
-            // Use the locale of the user language
-            $request->user()->setLocale();
+            App::setLocale($request->user()->language);
         }
-        // Use the Accept-Language header
+        // If no authenticated user, fallback to the Accept-Language header
         elseif ($request->header('Accept-Language') !== null) {
-            App::setLocale(Str::lower(explode(',', $request->header('Accept-Language'))[0]));
+            // Match the Accept-Language header with the available languages
+            $locale = $request->getPreferredLanguage(
+                array_column(Language::cases(), 'value')
+            );
+
+            if ($locale) {
+                App::setLocale($locale);
+            }
         }
 
         return $next($request);

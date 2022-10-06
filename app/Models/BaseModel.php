@@ -2,21 +2,28 @@
 
 namespace App\Models;
 
-use App\Http\Traits\NestedRelations;
-use App\Http\Traits\TranslationAccessors;
+use App\Traits\HasTranslations;
+use App\Traits\ResolveRouteBinding;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    use NestedRelations;
-    use TranslationAccessors;
     use HasFactory;
+    use HasTranslations;
+    use ResolveRouteBinding;
 
     /**
-     * The "type" of the auto-incrementing ID.
+     * The "type" of the primary key ID.
      *
      * @var string
      */
     protected $keyType = 'string';
+
+    /**
+     * The attributes that are translatable.
+     *
+     * @var array<string>
+     */
+    public $translatable = [];
 }

@@ -12,153 +12,101 @@ class UserPolicy
     /**
      * Determine whether the user can enable/disable maintenance mode.
      *
-     * @param User $user
-     * @param User $iterator
+     * @param \App\Models\User $user
      *
-     * @return bool
+     * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function maintenance(User $user, User $iterator)
+    public function maintenance(User $user)
     {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
+        return $user->email === 'hello@carbonaut.io';
     }
 
     /**
-     * Determine whether the user can view the Nova Admin Panel.
+     * Determine whether the user can view any models.
      *
-     * @param User $user
+     * @param \App\Models\User $user
      *
-     * @return bool
-     */
-    public function viewNova(User $user)
-    {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
-    }
-
-    /**
-     * Determine whether the user can view all users.
-     *
-     * @param User $user
-     *
-     * @return bool
+     * @return bool|\Illuminate\Auth\Access\Response
      */
     public function viewAny(User $user)
     {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
+        return true;
     }
 
     /**
-     * Determine whether the user can view the user.
+     * Determine whether the user can view the model.
      *
-     * @param User $user
-     * @param User $iterator
+     * @param \App\Models\User $user
+     * @param \App\Models\User $model
      *
-     * @return bool
+     * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function view(User $user, User $iterator)
+    public function view(User $user, User $model)
     {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
+        return true;
     }
 
     /**
-     * Determine whether the user can create a user.
+     * Determine whether the user can create models.
      *
-     * @param User $user
+     * @param \App\Models\User $user
      *
-     * @return bool
+     * @return bool|\Illuminate\Auth\Access\Response
      */
     public function create(User $user)
     {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
+        return false;
     }
 
     /**
-     * Determine whether the user can update the user.
+     * Determine whether the user can update the model.
      *
-     * @param User $user
-     * @param User $iterator
+     * @param \App\Models\User $user
+     * @param \App\Models\User $model
      *
-     * @return bool
+     * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function update(User $user, User $iterator)
+    public function update(User $user, User $model)
     {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
+        return $user->id === $model->id;
     }
 
     /**
-     * Determine whether the user can access the hotline.
+     * Determine whether the user can delete the model.
      *
-     * @param User $user
-     * @param User $iterator
+     * @param \App\Models\User $user
+     * @param \App\Models\User $model
      *
-     * @return bool
+     * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function hotline(User $user, User $iterator)
+    public function delete(User $user, User $model)
     {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
+        return false;
     }
 
     /**
-     * Determine whether the user can see appointments in a given location.
+     * Determine whether the user can restore the model.
      *
-     * @param User $user
-     * @param User $iterator
+     * @param \App\Models\User $user
+     * @param \App\Models\User $model
      *
-     * @return bool
+     * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function appointments(User $user, User $iterator)
+    public function restore(User $user, User $model)
     {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
+        return false;
     }
 
     /**
-     * Determine whether the user can perform the triage.
+     * Determine whether the user can permanently delete the model.
      *
-     * @param User $user
-     * @param User $iterator
+     * @param \App\Models\User $user
+     * @param \App\Models\User $model
      *
-     * @return bool
+     * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function triage(User $user, User $iterator)
+    public function forceDelete(User $user, User $model)
     {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
-    }
-
-    /**
-     * Determine whether the user can perform the exam.
-     *
-     * @param User $user
-     * @param User $iterator
-     *
-     * @return bool
-     */
-    public function exam(User $user, User $iterator)
-    {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
-    }
-
-    /**
-     * Determine whether the user can access the results.
-     *
-     * @param User $user
-     * @param User $iterator
-     *
-     * @return bool
-     */
-    public function results(User $user, User $iterator)
-    {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
-    }
-
-    /**
-     * Determine whether the user can access the reports.
-     *
-     * @param User $user
-     * @param User $iterator
-     *
-     * @return bool
-     */
-    public function reports(User $user, User $iterator)
-    {
-        return $user->getPermission(class_basename(__CLASS__), __FUNCTION__) !== null;
+        return false;
     }
 }

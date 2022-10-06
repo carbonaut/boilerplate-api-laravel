@@ -1,13 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\EmailController;
+use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\MaintenanceController;
-use App\Http\Controllers\Api\MetadataController;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ResourcesController;
+use App\Http\Controllers\Api\StatusController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,37 +18,38 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 |
 */
 
-Route::get('/', [ApiController::class, 'getDocumentation'])->name('api');
-Route::get('/docs', [ApiController::class, 'getDocs'])->name('docs');
-Route::get('/status', [ApiController::class, 'getStatus']);
+Route::middleware(['block-in-production'])->group(function () {
+    Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
+    Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
+});
+
+Route::get('/status', [StatusController::class, 'getStatus']);
 
 // Auth routes
-Route::post('/auth/login', [AccessTokenController::class, 'issueToken'])->middleware(['set_oauth_client', 'sanitize_login', 'throttle_login']);
-Route::post('/auth/refresh', [AccessTokenController::class, 'issueToken'])->middleware(['set_oauth_client', 'sanitize_refresh', 'throttle_login']);
-Route::post('/auth/register', [AuthController::class, 'postRegister']);
-Route::post('/auth/password/reset/request', [AuthController::class, 'postPasswordResetRequest']);
-Route::post('/auth/password/reset/submit', [AuthController::class, 'postPasswordResetSubmit']);
-Route::post('/auth/email/verification/request', [AuthController::class, 'postEmailVerificationRequest']);
-Route::post('/auth/email/verification/confirm', [AuthController::class, 'postEmailVerificationConfirm']);
+Route::post('/auth/login', [Auth\PublicController::class, 'postLogin'])->middleware(['throttle_login']);
+Route::post('/auth/register', [Auth\PublicController::class, 'postRegister']);
+Route::post('/auth/password/reset/request', [Auth\PublicController::class, 'postPasswordResetRequest']);
+Route::post('/auth/password/reset/submit', [Auth\PublicController::class, 'postPasswordResetSubmit']);
 
-// Email routes
-Route::get('/emails/{email}/read', [EmailController::class, 'getEmailRead'])->name('email-read');
+// Resources routes
+Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
+Route::get('/resources/language-lines/{group}', [ResourcesController::class, 'getLanguageLinesByGroup']);
 
-// Metadata routes
-Route::get('/metadata/phrases/{type}', [MetadataController::class, 'getPhrases']);
-Route::get('/metadata/languages/{search_string?}', [MetadataController::class, 'getLanguagesSearch']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/auth/email/verification', [Auth\PrivateController::class, 'getEmailVerification']);
+    Route::post('/auth/email/verification', [Auth\PrivateController::class, 'postEmailVerification']);
+});
 
-Route::middleware(['auth:api', 'email_verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
     // Maintenance routes
-    Route::post('/maintenance/enable', [MaintenanceController::class, 'postEnable']);
-    Route::post('/maintenance/disable', [MaintenanceController::class, 'postDisable']);
+    Route::post('/maintenance/up', [MaintenanceController::class, 'postUp']);
+    Route::post('/maintenance/down', [MaintenanceController::class, 'postDown']);
 
-    // User routes
-    Route::get('/user', [UserController::class, 'getUser']);
-    Route::patch('/user', [UserController::class, 'patchUser']);
-    Route::post('/user/devices', [UserController::class, 'postUserDevices']);
-    Route::post('/user/pushes/{push}', [UserController::class, 'postUserPush']);
-    Route::post('/user/logout', [UserController::class, 'postUserLogout']);
-    Route::post('/user/logout/all', [UserController::class, 'postUserLogoutAll']);
-    Route::post('/user/password/change', [UserController::class, 'postPasswordChange']);
+    // Auth routes
+    Route::get('/auth/user', [Auth\PrivateController::class, 'getUser']);
+    Route::patch('/auth/user', [Auth\PrivateController::class, 'patchUser']);
+    Route::put('/auth/user/devices/{uuid}', [Auth\PrivateController::class, 'putUserDevice']);
+    Route::post('/auth/logout', [Auth\PrivateController::class, 'postLogout']);
+    Route::post('/auth/logout/all', [Auth\PrivateController::class, 'postLogoutAll']);
+    Route::post('/auth/password/change', [Auth\PrivateController::class, 'postPasswordChange']);
 });
