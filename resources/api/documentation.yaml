@@ -548,7 +548,6 @@ components:
       required: true
       schema:
         type: "string"
-        format: uuid
         example: "47b6d37b-3fd2-4335-a954-c1c0ba2e4d6c"
     LanguageLineGroup:
       name: "group"
