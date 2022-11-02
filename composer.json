@@ -27,6 +27,7 @@
         "staudenmeir/belongs-to-through": "^2.12"
     },
     "require-dev": {
+        "brianium/paratest": "^6.6",
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/attributes": "^2.0",
         "laravel-lang/lang": "^12.0",
