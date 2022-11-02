@@ -82,6 +82,11 @@ return $config->setRules([
         ],
     ],
     // @return void and @return null annotations should be omitted from PHPDoc.
-    'phpdoc_no_empty_return' => false,
+    'phpdoc_no_empty_return'  => false,
+    'global_namespace_import' => [
+        'import_classes'   => true,
+        'import_constants' => true,
+        'import_functions' => true,
+    ],
 ])
     ->setFinder($finder);
