@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Model::preventLazyLoading();
+        Model::shouldBeStrict();
 
         Password::defaults(function () {
             return Password::min(8)->letters();

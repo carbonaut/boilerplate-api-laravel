@@ -94,7 +94,6 @@ Also, PRs are always welcome :)
 
 ## Known Issues
 - `psr/log` is locked to `v2.0.0` due to `rollbar/rollbar-laravel` not being compatible with `v3.0.0`. This is a minor issue since `v3.0.0` is [only adding return types](https://github.com/php-fig/log/compare/2.0.0...3.0.0). More on this: [rollbar/rollbar-php-laravel#138](https://github.com/rollbar/rollbar-php-laravel/issues/138) and [rollbar/rollbar-php#570](https://github.com/rollbar/rollbar-php/issues/570)
-- [preventSilentlyDiscardingAttributes](https://laravel.com/docs/9.x/eloquent#mass-assignment-exceptions) is not working on the current Laravel version. This should be addressed as soon as a fix is available so we know when fields are being discarded. [1](https://devscope.io/code/laravel/framework/issues/44094) [2](https://github.com/laravel/framework/commit/eff2275d1fae7a15ba91685b8e94e730108be9f4) [3](https://github.com/laravel/framework/pull/43893)
 - Not all methods and endpoints are tested. This should be addressed in the future;
 
 ## Acknowledgements
