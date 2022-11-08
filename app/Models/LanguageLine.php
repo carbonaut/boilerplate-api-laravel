@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\LanguageLineGroup;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -12,6 +13,7 @@ use Spatie\TranslationLoader\LanguageLine as SpatieLanguageLine;
 class LanguageLine extends SpatieLanguageLine
 {
     use HasFactory;
+    use HasUuids;
 
     /**
      * The "type" of the primary key ID.

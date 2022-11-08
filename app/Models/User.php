@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\ResolveRouteBinding;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,6 +16,7 @@ class User extends Authenticatable implements HasLocalePreference
 {
     use HasApiTokens;
     use HasFactory;
+    use HasUuids;
     use Notifiable;
     use ResolveRouteBinding;
 
@@ -47,6 +49,7 @@ class User extends Authenticatable implements HasLocalePreference
         'email_verified_at',
         'email_verification_code',
         'email_verification_code_expires_at',
+        'remember_token',
     ];
 
     /**

@@ -28,17 +28,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    services:
-        postgres:
-          image: postgres:13
-          env:
-            POSTGRES_USER: carbonaut
-            POSTGRES_PASSWORD: carbonaut
-            POSTGRES_DB: carbonaut_testing
-          ports:
-          - 5432:5432
-          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -58,10 +47,7 @@ jobs:
         run: composer install --prefer-dist
 
       - name: Run Integration Tests
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
-        run: vendor/bin/phpunit
+        run: php artisan test --parallel --stop-on-failure
 
       - name: Cancel workflow on job failure
         if: failure()
