@@ -49,6 +49,7 @@ class User extends Authenticatable implements HasLocalePreference
         'email_verified_at',
         'email_verification_code',
         'email_verification_code_expires_at',
+        'remember_token',
     ];
 
     /**

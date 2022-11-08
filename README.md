@@ -12,7 +12,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 
 - Language: PHP 8.1
 - Framework: Laravel 9
-- Database: PostgreSQL 13
+- Database: PostgreSQL 13, SQLite 3 (tests only)
 
 ## Goodies
 - [Larastan](https://github.com/nunomaduro/larastan) passing on the highest level available;
@@ -56,7 +56,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 
 
 ### Existing environment
-Make sure you have PHP and PostgreSQL installed and running locally. Rename `.env.example.local` to `.env` and change the default falues. You're good to go!
+Make sure you have PHP and PostgreSQL installed and running locally. Rename `.env.example.local` to `.env` and change the default falues. You're good to go! For running tests make sure you have SQLite available.
 
 ```sh
 $ git clone https://github.com/carbonaut/boilerplate-api-laravel
