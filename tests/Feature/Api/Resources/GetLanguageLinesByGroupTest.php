@@ -21,14 +21,14 @@ class GetLanguageLinesByGroupTest extends TestCase
      *
      * @var string
      */
-    private string $method = 'GET';
+    private const Method = 'GET';
 
     /**
      * The route endpoint.
      *
      * @var string
      */
-    private string $endpoint = '/resources/language-lines/{group}';
+    private const Endpoint = '/resources/language-lines/{group}';
 
     /**
      * Setup the test environment.
@@ -52,7 +52,7 @@ class GetLanguageLinesByGroupTest extends TestCase
      */
     public function testReturnsErrorOnInvalidGroup(): void
     {
-        $response = $this->json($this->method, strtr($this->endpoint, ['{group}' => 'invalid-group']));
+        $response = $this->json(self::Method, strtr(self::Endpoint, ['{group}' => 'invalid-group']));
 
         $response->assertNotFound();
     }
@@ -69,7 +69,7 @@ class GetLanguageLinesByGroupTest extends TestCase
         // Assert that no API line exists
         $this->assertDatabaseMissing('language_lines', ['group' => 'api']);
 
-        $response = $this->json($this->method, strtr($this->endpoint, ['{group}' => 'api']));
+        $response = $this->json(self::Method, strtr(self::Endpoint, ['{group}' => 'api']));
 
         $response
             ->assertOk()
@@ -99,7 +99,7 @@ class GetLanguageLinesByGroupTest extends TestCase
         $this->assertDatabaseCount('language_lines', 1);
         $this->assertDatabaseHas('language_lines', ['group' => 'api']);
 
-        $response = $this->json($this->method, strtr($this->endpoint, ['{group}' => 'api']));
+        $response = $this->json(self::Method, strtr(self::Endpoint, ['{group}' => 'api']));
 
         $response
             ->assertOk()
@@ -137,8 +137,8 @@ class GetLanguageLinesByGroupTest extends TestCase
         ]);
 
         $response = $this->json(
-            $this->method,
-            strtr($this->endpoint, [
+            self::Method,
+            strtr(self::Endpoint, [
                 '{group}' => 'api',
             ]),
             [],

@@ -20,14 +20,14 @@ class GetLanguagesTest extends TestCase
      *
      * @var string
      */
-    private string $method = 'GET';
+    private const Method = 'GET';
 
     /**
      * The route endpoint.
      *
      * @var string
      */
-    private string $endpoint = '/resources/languages';
+    private const Endpoint = '/resources/languages';
 
     /**
      * Setup the test environment.
@@ -57,7 +57,7 @@ class GetLanguagesTest extends TestCase
      */
     public function testReturnsExpectedLanguages(array $languages): void
     {
-        $response = $this->json($this->method, $this->endpoint);
+        $response = $this->json(self::Method, self::Endpoint);
 
         $response
             ->assertOk()
