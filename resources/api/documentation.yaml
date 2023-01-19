@@ -76,8 +76,8 @@ paths:
     get:
       tags:
         - auth
-      summary: Authenticated user information
-      description: Return the authenticated user information
+      summary: Get authenticated user details.
+      description: Return the details from current authenticated user.
       security:
         - BearerAuth: []
       responses:
@@ -122,7 +122,7 @@ paths:
       tags:
         - auth
       summary: Upsert a user device.
-      description: Creates a new user device or updates if a matching uuid already exists.
+      description: Creates a new User device or updates if a matching uuid already exists.
       security:
         - BearerAuth: []
       parameters:
@@ -270,7 +270,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref : "#/components/schemas/AuthPostPasswordResetRequest"
+              $ref: "#/components/schemas/AuthPostPasswordResetRequest"
       responses:
         200:
           $ref: "#/components/responses/EmptyResponse"
@@ -482,31 +482,31 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Token'
+            $ref: "#/components/schemas/Token"
     AuthPostRegister:
       description: Success - Created user information.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/User'
+            $ref: "#/components/schemas/User"
     AuthGetUser:
       description: Success - Authenticated user information.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/User'
+            $ref: "#/components/schemas/User"
     AuthPatchUser:
       description: Success - Patched user information.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/User'
+            $ref: "#/components/schemas/User"
     AuthPutUserDevice:
       description: Success - Created (201) or updated (200) user device.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Device'
+            $ref: "#/components/schemas/Device"
     ResourcesGetLanguages:
       description: Success - An array of available languages.
       content:
@@ -514,7 +514,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Language'
+              $ref: "#/components/schemas/Language"
     ResourcesGetLanguageLines:
       description: Success - An array of language lines.
       content:
@@ -522,7 +522,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/LanguageLine'
+              $ref: "#/components/schemas/LanguageLine"
     EmptyResponse:
       description: Success.
       content:
