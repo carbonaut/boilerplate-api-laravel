@@ -52,7 +52,7 @@ class Device extends BaseModel
     // ======================================================================
 
     /**
-     * Gets the user that owns the device.
+     * Get the user that owns the device.
      *
      * @return BelongsTo<User, Device>
      */

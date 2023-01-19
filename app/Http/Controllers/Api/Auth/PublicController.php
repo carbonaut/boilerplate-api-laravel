@@ -40,7 +40,7 @@ class PublicController extends UnauthenticatedController
     }
 
     /**
-     * Creates a new user.
+     * Create a new user.
      *
      * @param Request     $request
      * @param UserService $userService
@@ -55,7 +55,7 @@ class PublicController extends UnauthenticatedController
     }
 
     /**
-     * Sends a password reset token by email to the user.
+     * Send a password reset token by email to the user.
      *
      * @param Request     $request
      * @param UserService $userService
@@ -70,7 +70,7 @@ class PublicController extends UnauthenticatedController
     }
 
     /**
-     * Resets the user password if token is valid.
+     * Reset the user password if token is valid.
      *
      * @param Request     $request
      * @param UserService $userService

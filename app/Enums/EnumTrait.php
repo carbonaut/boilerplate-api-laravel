@@ -15,7 +15,7 @@ trait EnumTrait
     use Options;
 
     /**
-     * Returns an associative array of [value => label|name] of all enum cases.
+     * Return an associative array of [value => label|name] of all enum cases.
      *
      * If a label is not defined, the enum name is used instead.
      *
@@ -45,7 +45,7 @@ trait EnumTrait
     }
 
     /**
-     * Returns the label defined for each enum case.
+     * Return the label defined for each enum case.
      *
      * @return string
      */

@@ -71,7 +71,7 @@ class LanguageLine extends SpatieLanguageLine
     }
 
     /**
-     * Returns the handle of the phrase (type.KEY).
+     * Return the handle of the phrase (type.KEY).
      *
      * @return string
      */

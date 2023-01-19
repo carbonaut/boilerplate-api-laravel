@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Artisan;
 class MaintenanceController extends AuthenticatedController
 {
     /**
-     * Puts the application down for maintenance.
+     * Put the application down for maintenance.
      *
      * @param PostDownRequest $request
      *
@@ -27,7 +27,7 @@ class MaintenanceController extends AuthenticatedController
     }
 
     /**
-     * Puts the application up from maintenance.
+     * Put the application up from maintenance.
      *
      * @param PostUpRequest $request
      *

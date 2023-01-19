@@ -15,7 +15,9 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class ResourcesController extends UnauthenticatedController
 {
     /**
-     * Returns the available languages.
+     * Get the available languages.
+     *
+     * @param Request $request
      *
      * @return ResourceCollection
      */
@@ -27,7 +29,7 @@ class ResourcesController extends UnauthenticatedController
     }
 
     /**
-     * Return all language lines from the specified group.
+     * Get all language lines from the specified group.
      *
      * @param GetLanguageLinesByGroupRequest $request
      * @param LanguageLineGroup              $group

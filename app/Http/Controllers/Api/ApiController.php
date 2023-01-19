@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\File;
 class ApiController extends UnauthenticatedController
 {
     /**
-     * Returns the swagger UI.
+     * Get the swagger UI.
+     *
+     * @param Request $request
      *
      * @return View
      */
@@ -20,7 +22,9 @@ class ApiController extends UnauthenticatedController
     }
 
     /**
-     * Returns API documentation.
+     * Get the API documentation.
+     *
+     * @param Request $request
      *
      * @return string
      */
