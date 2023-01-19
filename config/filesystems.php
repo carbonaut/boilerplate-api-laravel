@@ -27,8 +27,8 @@ return [
     |
     */
 
-    'disks' => [
-        'local' => [
+    'disks'   => [
+        'local'  => [
             'driver' => 'local',
             'root'   => storage_path('app'),
             'throw'  => false,
@@ -42,7 +42,7 @@ return [
             'throw'      => false,
         ],
 
-        's3' => [
+        's3'     => [
             'driver'                  => 's3',
             'key'                     => env('AWS_ACCESS_KEY_ID'),
             'secret'                  => env('AWS_SECRET_ACCESS_KEY'),
@@ -66,7 +66,7 @@ return [
     |
     */
 
-    'links' => [
+    'links'   => [
         public_path('storage') => storage_path('app/public'),
     ],
 ];
