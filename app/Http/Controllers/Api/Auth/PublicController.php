@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Exceptions\TranslatableException;
 use App\Http\Controllers\UnauthenticatedController;
-use App\Http\Requests\Api\Auth\PostLogin;
+use App\Http\Requests\Api\Auth\PostLoginRequest;
 use App\Http\Resources\Models\NewAccessTokenResource;
 use App\Http\Resources\Models\UserResource;
 use App\Models\User;
@@ -18,13 +18,13 @@ class PublicController extends UnauthenticatedController
     /**
      * Authenticate a user.
      *
-     * @param PostLogin $request
+     * @param PostLoginRequest $request
      *
      * @return NewAccessTokenResource
      *
      * @throws AuthenticationException
      */
-    public function postLogin(PostLogin $request): NewAccessTokenResource
+    public function postLogin(PostLoginRequest $request): NewAccessTokenResource
     {
         if (!Auth::attempt($request->only(['email', 'password']))) {
             throw new TranslatableException(

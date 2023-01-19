@@ -33,7 +33,7 @@ Route::post('/auth/password/reset/submit', [Auth\PublicController::class, 'postP
 
 // Resources routes
 Route::get('/resources/languages', [ResourcesController::class, 'getLanguages']);
-Route::get('/resources/language-lines/{group}', [ResourcesController::class, 'getLanguageLinesByGroup']);
+Route::get('/resources/language-lines/{group}', [ResourcesController::class, 'getLanguageLines']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/auth/email/verification', [Auth\PrivateController::class, 'getEmailVerification']);

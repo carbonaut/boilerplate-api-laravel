@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\Language;
 use App\Enums\LanguageLineGroup;
 use App\Http\Controllers\UnauthenticatedController;
-use App\Http\Requests\Api\Resources\GetLanguageLinesByGroupRequest;
+use App\Http\Requests\Api\Resources\GetLanguageLinesRequest;
 use App\Http\Resources\Models\LanguageLineResource;
 use App\Http\Resources\Models\LanguageResource;
 use App\Models\LanguageLine;
@@ -31,12 +31,12 @@ class ResourcesController extends UnauthenticatedController
     /**
      * Get all language lines from the specified group.
      *
-     * @param GetLanguageLinesByGroupRequest $request
-     * @param LanguageLineGroup              $group
+     * @param GetLanguageLinesRequest $request
+     * @param LanguageLineGroup       $group
      *
      * @return ResourceCollection
      */
-    public function getLanguageLinesByGroup(GetLanguageLinesByGroupRequest $request, LanguageLineGroup $group): ResourceCollection
+    public function getLanguageLines(GetLanguageLinesRequest $request, LanguageLineGroup $group): ResourceCollection
     {
         $languageLines = LanguageLine::query()
             ->where('group', $group->value)
