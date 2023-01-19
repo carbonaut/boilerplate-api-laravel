@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Api\Maintenance;
 
-use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
-class PostUpRequest extends FormRequest
+class MaintenanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,8 +15,7 @@ class PostUpRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user() ?
-            $this->user()->can('maintenance', User::class) : false;
+        return Gate::allows('toggleMaintenance');
     }
 
     /**
