@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class PrivateController extends AuthenticatedController
 {
     /**
-     * Returns the authenticated user information.
+     * Return the authenticated user information.
      *
      * @param Request $request
      *
@@ -84,7 +84,7 @@ class PrivateController extends AuthenticatedController
     }
 
     /**
-     * Changes to a new user password given the current password.
+     * Change to a new user password given the current password.
      *
      * @param Request     $request
      * @param UserService $userService
@@ -99,7 +99,7 @@ class PrivateController extends AuthenticatedController
     }
 
     /**
-     * Requests an email verification code to be sent to the requested email.
+     * Request an email verification code to be sent to the requested email.
      *
      * @param Request     $request
      * @param UserService $userService
@@ -114,7 +114,7 @@ class PrivateController extends AuthenticatedController
     }
 
     /**
-     * Verifies an email by the verification code.
+     * Verify an email by the verification code.
      *
      * @param Request     $request
      * @param UserService $userService

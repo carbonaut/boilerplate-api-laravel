@@ -67,7 +67,7 @@ class UserService
                 'string',
                 'current_password',
             ],
-            'new_password' => [
+            'new_password'     => [
                 'required',
                 'string',
                 Rules\Password::defaults(),
@@ -105,13 +105,13 @@ class UserService
 
         // Validate input
         $validated = Validator::make($input, [
-            'name' => [
+            'name'     => [
                 'required',
                 'string',
                 'min:3',
                 'max:255',
             ],
-            'email' => [
+            'email'    => [
                 'required',
                 'string',
                 'email:filter',
@@ -161,7 +161,7 @@ class UserService
     {
         // Validate input
         $validated = Validator::make($input, [
-            'name' => [
+            'name'     => [
                 'sometimes',
                 'required',
                 'string',

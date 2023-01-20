@@ -35,7 +35,7 @@ trait DataProvider
     public static function localizedLanguageLine(): array
     {
         return [
-            'english' => [
+            'english'              => [
                 'en',
                 'Example Text',
             ],

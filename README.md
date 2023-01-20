@@ -10,7 +10,7 @@ parts of bootstrapping a project, right?
 
 That's why we've built this awesome boilerplate so you can focus on your project's ideas and get the boring, albeit important, parts out of the way.
 
-- Language: PHP 8.1
+- Language: PHP 8.2
 - Framework: Laravel 9
 - Database: PostgreSQL 13, SQLite 3 (tests only)
 
@@ -56,7 +56,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 
 
 ### Existing environment
-Make sure you have PHP and PostgreSQL installed and running locally. Rename `.env.example.local` to `.env` and change the default falues. You're good to go! For running tests make sure you have SQLite available.
+Make sure you have PHP and PostgreSQL installed and running locally. Rename `.env.example.local` to `.env` and change the default values. You're good to go! For running tests make sure you have SQLite available.
 
 ```sh
 $ git clone https://github.com/carbonaut/boilerplate-api-laravel

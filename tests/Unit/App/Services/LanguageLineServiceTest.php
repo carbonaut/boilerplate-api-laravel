@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\App\Services;
 
 use App\Models\LanguageLine;
 use App\Services\LanguageLineService;

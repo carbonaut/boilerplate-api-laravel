@@ -15,7 +15,7 @@ trait CreatesApplication
     public string $currentEnvFile = '.env.test';
 
     /**
-     * Creates the application.
+     * Create the application.
      *
      * WARNING: Avoid adding code here, as this method
      * is called before each test for each data set.

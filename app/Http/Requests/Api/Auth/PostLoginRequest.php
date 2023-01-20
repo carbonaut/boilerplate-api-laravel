@@ -6,7 +6,7 @@ use Axiom\Rules\Lowercase;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostLogin extends FormRequest
+class PostLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class PostLogin extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => [
+            'email'    => [
                 'required',
                 'email:filter',
                 new Lowercase(),

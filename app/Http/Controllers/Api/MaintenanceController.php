@@ -3,21 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AuthenticatedController;
-use App\Http\Requests\Api\Maintenance\PostDownRequest;
-use App\Http\Requests\Api\Maintenance\PostUpRequest;
+use App\Http\Requests\Api\Maintenance\MaintenanceRequest;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 
 class MaintenanceController extends AuthenticatedController
 {
     /**
-     * Puts the application down for maintenance.
+     * Put the application down for maintenance.
      *
-     * @param PostDownRequest $request
+     * @param MaintenanceRequest $request
      *
      * @return array<void>
      */
-    public function postDown(PostDownRequest $request): array
+    public function postDown(MaintenanceRequest $request): array
     {
         if (!App::isDownForMaintenance()) {
             Artisan::call('down');
@@ -27,13 +26,13 @@ class MaintenanceController extends AuthenticatedController
     }
 
     /**
-     * Puts the application up from maintenance.
+     * Put the application up from maintenance.
      *
-     * @param PostUpRequest $request
+     * @param MaintenanceRequest $request
      *
      * @return array<void>
      */
-    public function postUp(PostUpRequest $request): array
+    public function postUp(MaintenanceRequest $request): array
     {
         if (App::isDownForMaintenance()) {
             Artisan::call('up');

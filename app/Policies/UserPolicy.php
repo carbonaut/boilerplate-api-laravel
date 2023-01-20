@@ -10,18 +10,6 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can enable/disable maintenance mode.
-     *
-     * @param \App\Models\User $user
-     *
-     * @return bool|\Illuminate\Auth\Access\Response
-     */
-    public function maintenance(User $user)
-    {
-        return $user->email === 'hello@carbonaut.io';
-    }
-
-    /**
      * Determine whether the user can view any models.
      *
      * @param \App\Models\User $user

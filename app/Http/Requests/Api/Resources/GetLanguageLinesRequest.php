@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class GetLanguageLinesByGroupRequest extends FormRequest
+class GetLanguageLinesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
