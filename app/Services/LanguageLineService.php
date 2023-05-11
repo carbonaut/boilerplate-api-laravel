@@ -7,16 +7,18 @@ use App\Models\LanguageLine;
 class LanguageLineService
 {
     /**
-     * Create language lines based on a pre-determined array type. The structure is as follow.
-     *
-     *     private $groups = [
-     *         'api' => [
-     *             'LANGUAGE_LINE_KEY' => [
-     *                 'en'    => 'English translation.',
-     *                 'pt_BR' => 'Portuguese translation.',
-     *             ],
-     *         ],
-     *     ];
+     * Create language lines based on a pre-determined array type.
+     * The structure is as follows:
+     * ``
+     *  [
+     *      'api' => [
+     *          'LANGUAGE_LINE_KEY' => [
+     *              'en'    => 'English translation.',
+     *              'pt_BR' => 'Portuguese translation.'
+     *          ]
+     *      ]
+     *  ];
+     * ``.
      *
      * @param array<string, array<string, array<string, string>>> $groups
      * @param bool                                                $updateExisting update if a matching language line already exists
@@ -46,18 +48,20 @@ class LanguageLineService
     }
 
     /**
-     * Delete language lines based on a pre-determined array type. The structure is as follow.
+     * Delete language lines based on a pre-determined array type.
+     * The structure is as follows:
+     * ``
+     * [
+     *     'api' => [
+     *         'LANGUAGE_LINE_KEY' => [ ... ]
+     *     ]
+     * ]
+     * ``.
      *
-     *     private $languageLines = [
-     *         'api' => [
-     *             'LANGUAGE_LINE_KEY' => [
-     *                 'en'    => 'English translation.',
-     *                 'pt_BR' => 'Portuguese translation.',
-     *             ],
-     *         ],
-     *     ];
+     * The full structure is expected for compatibility
+     * with createLanguageLines, but all translations will be deleted.
      *
-     * @param array<string, array<string, array<string, string>>> $groups
+     * @param array<string, array<string, mixed>> $groups
      *
      * @return void
      */

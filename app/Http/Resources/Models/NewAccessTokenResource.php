@@ -4,6 +4,7 @@ namespace App\Http\Resources\Models;
 
 use App\Http\Resources\BaseResource;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Laravel\Sanctum\NewAccessToken;
 
 class NewAccessTokenResource extends BaseResource
@@ -22,7 +23,7 @@ class NewAccessTokenResource extends BaseResource
      *
      * @return array<string, null|Carbon|string>
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'token'      => $this->resource->plainTextToken,

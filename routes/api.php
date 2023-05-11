@@ -40,7 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/auth/email/verification', [Auth\PrivateController::class, 'postEmailVerification']);
 });
 
-Route::middleware(['auth:sanctum', 'email_verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Maintenance routes
     Route::post('/maintenance/up', [MaintenanceController::class, 'postUp']);
     Route::post('/maintenance/down', [MaintenanceController::class, 'postDown']);

@@ -66,22 +66,26 @@ class LanguageLine extends SpatieLanguageLine
     protected function key(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => Str::of(strval($value))->replace(' ', '_')->upper()->__toString(),
+            set: fn (string $value) => Str::of($value)->replace(' ', '_')->upper()->__toString(),
         );
     }
 
     /**
      * Return the handle of the phrase (type.KEY).
      *
-     * @return string
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, never>
      */
-    public function getHandleAttribute(): string
+    public function handle(): Attribute
     {
-        return "{$this->group->value}.{$this->key}";
+        return Attribute::get(
+            fn () => "{$this->group->value}.{$this->key}"
+        );
     }
 
     /**
-     * This method had to be overwritten so we can use ->group as a LanguageLineGroup enum.
+     * Clear group's cache on all traslated locales.
+     *
+     * This method had to be overwritten to access group's value (`Enum::$value`).
      *
      * @return void
      */

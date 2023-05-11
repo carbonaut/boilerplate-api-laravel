@@ -4,6 +4,7 @@ namespace App\Http\Resources\Models;
 
 use App\Http\Resources\BaseResource;
 use App\Models\Device;
+use Illuminate\Http\Request;
 
 class DeviceResource extends BaseResource
 {
@@ -21,7 +22,7 @@ class DeviceResource extends BaseResource
      *
      * @return array<string, null|bool|string>
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'device_id'        => $this->resource->id,

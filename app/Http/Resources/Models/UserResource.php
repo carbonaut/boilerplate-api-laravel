@@ -4,6 +4,7 @@ namespace App\Http\Resources\Models;
 
 use App\Http\Resources\BaseResource;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserResource extends BaseResource
 {
@@ -21,7 +22,7 @@ class UserResource extends BaseResource
      *
      * @return array<string, bool|string>
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'user_id'        => $this->resource->id,

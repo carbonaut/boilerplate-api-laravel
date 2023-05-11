@@ -2,12 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Interfaces\BaseResourceInterface;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @property bool $preserveKeys */
-class BaseResource extends JsonResource implements BaseResourceInterface
+class BaseResource extends JsonResource
 {
     /**
      * The "data" wrapper that should be applied.
@@ -19,23 +16,16 @@ class BaseResource extends JsonResource implements BaseResourceInterface
     public static $wrap;
 
     /**
-     * Create a new anonymous resource collection.
+     * Create a new resource collection instance.
      *
-     * Overriden method to allow creating a collection from a custom class instead of the default
-     * one, allowing us to tap into the response and remove some fields we don't want. This was
-     * copied from the parent class, with the only difference being the class used to create the
-     * resource collection.
+     * Overriden method to replace the default collection class.
      *
      * @param mixed $resource
      *
-     * @return AnonymousResourceCollection
+     * @return BaseResourceCollection
      */
-    public static function collection($resource): AnonymousResourceCollection
+    protected static function newCollection($resource)
     {
-        return tap(new BaseResourceCollection($resource, static::class), function ($collection) {
-            if (property_exists(static::class, 'preserveKeys')) {
-                $collection->preserveKeys = (new static([]))->preserveKeys === true;
-            }
-        });
+        return new BaseResourceCollection($resource, static::class);
     }
 }

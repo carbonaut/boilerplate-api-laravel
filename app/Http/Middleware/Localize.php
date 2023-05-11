@@ -6,6 +6,8 @@ use App\Enums\Language;
 use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\App;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Localize
 {
@@ -13,12 +15,11 @@ class Localize
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Closure                  $next
-     * @param null|string              $guard
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      *
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next): Response
     {
         // Use the locale of the user account
         if ($request->user() && $request->user() instanceof User) {

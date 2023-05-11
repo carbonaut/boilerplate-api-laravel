@@ -16,14 +16,6 @@ use Throwable;
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of exception types with their corresponding custom log levels.
-     *
-     * @var array<class-string<Throwable>, \Psr\Log\LogLevel::*>
-     */
-    protected $levels = [
-    ];
-
-    /**
      * A list of the exception types that are not reported.
      *
      * @var array<int, class-string<Throwable>>
@@ -38,7 +30,7 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * A list of the inputs that are never flashed to the session on validation exceptions.
+     * The list of the inputs that are never flashed to the session on validation exceptions.
      *
      * @var array<int, string>
      */
@@ -51,16 +43,14 @@ class Handler extends ExceptionHandler
 
     /**
      * Register the exception handling callbacks for the application.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->reportable(function (Throwable $e) {
         });
 
         // We'll register a renderable for all throwables, so we can rethrow it
-        // using our standardized exception.
+        // using our translatable exception.
         $this->renderable(function (Throwable $e, $request) {
             if (!$request->expectsJson()) {
                 return;
@@ -68,47 +58,61 @@ class Handler extends ExceptionHandler
 
             if ($e instanceof AuthenticationException) {
                 throw new TranslatableException(
-                    401,
-                    'Unauthenticated.',
-                    'api.ERROR.AUTH.UNAUTHENTICATED',
-                    $e
+                    status: 401,
+                    error: 'Unauthenticated.',
+                    message: 'api.ERROR.AUTH.UNAUTHENTICATED',
+                    previous: $e,
+                    shouldReport: false
                 );
             }
 
             if ($e instanceof AuthorizationException || $e instanceof AccessDeniedHttpException) {
                 throw new TranslatableException(
-                    403,
-                    'This action is unauthorized.',
-                    'api.ERROR.AUTH.UNAUTHORIZED',
-                    $e
+                    status: 403,
+                    error: 'This action is unauthorized.',
+                    message: 'api.ERROR.AUTH.UNAUTHORIZED',
+                    previous: $e,
+                    shouldReport: false
                 );
             }
 
-            if ($e instanceof ModelNotFoundException || $e instanceof NotFoundHttpException) {
+            if ($e instanceof ModelNotFoundException) {
                 throw new TranslatableException(
-                    404,
-                    'Object not found (' . $e->getMessage() . ')',
-                    'api.ERROR.MODEL_NOT_FOUND',
-                    $e
+                    status: 404,
+                    error: $e->getMessage(),
+                    message: 'api.ERROR.MODEL_NOT_FOUND',
+                    previous: $e,
+                    shouldReport: false
+                );
+            }
+
+            if ($e instanceof NotFoundHttpException) {
+                throw new TranslatableException(
+                    status: $e->getStatusCode(),
+                    error: $e->getMessage(),
+                    message: 'api.ERROR.ROUTE_NOT_FOUND',
+                    previous: $e,
+                    shouldReport: false
                 );
             }
 
             if ($e instanceof ValidationException) {
                 throw new TranslatableException(
-                    $e->status,
-                    collect($e->errors())->flatten()->implode(' '),
-                    strval(collect($e->errors())->flatten()->first()),
-                    $e,
-                    false
+                    status: $e->status,
+                    error: $e->errors(),
+                    message: $e->getMessage(),
+                    previous: $e,
+                    messageTranslatable: false,
+                    shouldReport: false,
                 );
             }
 
             if ($e instanceof HttpException && App::isDownForMaintenance()) {
                 throw new TranslatableException(
-                    $e->getStatusCode(),
-                    'Application under maintenance.',
-                    'api.ERROR.MAINTENANCE',
-                    $e
+                    status: $e->getStatusCode(),
+                    error: 'Application under maintenance.',
+                    message: 'api.ERROR.MAINTENANCE',
+                    previous: $e
                 );
             }
 
@@ -116,10 +120,10 @@ class Handler extends ExceptionHandler
             $error = get_class($e) . ' in ' . basename($e->getFile()) . ' line ' . $e->getLine() . ': ' . $e->getMessage();
 
             throw new TranslatableException(
-                method_exists($e, 'getStatusCode') && $e->getStatusCode() !== null ? $e->getStatusCode() : 500,
-                config('app.debug') && !App::runningUnitTests() ? $error : 'Server Error',
-                'api.ERROR.SOMETHING_WENT_WRONG',
-                $e
+                status: method_exists($e, 'getStatusCode') && $e->getStatusCode() !== null ? $e->getStatusCode() : 500,
+                error: config('app.debug') && !App::runningUnitTests() ? $error : $e->getMessage(),
+                message: 'api.ERROR.SOMETHING_WENT_WRONG',
+                previous: $e
             );
         });
     }

@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-/** @property bool $preserveKeys */
 class BaseResourceCollection extends AnonymousResourceCollection
 {
     /**

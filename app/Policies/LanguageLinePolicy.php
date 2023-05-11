@@ -15,9 +15,9 @@ class LanguageLinePolicy
      *
      * @param \App\Models\User $user
      *
-     * @return bool|\Illuminate\Auth\Access\Response
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return true;
     }
@@ -28,9 +28,9 @@ class LanguageLinePolicy
      * @param \App\Models\User         $user
      * @param \App\Models\LanguageLine $languageLine
      *
-     * @return bool|\Illuminate\Auth\Access\Response
+     * @return bool
      */
-    public function view(User $user, LanguageLine $languageLine)
+    public function view(User $user, LanguageLine $languageLine): bool
     {
         return true;
     }
@@ -40,9 +40,9 @@ class LanguageLinePolicy
      *
      * @param \App\Models\User $user
      *
-     * @return bool|\Illuminate\Auth\Access\Response
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return false;
     }
@@ -53,9 +53,9 @@ class LanguageLinePolicy
      * @param \App\Models\User         $user
      * @param \App\Models\LanguageLine $languageLine
      *
-     * @return bool|\Illuminate\Auth\Access\Response
+     * @return bool
      */
-    public function update(User $user, LanguageLine $languageLine)
+    public function update(User $user, LanguageLine $languageLine): bool
     {
         return false;
     }
@@ -66,9 +66,9 @@ class LanguageLinePolicy
      * @param \App\Models\User         $user
      * @param \App\Models\LanguageLine $languageLine
      *
-     * @return bool|\Illuminate\Auth\Access\Response
+     * @return bool
      */
-    public function delete(User $user, LanguageLine $languageLine)
+    public function delete(User $user, LanguageLine $languageLine): bool
     {
         return false;
     }
@@ -79,9 +79,9 @@ class LanguageLinePolicy
      * @param \App\Models\User         $user
      * @param \App\Models\LanguageLine $languageLine
      *
-     * @return bool|\Illuminate\Auth\Access\Response
+     * @return bool
      */
-    public function restore(User $user, LanguageLine $languageLine)
+    public function restore(User $user, LanguageLine $languageLine): bool
     {
         return false;
     }
@@ -92,9 +92,9 @@ class LanguageLinePolicy
      * @param \App\Models\User         $user
      * @param \App\Models\LanguageLine $languageLine
      *
-     * @return bool|\Illuminate\Auth\Access\Response
+     * @return bool
      */
-    public function forceDelete(User $user, LanguageLine $languageLine)
+    public function forceDelete(User $user, LanguageLine $languageLine): bool
     {
         return false;
     }

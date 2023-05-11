@@ -3,16 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\TranslatableException;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller;
 
 class UnauthenticatedController extends Controller
 {
-    use AuthorizesRequests;
     use DispatchesJobs;
-    use ValidatesRequests;
 
     public function __construct()
     {

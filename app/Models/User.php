@@ -61,6 +61,7 @@ class User extends Authenticatable implements HasLocalePreference
         'password',
         'remember_token',
     ];
+
     /**
      * The attributes that should be cast.
      *

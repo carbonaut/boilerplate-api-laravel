@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class StatusController extends UnauthenticatedController
 {
     /**
-     * Get an empty 200 response.
+     * Get an empty successful response.
+     *
+     * @param Request $request
      *
      * @return array<void>
      */

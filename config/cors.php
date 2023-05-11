@@ -14,28 +14,19 @@ return [
     |
     */
 
-    'paths'                    => ['*'],
+    'paths' => ['*'],
 
-    'allowed_methods'          => ['*'],
+    'allowed_methods' => ['*'],
 
-    'allowed_origins'          => [
-        '*',
-        // 'null',
-        // 'https://my.example.domain',
-    ],
+    'allowed_origins' => ['*'],
 
-    'allowed_origins_patterns' => [
-        // '/localhost/',
-        // '/127\.0\.0\.1/',
-        // '/::1/',
-        // '/my-example-string/',
-    ],
+    'allowed_origins_patterns' => [],
 
-    'allowed_headers'          => ['*'],
+    'allowed_headers' => ['*'],
 
-    'exposed_headers'          => [],
+    'exposed_headers' => [],
 
-    'max_age'                  => 0,
+    'max_age' => 0,
 
-    'supports_credentials'     => false,
+    'supports_credentials' => false,
 ];

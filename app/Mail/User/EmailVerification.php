@@ -6,6 +6,8 @@ use App\Models\User;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class EmailVerification extends Mailable
@@ -14,45 +16,59 @@ class EmailVerification extends Mailable
     use SerializesModels;
 
     /**
-     * The user instance.
-     *
-     * @var User
-     */
-    private $user;
-
-    /**
      * Create a new message instance.
      *
      * @param User $user
-     *
-     * @return void
      */
-    public function __construct(User $user)
-    {
-        $this->user = $user;
+    public function __construct(
+        private User $user,
+    ) {
     }
 
     /**
-     * Build the message.
-     *
-     * @return $this
+     * Get the message envelope.
      */
-    public function build()
+    public function envelope(): Envelope
+    {
+        if (!$this->user->email_verification_code) {
+            throw new Exception("User {$this->user->id} does not have an email verification code.");
+        }
+
+        $subject = __('email.USER.EMAIL-VERIFICATION.SUBJECT', [
+            'code' => $this->user->email_verification_code,
+        ]);
+
+        assert(is_string($subject));
+
+        return new Envelope(
+            subject: $subject,
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
     {
         if ($this->user->email_verified) {
             throw new Exception("User {$this->user->id} already verified the email address.");
         }
 
-        if (!$this->user->email_verification_code) {
-            throw new Exception("User {$this->user->id} does not have a verification code.");
-        }
-
-        return $this
-            ->subject(strval(__('email.USER.EMAIL-VERIFICATION.SUBJECT', [
-                'code' => $this->user->email_verification_code,
-            ])))
-            ->markdown('emails.user.email-verification', [
+        return new Content(
+            markdown: 'emails.user.email-verification',
+            with: [
                 'user' => $this->user,
-            ]);
+            ]
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
     }
 }
