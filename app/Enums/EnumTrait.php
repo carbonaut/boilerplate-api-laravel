@@ -61,8 +61,8 @@ trait EnumTrait
     }
 
     /**
-     * Return the label for the enum case,
-     * if the label is not defined the case's name is returned.
+     * Return the label for the enum case, if the label is missing
+     * the name is returned instead.
      *
      * @return string
      */
