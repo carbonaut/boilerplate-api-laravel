@@ -44,14 +44,12 @@ class PostLoginRequest extends FormRequest
      */
     public function all($keys = null)
     {
-        if ($email = $this->get('email')) {
-            $email = is_string($email) ? $email : '';
+        $email = $this->get('email');
 
+        if (is_string($email)) {
             return array_merge(
                 parent::all($keys),
-                [
-                    'email' => strtolower($email),
-                ]
+                ['email' => strtolower($email)]
             );
         }
 

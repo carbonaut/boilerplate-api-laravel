@@ -2,10 +2,8 @@
 
 namespace Tests\Feature\Api\Resources;
 
-use App\Enums\Language;
 use App\Enums\LanguageLineGroup;
 use App\Models\LanguageLine;
-use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 /**
@@ -27,6 +25,11 @@ class GetLanguageLinesByGroupTest extends TestCase
 
     /**
      * Setup the test environment.
+     *
+     * WARNING: Be careful when adding code here, as this setUp() method
+     * is called before each test for each data set on this class.
+     *
+     * @return void
      */
     protected function setUp(): void
     {
@@ -48,12 +51,9 @@ class GetLanguageLinesByGroupTest extends TestCase
      */
     public function testReturnsEmptyArrayOnEmptyGroup(): void
     {
-        // Assert that no API line exists
-        $this->assertDatabaseMissing('language_lines', [
-            'group' => $group = LanguageLineGroup::randomCase()->value,
-        ]);
-
-        $response = $this->getJson(strtr(self::Endpoint, ['{group}' => $group]));
+        $response = $this->getJson(strtr(self::Endpoint, [
+            '{group}' => LanguageLineGroup::randomCase()->value,
+        ]));
 
         $response
             ->assertOk()

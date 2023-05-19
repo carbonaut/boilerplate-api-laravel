@@ -25,7 +25,7 @@ trait ResolveRouteBinding
         if (($field ?? $this->getRouteKeyName()) === 'id') {
             switch ($this->keyType) {
                 case 'string':
-                    $value = Str::isUuid(is_string($value) ? $value : '');
+                    $value = is_string($value) && Str::isUuid($value) ? $value : null;
 
                     break;
                 case 'int':

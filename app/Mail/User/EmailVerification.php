@@ -20,9 +20,8 @@ class EmailVerification extends Mailable
      *
      * @param User $user
      */
-    public function __construct(
-        private User $user,
-    ) {
+    public function __construct(private User $user)
+    {
     }
 
     /**

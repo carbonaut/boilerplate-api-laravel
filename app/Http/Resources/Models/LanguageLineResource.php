@@ -21,7 +21,7 @@ class LanguageLineResource extends BaseResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array<string, mixed>
+     * @return array<string, null|string>
      */
     public function toArray(Request $request): array
     {

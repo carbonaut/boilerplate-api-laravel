@@ -22,10 +22,8 @@ class PasswordReset extends Mailable
      *
      * @return void
      */
-    public function __construct(
-        private User $user,
-        private string $token
-    ) {
+    public function __construct(private User $user, private string $token)
+    {
     }
 
     /**

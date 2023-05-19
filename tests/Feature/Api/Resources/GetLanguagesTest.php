@@ -26,6 +26,9 @@ class GetLanguagesTest extends TestCase
     /**
      * Setup the test environment.
      *
+     * WARNING: Be careful when adding code here, as this setUp() method
+     * is called before each test for each data set on this class.
+     *
      * @return void
      */
     protected function setUp(): void

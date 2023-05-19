@@ -99,7 +99,7 @@ class Handler extends ExceptionHandler
             if ($e instanceof ValidationException) {
                 throw new TranslatableException(
                     status: $e->status,
-                    error: $e->errors(),
+                    error: collect($e->errors())->flatten()->implode(' '),
                     message: $e->getMessage(),
                     previous: $e,
                     messageTranslatable: false,
@@ -112,7 +112,8 @@ class Handler extends ExceptionHandler
                     status: $e->getStatusCode(),
                     error: 'Application under maintenance.',
                     message: 'api.ERROR.MAINTENANCE',
-                    previous: $e
+                    previous: $e,
+                    shouldReport: false,
                 );
             }
 

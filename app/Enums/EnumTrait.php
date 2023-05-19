@@ -5,9 +5,7 @@ namespace App\Enums;
 trait EnumTrait
 {
     /**
-     * Return an associative array of [value => label|name] of all enum cases.
-     *
-     * If a label is not defined, the enum name is used instead.
+     * Return an associative array of [value => label] of all enum cases.
      *
      * @return array<string, string>
      */
@@ -63,7 +61,8 @@ trait EnumTrait
     }
 
     /**
-     * Return the label defined for the enum case.
+     * Return the label for the enum case,
+     * if the label is not defined the case's name is returned.
      *
      * @return string
      */

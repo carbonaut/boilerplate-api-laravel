@@ -17,6 +17,9 @@ trait CreatesApplication
     /**
      * Creates the application.
      *
+     * WARNING: Avoid adding code here, as this method
+     * is called before each test for each data set.
+     *
      * @return \Illuminate\Foundation\Application
      */
     public function createApplication(): Application

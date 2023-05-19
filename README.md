@@ -34,6 +34,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Clockwork](https://github.com/itsgoingd/clockwork) gives you an insight into your application runtime - including request data, performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs, rendered views and more - for HTTP requests, commands, queue jobs and tests;
 - [Secure Headers](https://github.com/bepsvpt/secure-headers) for adding security related headers to HTTP response. The following configs were changed from default: `x-frame-options`, `connect-src`, `default-src`, `font-src`, `img-src`, `script-src` (`self`, `unsafe-inline` and `unsafe-eval`), `style-src`
   - ⚠️ Once you set up SSL/TLS, remember to enable `hsts`;
+- [Flysystem AWS S3 Adapter](https://github.com/thephpleague/flysystem-aws-s3-v3) is a sub-split of Flysystem library that provides an iteraction interface with AWS S3.
 - [Slack Notifications](https://laravel.com/docs/10.x/notifications#slack-notifications) for sending notifications via Slack;
 - Several endpoints that will help you quickly bootstrap your application. See `routes\api.php`;
 - Route groups are attached to application subdomains (see `app\Providers\RouteServiceProvider.php`);
@@ -55,7 +56,6 @@ But they are excellent assets on our projects.
 - [Eloquent Sortable](https://github.com/spatie/eloquent-sortable) that adds sortable behaviour to an Eloquent model.
 - [Boosted Enums](https://github.com/archtechx/enums) for [native PHP 8.1+ Enums](https://php.watch/versions/8.1/enums);
 - [Belongs-to-through](https://github.com/staudenmeir/belongs-to-through) adds the inverse version of `HasManyThrough`, allowing `BelongsToThrough` relationships with unlimited intermediate models;
-- [Eloquent Sortable](https://github.com/spatie/eloquent-sortable) that adds sortable behaviour to an Eloquent model.
 - [Laravel Nova](https://nova.laravel.com/) we strongly recommend it if you are looking for a beautifully-designed administration panel for your Laravel application;
 
 ## Getting started

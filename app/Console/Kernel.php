@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Laravel\Sanctum\Console\Commands\PruneExpired;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(PruneExpired::class, ['hours' => 24])->daily();
+        $schedule->command('sanctum:prune-expired --hours=24')->daily();
     }
 
     /**
