@@ -33,11 +33,15 @@ class RouteServiceProvider extends ServiceProvider
             assert(is_string($domain));
 
             Route::middleware('api')
-                ->domain("api.{$domain}")
+                ->domain('api.' . $domain)
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
-                ->domain("www.{$domain}")
+                ->domain('www.' . $domain)
+                ->group(base_path('routes/web.php'));
+
+            Route::middleware('web')
+                ->domain($domain)
                 ->group(base_path('routes/web.php'));
         });
     }
