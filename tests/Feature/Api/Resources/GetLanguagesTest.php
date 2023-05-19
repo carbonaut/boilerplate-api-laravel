@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\Resources;
 
+use App\Enums\Language;
 use Tests\TestCase;
 
 /**
@@ -9,19 +10,12 @@ use Tests\TestCase;
  *
  * @group Api\Resources
  *
- * @coversNothing
+ * @covers \App\Enums\Language::getLabel
+ * @covers \App\Http\Controllers\Api\ResourcesController::getLanguages
+ * @covers \App\Http\Resources\Models\LanguageResource::toArray
  */
 class GetLanguagesTest extends TestCase
 {
-    use DataProvider;
-
-    /**
-     * The method for the route endpoint.
-     *
-     * @var string
-     */
-    private const Method = 'GET';
-
     /**
      * The route endpoint.
      *
@@ -45,22 +39,23 @@ class GetLanguagesTest extends TestCase
     /**
      * Asserts the GET /resources/languages route returns the expected languages.
      *
-     * @covers \App\Enums\Language::getLabel
-     * @covers \App\Http\Controllers\Api\ResourcesController::getLanguages
-     * @covers \App\Http\Resources\Models\LanguageResource::toArray
-     *
-     * @dataProvider availableLanguages
-     *
-     * @param array<string, array<int, array<int, array<string, string>>>> $languages
-     *
      * @return void
      */
-    public function testReturnsExpectedLanguages(array $languages): void
+    public function testReturnsExpectedLanguages(): void
     {
-        $response = $this->json(self::Method, self::Endpoint);
+        $response = $this->getJson(self::Endpoint);
 
         $response
             ->assertOk()
-            ->assertExactJson($languages);
+            ->assertExactJson([
+                [
+                    'label' => Language::English->label(),
+                    'value' => Language::English->value,
+                ],
+                [
+                    'label' => Language::BrazilianPortuguese->label(),
+                    'value' => Language::BrazilianPortuguese->value,
+                ],
+            ]);
     }
 }

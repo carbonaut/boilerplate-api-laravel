@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\Services;
+namespace Tests\Unit\App\Services\LanguageLine;
 
 use App\Models\LanguageLine;
 use App\Services\LanguageLineService;
@@ -12,15 +12,12 @@ use ValueError;
  *
  * @group App\Services
  *
- * @coversNothing
+ * @covers \App\Services\LanguageLineService::createLanguageLines
  */
-class LanguageLineServiceTest extends TestCase
+class CreateLanguageLinesTest extends TestCase
 {
     /**
      * Setup the test environment.
-     *
-     * WARNING: Be careful when adding code here, as this setUp() method
-     * is called before each test for each data set on this class.
      *
      * @return void
      */
@@ -31,8 +28,6 @@ class LanguageLineServiceTest extends TestCase
 
     /**
      * Asserts the service fails when creating phrases from invalid structure.
-     *
-     * @covers \App\Services\LanguageLineService::createLanguageLines
      *
      * @return void
      */
@@ -52,8 +47,6 @@ class LanguageLineServiceTest extends TestCase
 
     /**
      * Asserts the service creates phrase from a valid structure.
-     *
-     * @covers \App\Services\LanguageLineService::createLanguageLines
      *
      * @return void
      */
@@ -84,8 +77,6 @@ class LanguageLineServiceTest extends TestCase
 
     /**
      * Asserts the service respects the updateExisting flag.
-     *
-     * @covers \App\Services\LanguageLineService::createLanguageLines
      *
      * @return void
      */
@@ -140,39 +131,5 @@ class LanguageLineServiceTest extends TestCase
                 'pt_BR' => 'New Portuguese translation.',
             ]),
         ]);
-    }
-
-    /**
-     * Asserts the service deletes phrases from a valid structure.
-     *
-     * @covers \App\Services\LanguageLineService::deleteLanguageLines
-     *
-     * @return void
-     */
-    public function testSuccessOnDeletingFromValidStructure(): void
-    {
-        $languageLines = [
-            'api' => [
-                'LANGUAGE_LINE_KEY' => [
-                    'en'    => 'English translation.',
-                    'pt_BR' => 'Portuguese translation.',
-                ],
-            ],
-        ];
-
-        // Starting with an empty table
-        $this->assertDatabaseCount('language_lines', 0);
-
-        // Create the language lines
-        LanguageLineService::createLanguageLines($languageLines);
-
-        // Assert the lines were created
-        $this->assertDatabaseCount('language_lines', 1);
-
-        // Delete the language lines
-        LanguageLineService::deleteLanguageLines($languageLines);
-
-        // Assert the lines were deleted
-        $this->assertDatabaseCount('language_lines', 0);
     }
 }

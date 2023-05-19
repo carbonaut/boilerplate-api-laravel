@@ -4,6 +4,8 @@ namespace App\Http\Resources\Models;
 
 use App\Http\Resources\BaseResource;
 use App\Models\LanguageLine;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class LanguageLineResource extends BaseResource
 {
@@ -19,13 +21,13 @@ class LanguageLineResource extends BaseResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array<string, string>
+     * @return array<string, null|string>
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'key'  => $this->resource->key,
-            'text' => strval(__($this->resource->handle)),
+            'text' => $this->resource->getTranslation(App::getLocale()),
         ];
     }
 }

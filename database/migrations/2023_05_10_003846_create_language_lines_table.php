@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLanguageLinesTable extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -17,7 +16,7 @@ class CreateLanguageLinesTable extends Migration
             $table->uuid('id')->primary();
             $table->string('group')->index();
             $table->string('key');
-            $table->jsonb('text');
+            $table->json('text');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateLanguageLinesTable extends Migration
      */
     public function down(): void
     {
-        Schema::drop('language_lines');
+        Schema::dropIfExists('language_lines');
     }
-}
+};

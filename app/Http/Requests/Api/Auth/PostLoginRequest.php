@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Api\Auth;
 
-use Axiom\Rules\Lowercase;
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostLoginRequest extends FormRequest
@@ -21,15 +19,15 @@ class PostLoginRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, array<Rule|string>>
+     * @return array<string, array<int, mixed>|\Illuminate\Contracts\Validation\ValidationRule|string>
      */
     public function rules(): array
     {
         return [
-            'email'    => [
+            'email' => [
                 'required',
                 'email:filter',
-                new Lowercase(),
+                'lowercase',
             ],
             'password' => [
                 'required',
@@ -38,23 +36,23 @@ class PostLoginRequest extends FormRequest
     }
 
     /**
-     * Tap into the parameters to make sure the email is lowercased.
+     * Get all of the input and files for the request.
      *
-     * @param null|array|mixed $keys
+     * @param null|array<int, null|int|string>|mixed $keys
      *
-     * @return array<string, string>
+     * @return array<int|string,mixed>
      */
-    public function all($keys = null): array
+    public function all($keys = null)
     {
-        if ($this->get('email')) {
+        $email = $this->get('email');
+
+        if (is_string($email)) {
             return array_merge(
-                parent::all(),
-                [
-                    'email' => strtolower(strval($this->get('email'))),
-                ]
+                parent::all($keys),
+                ['email' => strtolower($email)]
             );
         }
 
-        return parent::all();
+        return parent::all($keys);
     }
 }

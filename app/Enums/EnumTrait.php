@@ -2,34 +2,50 @@
 
 namespace App\Enums;
 
-use ArchTech\Enums\InvokableCases;
-use ArchTech\Enums\Names;
-use ArchTech\Enums\Options;
-use ArchTech\Enums\Values;
-
 trait EnumTrait
 {
-    use InvokableCases;
-    use Names;
-    use Values;
-    use Options;
-
     /**
-     * Return an associative array of [value => label|name] of all enum cases.
-     *
-     * If a label is not defined, the enum name is used instead.
+     * Return an associative array of [value => label] of all enum cases.
      *
      * @return array<string, string>
      */
-    public static function asSelectArrayUsingLabels(): array
+    public static function asSelect(): array
     {
         $array = [];
 
         foreach (static::cases() as $case) {
-            $array[$case->value] = $case->label() ?? $case->name;
+            $array[$case->value] = $case->label();
         }
 
         return $array;
+    }
+
+    /**
+     * Return an all cases formatted as a data provider.
+     *
+     * @return array<string, array<int, mixed>>
+     */
+    public static function asDataProvider(): array
+    {
+        $array = [];
+
+        foreach (static::cases() as $case) {
+            $array[$case->name] = [$case->value];
+        }
+
+        return $array;
+    }
+
+    /**
+     * Return a random case of the enum.
+     *
+     * @return static
+     */
+    public static function randomCase(): static
+    {
+        $cases = static::cases();
+
+        return $cases[array_rand($cases)];
     }
 
     /**
@@ -45,12 +61,13 @@ trait EnumTrait
     }
 
     /**
-     * Return the label defined for each enum case.
+     * Return the label for the enum case, if the label is missing
+     * the name is returned instead.
      *
      * @return string
      */
-    public function label(): ?string
+    public function label(): string
     {
-        return static::getLabel($this);
+        return static::getLabel($this) ?: $this->name;
     }
 }

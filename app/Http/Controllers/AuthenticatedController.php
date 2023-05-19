@@ -4,23 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\TranslatableException;
 use App\Models\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller;
 
 class AuthenticatedController extends Controller
 {
-    use AuthorizesRequests;
     use DispatchesJobs;
-    use ValidatesRequests;
 
     /**
      * Current authenticated User.
      *
      * @var User
      */
-    protected $user;
+    protected User $user;
 
     public function __construct()
     {

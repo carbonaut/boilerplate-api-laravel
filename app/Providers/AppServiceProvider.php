@@ -12,10 +12,8 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         Sanctum::ignoreMigrations();
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
@@ -23,15 +21,17 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Model::shouldBeStrict();
 
-        Password::defaults(function () {
-            return Password::min(8)->letters();
-        });
+        Password::defaults(
+            fn () => Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->symbols()
+                ->numbers()
+        );
     }
 }

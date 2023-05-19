@@ -9,7 +9,6 @@ use App\Mail\User\PasswordReset;
 use App\Models\Device;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
-use Axiom\Rules\Lowercase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
@@ -67,7 +66,7 @@ class UserService
                 'string',
                 'current_password',
             ],
-            'new_password'     => [
+            'new_password' => [
                 'required',
                 'string',
                 Rules\Password::defaults(),
@@ -105,18 +104,18 @@ class UserService
 
         // Validate input
         $validated = Validator::make($input, [
-            'name'     => [
+            'name' => [
                 'required',
                 'string',
                 'min:3',
                 'max:255',
             ],
-            'email'    => [
+            'email' => [
                 'required',
                 'string',
                 'email:filter',
                 'max:255',
-                new Lowercase(),
+                'lowercase',
                 'unique:users,email',
             ],
             'password' => [
@@ -161,7 +160,7 @@ class UserService
     {
         // Validate input
         $validated = Validator::make($input, [
-            'name'     => [
+            'name' => [
                 'sometimes',
                 'required',
                 'string',

@@ -6,9 +6,9 @@ use Closure;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * To prevent installing another package only for the login throttling, the methods
@@ -22,7 +22,7 @@ class ThrottleLogin
      *
      * @return string
      */
-    protected function username()
+    protected function username(): string
     {
         return 'email';
     }
@@ -132,7 +132,7 @@ class ThrottleLogin
      *
      * @return int
      */
-    protected function maxAttempts()
+    public function maxAttempts()
     {
         return property_exists($this, 'maxAttempts') ? $this->maxAttempts : 5;
     }
@@ -142,7 +142,7 @@ class ThrottleLogin
      *
      * @return int
      */
-    protected function decayMinutes()
+    public function decayMinutes()
     {
         return property_exists($this, 'decayMinutes') ? $this->decayMinutes : 1;
     }
@@ -151,18 +151,18 @@ class ThrottleLogin
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Closure                  $next
+     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      *
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): Response
     {
         // BEFORE request
 
         // If the route is using the ThrottleLogin middleware, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
+        if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);

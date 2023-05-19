@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Api\Maintenance;
 
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +12,7 @@ class MaintenanceRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('toggleMaintenance');
     }
@@ -21,9 +20,9 @@ class MaintenanceRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, array<Rule|string>>
+     * @return array<string, array<int, mixed>|\Illuminate\Contracts\Validation\ValidationRule|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [];
     }

@@ -15,7 +15,7 @@ trait CreatesApplication
     public string $currentEnvFile = '.env.test';
 
     /**
-     * Create the application.
+     * Creates the application.
      *
      * WARNING: Avoid adding code here, as this method
      * is called before each test for each data set.
@@ -24,15 +24,12 @@ trait CreatesApplication
      */
     public function createApplication(): Application
     {
-        // Fetch application;
         $app = require __DIR__ . '/../bootstrap/app.php';
 
         // Load the conf from the env file;
         $app->loadEnvironmentFrom($this->currentEnvFile);
 
-        // Bootstraps the app;
-        $app->make(Kernel::class)
-            ->bootstrap();
+        $app->make(Kernel::class)->bootstrap();
 
         return $app;
     }

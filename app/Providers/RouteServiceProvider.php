@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * The path to the "home" route for your application.
+     * The path to your application's "home" route.
      *
      * Typically, users are redirected here after authentication.
      *
@@ -21,31 +20,17 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
 
     /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
+     * Define your route model bindings, pattern filters, and other route configuration.
      */
-    protected function configureRateLimiting()
+    public function boot(): void
     {
         RateLimiter::for('api', function (Request $request) {
-            /** @var null|User */
-            $user = $request->user();
-
-            return Limit::perMinute(60)->by($user?->id ?: $request->ip());
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
-    }
-
-    /**
-     * Define your route model bindings, pattern filters, and other route configuration.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->configureRateLimiting();
 
         $this->routes(function () {
-            $domain = strval(config('app.domain'));
+            $domain = config('app.domain');
+            assert(is_string($domain));
 
             Route::middleware('api')
                 ->domain('api.' . $domain)

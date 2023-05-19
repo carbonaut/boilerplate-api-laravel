@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'default'     => env('QUEUE_CONNECTION', 'sync'),
+    'default' => env('QUEUE_CONNECTION', 'sync'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,11 +28,11 @@ return [
     */
 
     'connections' => [
-        'sync'       => [
+        'sync' => [
             'driver' => 'sync',
         ],
 
-        'database'   => [
+        'database' => [
             'driver'       => 'database',
             'table'        => 'jobs',
             'queue'        => 'default',
@@ -49,7 +49,7 @@ return [
             'after_commit' => true,
         ],
 
-        'sqs'        => [
+        'sqs' => [
             'driver'       => 'sqs',
             'key'          => env('AWS_ACCESS_KEY_ID'),
             'secret'       => env('AWS_SECRET_ACCESS_KEY'),
@@ -60,7 +60,7 @@ return [
             'after_commit' => true,
         ],
 
-        'redis'      => [
+        'redis' => [
             'driver'       => 'redis',
             'connection'   => 'default',
             'queue'        => env('REDIS_QUEUE', 'default'),
@@ -68,6 +68,22 @@ return [
             'block_for'    => null,
             'after_commit' => true,
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Job Batching
+    |--------------------------------------------------------------------------
+    |
+    | The following options configure the database and table that store job
+    | batching information. These options can be updated to any database
+    | connection and table which has been defined by your application.
+    |
+    */
+
+    'batching' => [
+        'database' => env('DB_CONNECTION', 'mysql'),
+        'table'    => 'job_batches',
     ],
 
     /*
@@ -81,7 +97,7 @@ return [
     |
     */
 
-    'failed'      => [
+    'failed' => [
         'driver'   => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
         'database' => env('DB_CONNECTION', 'mysql'),
         'table'    => 'failed_jobs',
