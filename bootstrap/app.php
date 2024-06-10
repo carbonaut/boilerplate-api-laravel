@@ -30,6 +30,11 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->preventRequestsDuringMaintenance(except: [
+            'auth/login',
+            'maintenance/up',
+            'maintenance/down',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
     })->create()
