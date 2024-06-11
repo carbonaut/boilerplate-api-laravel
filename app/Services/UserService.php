@@ -278,7 +278,7 @@ class UserService
         }
 
         // Expired code
-        if (now()->gt($user->email_verification_code_expires_at)) {
+        if (is_null($user->email_verification_code_expires_at) || now()->gt($user->email_verification_code_expires_at)) {
             $this->requestEmailVerificationCode($user);
 
             throw new TranslatableException(

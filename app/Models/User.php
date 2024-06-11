@@ -61,18 +61,15 @@ class User extends Authenticatable implements HasLocalePreference
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at'                  => 'datetime',
-            'password'                           => 'hashed',
-            'email_verification_code_expires_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at'                  => 'datetime',
+        'password'                           => 'hashed',
+        'email_verification_code_expires_at' => 'datetime',
+    ];
 
     /**
      * Interact with the user's email_verified.
