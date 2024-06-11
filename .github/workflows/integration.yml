@@ -35,13 +35,11 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           tools: composer:v2
 
       - name: Setup Configuration Environment File
-        run: |
-          cp .env.example.test .env.test
-          sed -i 's/^DB_HOST=database$/DB_HOST=localhost/' .env.test
+        run: cp .env.example.test .env.test
 
       - name: Install Dependencies
         run: composer install --prefer-dist
@@ -62,7 +60,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           tools: composer:v2
 
       - name: Install Dependencies
