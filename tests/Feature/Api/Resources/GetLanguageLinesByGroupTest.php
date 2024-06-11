@@ -119,6 +119,7 @@ class GetLanguageLinesByGroupTest extends TestCase
                     'key'  => $languageLine->key,
                     'text' => $languageLine->text[$language],
                 ],
-            ]);
+            ])
+        ;
     }
 }
