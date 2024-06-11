@@ -55,6 +55,7 @@ class GetLanguagesTest extends TestCase
                     'label' => Language::BrazilianPortuguese->label(),
                     'value' => Language::BrazilianPortuguese->value,
                 ],
-            ]);
+            ])
+        ;
     }
 }

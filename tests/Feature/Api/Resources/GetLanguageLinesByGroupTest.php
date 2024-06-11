@@ -57,7 +57,8 @@ class GetLanguageLinesByGroupTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertExactJson([]);
+            ->assertExactJson([])
+        ;
     }
 
     /**
@@ -70,10 +71,12 @@ class GetLanguageLinesByGroupTest extends TestCase
 
         $languageLine = LanguageLine::factory()
             ->withLocale($locale)
-            ->create();
+            ->create()
+        ;
 
         $response = $this
-            ->getJson(strtr(self::Endpoint, ['{group}' => $languageLine->group->value]));
+            ->getJson(strtr(self::Endpoint, ['{group}' => $languageLine->group->value]))
+        ;
 
         $response
             ->assertOk()
@@ -82,7 +85,8 @@ class GetLanguageLinesByGroupTest extends TestCase
                     'key'  => $languageLine->key,
                     'text' => $languageLine->text[$locale],
                 ],
-            ]);
+            ])
+        ;
     }
 
     /**
@@ -105,7 +109,8 @@ class GetLanguageLinesByGroupTest extends TestCase
             ->withHeader('Accept-Language', $language)
             ->get(
                 strtr(self::Endpoint, ['{group}' => $languageLine->group->value]),
-            );
+            )
+        ;
 
         $response
             ->assertOk()
