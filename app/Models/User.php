@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\ResolveRouteBinding;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -18,7 +17,6 @@ class User extends Authenticatable implements HasLocalePreference
     use HasFactory;
     use HasUuids;
     use Notifiable;
-    use ResolveRouteBinding;
 
     /**
      * The "type" of the primary key ID.
@@ -63,14 +61,18 @@ class User extends Authenticatable implements HasLocalePreference
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'email_verified_at'                  => 'datetime',
-        'email_verification_code_expires_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at'                  => 'datetime',
+            'password'                           => 'hashed',
+            'email_verification_code_expires_at' => 'datetime',
+        ];
+    }
 
     /**
      * Interact with the user's email_verified.

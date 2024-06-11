@@ -45,7 +45,6 @@ That's why we've built this awesome boilerplate so you can focus on your project
 - [Queue](https://laravel.com/docs/10.x/queues) setup to use the database driver;
 - [Emails](https://laravel.com/docs/10.x/mail) already set up for email verification and password reset. It will take into account the [user preferred language](https://laravel.com/docs/10.x/mail#user-preferred-locales) when sending the email;
 - [Pull-request template](.github/pull_request_template.md) so you don't forget about important things when merging code;
-- [Route Binding Trait](app/Traits/ResolveRouteBinding.php) to prevent QueryException when passing an invalid parameter type to a route with [Model Binding](https://laravel.com/docs/10.x/routing#route-model-binding);
 - [Example Tests](tests) for some methods and endpoints. We opted to use the Unit namespace for testing methods and internal code, and the Feature namespace to test the application from the "outside", by calling routes and accessing pages;
 
 ## Package Recommendations
