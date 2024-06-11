@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Localize;
 use Bepsvpt\SecureHeaders\SecureHeadersMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -32,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(SecureHeadersMiddleware::class);
+        $middleware->append(Localize::class);
         $middleware->preventRequestsDuringMaintenance(except: [
             'auth/login',
             'maintenance/up',

@@ -3,17 +3,16 @@
 namespace Tests\Feature\Api\Resources;
 
 use App\Enums\Language;
+use App\Http\Controllers\Api\ResourcesController;
+use App\Http\Resources\Models\LanguageResource;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @group Api\Resources
- *
- * @covers \App\Enums\Language::getLabel
- * @covers \App\Http\Controllers\Api\ResourcesController::getLanguages
- * @covers \App\Http\Resources\Models\LanguageResource::toArray
- */
+#[Group('Api\Resources')]
+#[CoversMethod(Language::class, 'getLabel')]
+#[CoversMethod(ResourcesController::class, 'getLanguages')]
+#[CoversMethod(LanguageResource::class, 'toArray')]
 class GetLanguagesTest extends TestCase
 {
     /**

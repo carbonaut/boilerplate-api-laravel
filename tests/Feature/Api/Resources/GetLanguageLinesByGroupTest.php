@@ -3,17 +3,17 @@
 namespace Tests\Feature\Api\Resources;
 
 use App\Enums\LanguageLineGroup;
+use App\Http\Controllers\Api\ResourcesController;
+use App\Http\Resources\Models\LanguageLineResource;
 use App\Models\LanguageLine;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @group Api\Resources
- *
- * @covers \App\Http\Controllers\Api\ResourcesController::getLanguageLinesByGroup
- * @covers \App\Http\Resources\Models\LanguageLineResource::toArray
- */
+#[Group('Api\Resources')]
+#[CoversMethod(ResourcesController::class, 'getLanguageLinesByGroup')]
+#[CoversMethod(LanguageLineResource::class, 'toArray')]
 class GetLanguageLinesByGroupTest extends TestCase
 {
     /**
@@ -88,10 +88,9 @@ class GetLanguageLinesByGroupTest extends TestCase
     /**
      * Asserts the route respects the Accept-Language header.
      *
-     * @dataProvider App\Enums\Language::asDataProvider
-     *
      * @param string $language
      */
+    #[DataProviderExternal(\App\Enums\Language::class, 'asDataProvider')]
     public function testRespectsAcceptLanguageHeader(string $language): void
     {
         // Create a API language line;

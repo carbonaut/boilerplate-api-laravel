@@ -4,16 +4,13 @@ namespace Tests\Unit\App\Services\LanguageLine;
 
 use App\Models\LanguageLine;
 use App\Services\LanguageLineService;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 use ValueError;
 
-/**
- * @internal
- *
- * @group App\Services
- *
- * @covers \App\Services\LanguageLineService::createLanguageLines
- */
+#[Group('App\Services')]
+#[CoversMethod(LanguageLineService::class, 'createLanguageLines')]
 class CreateLanguageLinesTest extends TestCase
 {
     /**

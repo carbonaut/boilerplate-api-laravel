@@ -5,15 +5,12 @@ namespace Tests\Unit\App\Services\LanguageLine;
 use App\Enums\Language;
 use App\Models\LanguageLine;
 use App\Services\LanguageLineService;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @group App\Services
- *
- * @covers \App\Services\LanguageLineService::deleteLanguageLines
- */
+#[Group('App\Services')]
+#[CoversMethod(LanguageLineService::class, 'deleteLanguageLines')]
 class DeleteLanguageLinesTest extends TestCase
 {
     /**

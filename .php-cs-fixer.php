@@ -104,6 +104,9 @@ return $config->setRules([
         // PHPDoc annotations should be left untouched, and using FQCN.
         'phpdoc_tags' => [],
     ],
+    'php_unit_attributes'                 => true,
+    'php_unit_test_class_requires_covers' => false,
+    'php_unit_internal_class'             => false,
 ])
     ->setFinder($finder)
 ;
