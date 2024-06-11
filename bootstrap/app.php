@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\BlockInProduction;
+use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\Localize;
 use Bepsvpt\SecureHeaders\SecureHeadersMiddleware;
 use Illuminate\Foundation\Application;
@@ -38,6 +40,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth/login',
             'maintenance/up',
             'maintenance/down',
+        ]);
+        $middleware->alias([
+            'block-in-production' => BlockInProduction::class,
+            'verified'            => EnsureEmailIsVerified::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

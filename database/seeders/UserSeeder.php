@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        User::factory()->verified()->create([
             'name'  => 'Carbonaut',
             'email' => 'hello@carbonaut.io',
         ]);
