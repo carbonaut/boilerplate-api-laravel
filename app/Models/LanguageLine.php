@@ -32,16 +32,6 @@ class LanguageLine extends SpatieLanguageLine
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'group' => LanguageLineGroup::class,
-        'text'  => 'array',
-    ];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -57,6 +47,19 @@ class LanguageLine extends SpatieLanguageLine
      * @var array<string>
      */
     public $translatable = ['text'];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'group' => LanguageLineGroup::class,
+            'text'  => 'array',
+        ];
+    }
 
     /**
      * Interact with the phrase's key.
