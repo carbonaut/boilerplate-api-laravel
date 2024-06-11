@@ -3,17 +3,17 @@
 namespace Tests\Feature\Api\Resources;
 
 use App\Enums\LanguageLineGroup;
+use App\Http\Controllers\Api\ResourcesController;
+use App\Http\Resources\Models\LanguageLineResource;
 use App\Models\LanguageLine;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @group Api\Resources
- *
- * @covers \App\Http\Controllers\Api\ResourcesController::getLanguageLinesByGroup
- * @covers \App\Http\Resources\Models\LanguageLineResource::toArray
- */
+#[Group('Api\Resources')]
+#[CoversMethod(ResourcesController::class, 'getLanguageLinesByGroup')]
+#[CoversMethod(LanguageLineResource::class, 'toArray')]
 class GetLanguageLinesByGroupTest extends TestCase
 {
     /**
@@ -57,7 +57,8 @@ class GetLanguageLinesByGroupTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertExactJson([]);
+            ->assertExactJson([])
+        ;
     }
 
     /**
@@ -70,10 +71,12 @@ class GetLanguageLinesByGroupTest extends TestCase
 
         $languageLine = LanguageLine::factory()
             ->withLocale($locale)
-            ->create();
+            ->create()
+        ;
 
         $response = $this
-            ->getJson(strtr(self::Endpoint, ['{group}' => $languageLine->group->value]));
+            ->getJson(strtr(self::Endpoint, ['{group}' => $languageLine->group->value]))
+        ;
 
         $response
             ->assertOk()
@@ -82,16 +85,16 @@ class GetLanguageLinesByGroupTest extends TestCase
                     'key'  => $languageLine->key,
                     'text' => $languageLine->text[$locale],
                 ],
-            ]);
+            ])
+        ;
     }
 
     /**
      * Asserts the route respects the Accept-Language header.
      *
-     * @dataProvider App\Enums\Language::asDataProvider
-     *
      * @param string $language
      */
+    #[DataProviderExternal(\App\Enums\Language::class, 'asDataProvider')]
     public function testRespectsAcceptLanguageHeader(string $language): void
     {
         // Create a API language line;
@@ -106,7 +109,8 @@ class GetLanguageLinesByGroupTest extends TestCase
             ->withHeader('Accept-Language', $language)
             ->get(
                 strtr(self::Endpoint, ['{group}' => $languageLine->group->value]),
-            );
+            )
+        ;
 
         $response
             ->assertOk()
@@ -115,6 +119,7 @@ class GetLanguageLinesByGroupTest extends TestCase
                     'key'  => $languageLine->key,
                     'text' => $languageLine->text[$language],
                 ],
-            ]);
+            ])
+        ;
     }
 }

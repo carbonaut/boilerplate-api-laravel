@@ -41,7 +41,8 @@ class ResourcesController extends UnauthenticatedController
         $languageLines = LanguageLine::query()
             ->where('group', $group->value)
             ->orderBy('key')
-            ->get();
+            ->get()
+        ;
 
         return LanguageLineResource::collection(
             $languageLines

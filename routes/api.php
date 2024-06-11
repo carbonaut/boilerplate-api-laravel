@@ -7,17 +7,6 @@ use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\StatusController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::middleware(['block-in-production'])->group(function () {
     Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
     Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');

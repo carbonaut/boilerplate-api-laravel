@@ -11,7 +11,7 @@ trait HasTranslations
 
     /**
      * Convert the model instance to an array.
-     * https://spatie.be/docs/laravel-translatable/v6/avanced-usage/customize-the-toarray-method.
+     * https://spatie.be/docs/laravel-translatable/v6/advanced-usage/customize-the-toarray-method.
      *
      * @return array<string, string>
      */

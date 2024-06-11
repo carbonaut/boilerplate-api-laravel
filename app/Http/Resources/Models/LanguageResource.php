@@ -4,6 +4,7 @@ namespace App\Http\Resources\Models;
 
 use App\Enums\Language;
 use App\Http\Resources\BaseResource;
+use Illuminate\Http\Request;
 
 class LanguageResource extends BaseResource
 {
@@ -21,7 +22,7 @@ class LanguageResource extends BaseResource
      *
      * @return array<string, null|string>
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'value' => $this->resource->value,

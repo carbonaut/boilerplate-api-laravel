@@ -12,9 +12,9 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        User::factory()->create([
+        User::factory()->verified()->create([
             'name'  => 'Carbonaut',
             'email' => 'hello@carbonaut.io',
         ]);

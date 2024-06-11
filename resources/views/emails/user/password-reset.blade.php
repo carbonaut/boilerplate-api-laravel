@@ -1,15 +1,14 @@
-@component('mail::message')
-
+<x-mail::message>
 # {{ __('email.GLOBAL.INTRO-WITH-NAME', ['name' => $user->name]) }}
 
 {{ __('email.USER.PASSWORD-RESET.CONTENT') }}
 
-@component('mail::panel')
+<x-mail::panel>
 **{{ $token }}**
-@endcomponent
+</x-mail::panel>
 
 {{ __('email.USER.PASSWORD-RESET.DISCLAIMER') }}
 
 {!! __('email.GLOBAL.OUTRO-WITH-NAME', ['name' => config('app.name')]) !!}
 
-@endcomponent
+</x-mail::message>
