@@ -52,7 +52,7 @@ class LanguageLineSeeder extends Seeder
             ],
             'ERROR.AUTH.UNAUTHENTICATED' => [
                 'en'    => 'You are not authenticated. Login and try again.',
-                'pt_BR' => 'Você nao está autenticado. Faça login e tente novamente.',
+                'pt_BR' => 'Você não está autenticado. Faça login e tente novamente.',
             ],
             'ERROR.AUTH.UNAUTHORIZED' => [
                 'en'    => 'You don\'t have permissions to access this resource.',
