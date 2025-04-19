@@ -127,11 +127,13 @@ return [
         ],
 
         'rollbar' => [
-            'driver'       => 'monolog',
-            'handler'      => MonologHandler::class,
-            'access_token' => env('ROLLBAR_TOKEN'),
-            'level'        => env('ROLLBAR_LEVEL', 'debug'),
-            'capture_ip'   => 'anonymize',
+            'driver'        => 'monolog',
+            'handler'       => MonologHandler::class,
+            'access_token'  => env('ROLLBAR_TOKEN'),
+            'level'         => env('ROLLBAR_LEVEL', 'debug'),
+            'capture_ip'    => 'anonymize',
+            'person_fn'     => 'Auth::user',
+            'capture_email' => true,
         ],
     ],
 ];
