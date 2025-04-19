@@ -16,11 +16,18 @@ use Tests\TestCase;
 class GetLanguagesTest extends TestCase
 {
     /**
-     * The route endpoint.
+     * The route subdomain.
+     *
+     * @var null|string
+     */
+    protected $subdomain = 'api';
+
+    /**
+     * The route path.
      *
      * @var string
      */
-    private const Endpoint = '/resources/languages';
+    protected $path = '/resources/languages';
 
     /**
      * Setup the test environment.
@@ -42,7 +49,7 @@ class GetLanguagesTest extends TestCase
      */
     public function testReturnsExpectedLanguages(): void
     {
-        $response = $this->getJson(self::Endpoint);
+        $response = $this->getJson($this->uri());
 
         $response
             ->assertOk()
