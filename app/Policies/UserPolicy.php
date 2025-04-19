@@ -12,11 +12,11 @@ class UserPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User $authenticable
      *
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $authenticable): bool
     {
         return true;
     }
@@ -24,12 +24,12 @@ class UserPolicy
     /**
      * Determine whether the user can view the model.
      *
+     * @param \App\Models\User $authenticable
      * @param \App\Models\User $user
-     * @param \App\Models\User $model
      *
      * @return bool
      */
-    public function view(User $user, User $model): bool
+    public function view(User $authenticable, User $user): bool
     {
         return true;
     }
@@ -37,11 +37,11 @@ class UserPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User $authenticable
      *
      * @return bool
      */
-    public function create(User $user): bool
+    public function create(User $authenticable): bool
     {
         return false;
     }
@@ -49,25 +49,25 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      *
+     * @param \App\Models\User $authenticable
      * @param \App\Models\User $user
-     * @param \App\Models\User $model
      *
      * @return bool
      */
-    public function update(User $user, User $model): bool
+    public function update(User $authenticable, User $user): bool
     {
-        return $user->id === $model->id;
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
+     * @param \App\Models\User $authenticable
      * @param \App\Models\User $user
-     * @param \App\Models\User $model
      *
      * @return bool
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $authenticable, User $user): bool
     {
         return false;
     }
@@ -75,12 +75,12 @@ class UserPolicy
     /**
      * Determine whether the user can restore the model.
      *
+     * @param \App\Models\User $authenticable
      * @param \App\Models\User $user
-     * @param \App\Models\User $model
      *
      * @return bool
      */
-    public function restore(User $user, User $model): bool
+    public function restore(User $authenticable, User $user): bool
     {
         return false;
     }
@@ -88,12 +88,12 @@ class UserPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
+     * @param \App\Models\User $authenticable
      * @param \App\Models\User $user
-     * @param \App\Models\User $model
      *
      * @return bool
      */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDelete(User $authenticable, User $user): bool
     {
         return false;
     }
