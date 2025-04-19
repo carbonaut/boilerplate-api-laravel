@@ -2,21 +2,26 @@
 
 namespace App\Models;
 
+use Database\Factories\DeviceFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Device extends BaseModel
 {
+    /** @use HasFactory<DeviceFactory> */
+    use HasFactory;
+
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $appends = [];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'app_version',
@@ -36,7 +41,7 @@ class Device extends BaseModel
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [];
 
@@ -54,7 +59,7 @@ class Device extends BaseModel
     /**
      * Get the user that owns the device.
      *
-     * @return BelongsTo<User, Device>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {

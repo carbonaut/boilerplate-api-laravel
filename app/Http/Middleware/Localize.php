@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use App\Enums\Language;
 use App\Models\User;
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class Localize
@@ -22,7 +22,7 @@ class Localize
     public function handle(Request $request, Closure $next): Response
     {
         // Use the locale of the user account
-        if ($request->user() && $request->user() instanceof User) {
+        if ($request->user()) {
             App::setLocale($request->user()->language);
         }
         // If no authenticated user, fallback to the Accept-Language header

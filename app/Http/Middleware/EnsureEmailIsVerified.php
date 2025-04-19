@@ -19,7 +19,7 @@ class EnsureEmailIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (empty($request->user()?->email_verified_at)) {
+        if (is_null($request->user()?->email_verified_at)) {
             throw new TranslatableException(
                 403,
                 'User email must be verified before accessing protected routes.',

@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         using: function () {
-            $domain = config('app.domain');
+            $domain = Uri::of(config('app.url'))->host();
             assert(is_string($domain));
 
             Route::middleware(['api', 'throttle:api'])
@@ -53,11 +53,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'maintenance/down',
         ]);
         $middleware->trustProxies(
-            headers: Request::HEADER_X_FORWARDED_FOR |
-                Request::HEADER_X_FORWARDED_HOST |
-                Request::HEADER_X_FORWARDED_PORT |
-                Request::HEADER_X_FORWARDED_PROTO |
-                Request::HEADER_X_FORWARDED_AWS_ELB
+            headers: Request::HEADER_X_FORWARDED_FOR
+                | Request::HEADER_X_FORWARDED_HOST
+                | Request::HEADER_X_FORWARDED_PORT
+                | Request::HEADER_X_FORWARDED_PROTO
+                | Request::HEADER_X_FORWARDED_AWS_ELB
         );
         $middleware->alias([
             'block-in-production' => BlockInProduction::class,
@@ -66,6 +66,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->dontReportDuplicates();
+
         $exceptions->dontFlash([
             'current_password',
             'new_password',
@@ -74,7 +76,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $exceptions->dontReport([
-            Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException::class,
+            // The following exceptions serve as examples and are not
+            // reported by default as they extend HttpException, ignored by
+            // $internalDontReport at Illuminate\Foundation\Exceptions\Handler.php
+            MethodNotAllowedHttpException::class,
             NotFoundHttpException::class,
         ]);
 
