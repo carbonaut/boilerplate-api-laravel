@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Exceptions\TranslatableException;
+use App\Exceptions\NormalizedException;
 use App\Http\Controllers\UnauthenticatedController;
 use App\Http\Requests\Api\Auth\PostLoginRequest;
 use App\Http\Resources\Models\NewAccessTokenResource;
 use App\Http\Resources\Models\UserResource;
 use App\Models\User;
 use App\Services\UserService;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,15 +21,15 @@ class PublicController extends UnauthenticatedController
      *
      * @return NewAccessTokenResource
      *
-     * @throws AuthenticationException
+     * @throws NormalizedException
      */
     public function postLogin(PostLoginRequest $request): NewAccessTokenResource
     {
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            throw new TranslatableException(
+            throw new NormalizedException(
                 401,
                 'Invalid credentials.',
-                'api.ERROR.AUTH.INVALID_CREDENTIALS'
+                __('api.ERROR.AUTH.INVALID_CREDENTIALS')
             );
         }
 

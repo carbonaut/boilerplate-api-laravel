@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Enums\Language;
-use App\Exceptions\TranslatableException;
+use App\Exceptions\NormalizedException;
 use App\Mail\User\EmailVerification;
 use App\Mail\User\PasswordReset;
 use App\Models\Device;
@@ -235,15 +235,15 @@ class UserService
      *
      * @return void
      *
-     * @throws TranslatableException
+     * @throws NormalizedException
      */
     public function requestEmailVerificationCode(User $user): void
     {
         if ($user->email_verified_at !== null) {
-            throw new TranslatableException(
+            throw new NormalizedException(
                 422,
                 'Email already verified.',
-                'api.ERROR.EMAIL.ALREADY_VERIFIED'
+                __('api.ERROR.EMAIL.ALREADY_VERIFIED')
             );
         }
 
@@ -263,7 +263,7 @@ class UserService
      *
      * @return void
      *
-     * @throws TranslatableException
+     * @throws NormalizedException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function verifyEmail(User $user, array $input): void
@@ -274,26 +274,30 @@ class UserService
         ])->validate();
 
         if ($user->email_verified_at !== null) {
-            return;
+            throw new NormalizedException(
+                422,
+                'Email already verified.',
+                __('api.ERROR.EMAIL.ALREADY_VERIFIED')
+            );
         }
 
         // Expired code
         if (is_null($user->email_verification_code_expires_at) || now()->gt($user->email_verification_code_expires_at)) {
             $this->requestEmailVerificationCode($user);
 
-            throw new TranslatableException(
+            throw new NormalizedException(
                 422,
                 'Verification code expired. A new code was sent.',
-                'api.ERROR.EMAIL.VERIFICATION_CODE_EXPIRED'
+                __('api.ERROR.EMAIL.VERIFICATION_CODE_EXPIRED')
             );
         }
 
         // Code mismatch
         if ($user->email_verification_code !== intval($validated['email_verification_code'])) {
-            throw new TranslatableException(
+            throw new NormalizedException(
                 422,
                 'Invalid verification code.',
-                'api.ERROR.EMAIL.VERIFICATION_CODE_MISMATCH'
+                __('api.ERROR.EMAIL.VERIFICATION_CODE_MISMATCH')
             );
         }
 
@@ -338,7 +342,7 @@ class UserService
      *
      * @return void
      *
-     * @throws TranslatableException
+     * @throws NormalizedException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function resetPassword(array $input): void
@@ -367,10 +371,10 @@ class UserService
         );
 
         if ($reset !== Password::PASSWORD_RESET) {
-            throw new TranslatableException(
+            throw new NormalizedException(
                 422,
                 'Invalid input for resetting the password.',
-                'api.ERROR.PASSWORD-RESET.INVALID-INPUT'
+                __('api.ERROR.PASSWORD-RESET.INVALID-INPUT')
             );
         }
     }
