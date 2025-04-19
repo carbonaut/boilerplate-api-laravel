@@ -38,9 +38,9 @@ class GetLanguageLinesRequest extends FormRequest
      *
      * @param null|array|mixed $keys
      *
-     * @return array<string, string>
+     * @return array<mixed>
      */
-    public function all($keys = null)
+    public function all($keys = null): array
     {
         // Add route parameters to validation data
         return array_merge(

@@ -134,7 +134,7 @@ class ThrottleLogin
      */
     public function maxAttempts()
     {
-        return property_exists($this, 'maxAttempts') ? $this->maxAttempts : 5;
+        return property_exists($this, 'maxAttempts') && is_int($this->maxAttempts) ? $this->maxAttempts : 5;
     }
 
     /**
@@ -144,7 +144,7 @@ class ThrottleLogin
      */
     public function decayMinutes()
     {
-        return property_exists($this, 'decayMinutes') ? $this->decayMinutes : 1;
+        return property_exists($this, 'decayMinutes') && is_int($this->decayMinutes) ? $this->decayMinutes : 1;
     }
 
     /**

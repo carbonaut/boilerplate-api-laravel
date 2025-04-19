@@ -62,6 +62,10 @@ class LanguageLine extends SpatieLanguageLine
         'text',
     ];
 
+    // ======================================================================
+    // MUTATED ATTRIBUTES
+    // ======================================================================
+
     /**
      * Interact with the phrase's key.
      *
@@ -70,19 +74,23 @@ class LanguageLine extends SpatieLanguageLine
     protected function key(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => Str::of($value)->replace(' ', '_')->upper()->__toString(),
+            set: fn (string $value) => Str::of($value)->replace(' ', '_')->upper()->toString(),
         );
     }
+
+    // ======================================================================
+    // APPENDED ATTRIBUTES
+    // ======================================================================
 
     /**
      * Return the handle of the phrase (type.KEY).
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, never>
      */
-    public function handle(): Attribute
+    protected function handle(): Attribute
     {
-        return Attribute::get(
-            fn () => "{$this->group->value}.{$this->key}"
+        return Attribute::make(
+            get: fn () => "{$this->group->value}.{$this->key}"
         );
     }
 
@@ -93,9 +101,11 @@ class LanguageLine extends SpatieLanguageLine
      *
      * @return void
      */
-    public function flushGroupCache()
+    public function flushGroupCache(): void
     {
         foreach ($this->getTranslatedLocales() as $locale) {
+            assert(is_string($locale));
+
             Cache::forget(static::getCacheKey($this->group->value, $locale));
         }
     }

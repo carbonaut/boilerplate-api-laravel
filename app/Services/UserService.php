@@ -50,8 +50,8 @@ class UserService
     /**
      * Change the user password.
      *
-     * @param User                  $user
-     * @param array<string, string> $input
+     * @param User         $user
+     * @param array<mixed> $input
      *
      * @return void
      *
@@ -73,6 +73,8 @@ class UserService
             ],
         ])->validate();
 
+        assert(is_string($input['new_password']));
+
         // Update password
         $user->password = Hash::make($input['new_password']);
         $user->save();
@@ -89,7 +91,7 @@ class UserService
     /**
      * Create a new user.
      *
-     * @param array<string, string> $input
+     * @param array<mixed> $input
      *
      * @return User
      *
@@ -98,7 +100,7 @@ class UserService
     public function createUser(array $input): User
     {
         // Make sure the email is lowercased
-        if (isset($input['email'])) {
+        if (isset($input['email']) && is_string($input['email'])) {
             $input['email'] = strtolower($input['email']);
         }
 
@@ -130,9 +132,12 @@ class UserService
             ],
         ])->validate();
 
+        assert(is_string($validated['email']));
+        assert(is_string($validated['password']));
+
         $user = User::create([
             'name'                               => $validated['name'],
-            'email'                              => $validated['email'],
+            'email'                              => strtolower($validated['email']),
             'password'                           => Hash::make($validated['password']),
             'language'                           => $validated['language'],
             'email_verified_at'                  => null,
@@ -149,8 +154,8 @@ class UserService
     /**
      * Update certain user fields.
      *
-     * @param User                  $user
-     * @param array<string, string> $input
+     * @param User         $user
+     * @param array<mixed> $input
      *
      * @return User
      *
@@ -159,6 +164,7 @@ class UserService
     public function patchUser(User $user, array $input): User
     {
         // Validate input
+        /** @var array<string, mixed> $validated */
         $validated = Validator::make($input, [
             'name' => [
                 'sometimes',
@@ -183,9 +189,9 @@ class UserService
     /**
      * Upsert a user device.
      *
-     * @param User                  $user
-     * @param string                $uuid
-     * @param array<string, string> $input
+     * @param User         $user
+     * @param string       $uuid
+     * @param array<mixed> $input
      *
      * @return Device
      *
@@ -258,8 +264,8 @@ class UserService
     /**
      * Verify the user email.
      *
-     * @param User                  $user
-     * @param array<string, string> $input
+     * @param User         $user
+     * @param array<mixed> $input
      *
      * @return void
      *
@@ -273,6 +279,8 @@ class UserService
             'email_verification_code' => ['required', 'integer'],
         ])->validate();
 
+        assert(is_int($validated['email_verification_code']));
+
         if ($user->email_verified_at !== null) {
             throw new NormalizedException(
                 422,
@@ -282,7 +290,7 @@ class UserService
         }
 
         // Expired code
-        if (is_null($user->email_verification_code_expires_at) || now()->gt($user->email_verification_code_expires_at)) {
+        if (is_null($user->email_verification_code_expires_at) || $user->email_verification_code_expires_at->isPast()) {
             $this->requestEmailVerificationCode($user);
 
             throw new NormalizedException(
@@ -311,7 +319,7 @@ class UserService
     /**
      * Sends a password-reset token to the user email.
      *
-     * @param array<string, string> $input
+     * @param array<mixed> $input
      *
      * @return void
      *
@@ -324,7 +332,9 @@ class UserService
             'email' => ['required', 'email:filter'],
         ])->validate();
 
-        $user = User::firstWhere('email', $validated['email']);
+        assert(is_string($validated['email']));
+
+        $user = User::firstWhere('email', strtolower($validated['email']));
 
         if ($user === null) {
             return;
@@ -338,7 +348,7 @@ class UserService
     /**
      * Resets the user password.
      *
-     * @param array<string, string> $input
+     * @param array<mixed> $input
      *
      * @return void
      *
@@ -354,14 +364,16 @@ class UserService
             'new_password' => ['required', 'string', Rules\Password::defaults()],
         ])->validate();
 
+        assert(is_string($validated['email']));
+
         $reset = Password::broker()->reset(
             [
                 'token'                 => $validated['token'],
-                'email'                 => $validated['email'],
+                'email'                 => strtolower($validated['email']),
                 'password'              => $validated['new_password'],
                 'password_confirmation' => $validated['new_password'],
             ],
-            function ($user, $password) {
+            function (User $user, string $password): void {
                 $user->password = Hash::make($password);
                 $user->setRememberToken(Str::random(60));
                 $user->save();

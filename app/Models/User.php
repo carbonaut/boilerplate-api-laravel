@@ -73,6 +73,26 @@ class User extends Authenticatable implements HasLocalePreference
         'email_verification_code_expires_at' => 'datetime',
     ];
 
+    // ======================================================================
+    // MUTATED ATTRIBUTES
+    // ======================================================================
+
+    /**
+     * Interact with the user's email.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, string>
+     */
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => strtolower($value),
+        );
+    }
+
+    // ======================================================================
+    // APPENDED ATTRIBUTES
+    // ======================================================================
+
     /**
      * Interact with the user's email_verified.
      *
@@ -85,18 +105,6 @@ class User extends Authenticatable implements HasLocalePreference
         );
     }
 
-    /**
-     * Interact with the user's email.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, string>
-     */
-    protected function email(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => strtolower(strval($value)),
-        );
-    }
-
     // ======================================================================
     // RELATIONSHIPS
     // ======================================================================
@@ -104,7 +112,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * Get the devices owned by the user.
      *
-     * @return HasMany<Device>
+     * @return HasMany<Device, $this>
      */
     public function devices(): HasMany
     {
