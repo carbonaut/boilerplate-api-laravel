@@ -17,11 +17,18 @@ use Tests\TestCase;
 class GetLanguageLinesByGroupTest extends TestCase
 {
     /**
-     * The route endpoint.
+     * The route subdomain.
+     *
+     * @var null|string
+     */
+    protected $subdomain = 'api';
+
+    /**
+     * The route path.
      *
      * @var string
      */
-    private const Endpoint = '/resources/language-lines/{group}';
+    protected $path = '/resources/language-lines/{group}';
 
     /**
      * Setup the test environment.
@@ -41,7 +48,7 @@ class GetLanguageLinesByGroupTest extends TestCase
      */
     public function testReturnsErrorOnInvalidGroup(): void
     {
-        $response = $this->getJson(strtr(self::Endpoint, ['{group}' => 'invalid-group']));
+        $response = $this->getJson($this->uri(['{group}' => 'invalid-group']));
 
         $response->assertNotFound();
     }
@@ -51,7 +58,7 @@ class GetLanguageLinesByGroupTest extends TestCase
      */
     public function testReturnsEmptyArrayOnEmptyGroup(): void
     {
-        $response = $this->getJson(strtr(self::Endpoint, [
+        $response = $this->getJson($this->uri([
             '{group}' => LanguageLineGroup::randomCase()->value,
         ]));
 
@@ -75,7 +82,7 @@ class GetLanguageLinesByGroupTest extends TestCase
         ;
 
         $response = $this
-            ->getJson(strtr(self::Endpoint, ['{group}' => $languageLine->group->value]))
+            ->getJson($this->uri(['{group}' => $languageLine->group->value]))
         ;
 
         $response
@@ -108,7 +115,7 @@ class GetLanguageLinesByGroupTest extends TestCase
         $response = $this
             ->withHeader('Accept-Language', $language)
             ->get(
-                strtr(self::Endpoint, ['{group}' => $languageLine->group->value]),
+                $this->uri(['{group}' => $languageLine->group->value]),
             )
         ;
 

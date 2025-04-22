@@ -620,7 +620,7 @@ components:
           example: "pt_BR"
         password:
           type: string
-          example: "password2"
+          example: "Password2@"
     UserPatch:
       type: object
       properties:

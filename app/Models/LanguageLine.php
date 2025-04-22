@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\LanguageLineGroup;
+use Database\Factories\LanguageLineFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ use Spatie\TranslationLoader\LanguageLine as SpatieLanguageLine;
 
 class LanguageLine extends SpatieLanguageLine
 {
+    /** @use HasFactory<LanguageLineFactory> */
     use HasFactory;
     use HasUuids;
 
@@ -25,7 +27,7 @@ class LanguageLine extends SpatieLanguageLine
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $appends = [
         'handle',
@@ -44,7 +46,7 @@ class LanguageLine extends SpatieLanguageLine
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'group',
@@ -54,9 +56,15 @@ class LanguageLine extends SpatieLanguageLine
     /**
      * The attributes that are translatable.
      *
-     * @var array<string>
+     * @var list<string>
      */
-    public $translatable = ['text'];
+    public array $translatable = [
+        'text',
+    ];
+
+    // ======================================================================
+    // MUTATED ATTRIBUTES
+    // ======================================================================
 
     /**
      * Interact with the phrase's key.
@@ -66,19 +74,23 @@ class LanguageLine extends SpatieLanguageLine
     protected function key(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => Str::of($value)->replace(' ', '_')->upper()->__toString(),
+            set: fn (string $value) => Str::of($value)->replace(' ', '_')->upper()->toString(),
         );
     }
+
+    // ======================================================================
+    // APPENDED ATTRIBUTES
+    // ======================================================================
 
     /**
      * Return the handle of the phrase (type.KEY).
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, never>
      */
-    public function handle(): Attribute
+    protected function handle(): Attribute
     {
-        return Attribute::get(
-            fn () => "{$this->group->value}.{$this->key}"
+        return Attribute::make(
+            get: fn () => "{$this->group->value}.{$this->key}"
         );
     }
 
@@ -89,9 +101,11 @@ class LanguageLine extends SpatieLanguageLine
      *
      * @return void
      */
-    public function flushGroupCache()
+    public function flushGroupCache(): void
     {
         foreach ($this->getTranslatedLocales() as $locale) {
+            assert(is_string($locale));
+
             Cache::forget(static::getCacheKey($this->group->value, $locale));
         }
     }

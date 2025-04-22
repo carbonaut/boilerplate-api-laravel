@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -9,11 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements HasLocalePreference
 {
     use HasApiTokens;
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
     use HasUuids;
     use Notifiable;
@@ -28,7 +31,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $appends = [
         'email_verified',
@@ -37,7 +40,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -53,7 +56,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -71,6 +74,26 @@ class User extends Authenticatable implements HasLocalePreference
         'email_verification_code_expires_at' => 'datetime',
     ];
 
+    // ======================================================================
+    // MUTATED ATTRIBUTES
+    // ======================================================================
+
+    /**
+     * Interact with the user's email.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, string>
+     */
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => strtolower($value),
+        );
+    }
+
+    // ======================================================================
+    // APPENDED ATTRIBUTES
+    // ======================================================================
+
     /**
      * Interact with the user's email_verified.
      *
@@ -83,16 +106,20 @@ class User extends Authenticatable implements HasLocalePreference
         );
     }
 
+    // ======================================================================
+    // NOTIFICATION METHODS
+    // ======================================================================
+
     /**
-     * Interact with the user's email.
+     * Route notifications for the mail channel.
      *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute<string, string>
+     * @param Notification $notification
+     *
+     * @return string
      */
-    protected function email(): Attribute
+    public function routeNotificationForMail(Notification $notification): null|int|string
     {
-        return Attribute::make(
-            set: fn ($value) => strtolower(strval($value)),
-        );
+        return $this->email;
     }
 
     // ======================================================================
@@ -102,7 +129,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * Get the devices owned by the user.
      *
-     * @return HasMany<Device>
+     * @return HasMany<Device, $this>
      */
     public function devices(): HasMany
     {

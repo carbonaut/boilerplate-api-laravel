@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\TranslatableException;
+use App\Exceptions\NormalizedException;
 use App\Models\User;
+use Closure;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Http\Request;
 
 class AuthenticatedController extends Controller
 {
@@ -19,13 +21,13 @@ class AuthenticatedController extends Controller
 
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
+        $this->middleware(function (Request $request, Closure $next) {
             // For this controller, we require an authenticated user of type User
             if (!$request->user() instanceof User) {
-                throw new TranslatableException(
+                throw new NormalizedException(
                     500,
                     'Invalid authenticated user type.',
-                    'api.ERROR.SOMETHING_WENT_WRONG',
+                    __('api.ERROR.SOMETHING_WENT_WRONG'),
                 );
             }
 

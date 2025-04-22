@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\TranslatableException;
+use App\Exceptions\NormalizedException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,11 +19,11 @@ class EnsureEmailIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (empty($request->user()?->email_verified_at)) {
-            throw new TranslatableException(
+        if (is_null($request->user()?->email_verified_at)) {
+            throw new NormalizedException(
                 403,
                 'User email must be verified before accessing protected routes.',
-                'api.ERROR.EMAIL.NOT_VERIFIED'
+                __('api.ERROR.EMAIL.NOT_VERIFIED')
             );
         }
 

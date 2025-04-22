@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
@@ -19,7 +20,7 @@ class BlockInProduction
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (config('app.env') === 'production') {
+        if (App::isProduction()) {
             throw new RouteNotFoundException("Route [{$request->route()?->uri()}] not defined.");
         }
 

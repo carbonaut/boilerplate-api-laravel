@@ -3,14 +3,14 @@
 namespace App\Services;
 
 use App\Enums\Language;
-use App\Exceptions\TranslatableException;
-use App\Mail\User\EmailVerification;
-use App\Mail\User\PasswordReset;
+use App\Exceptions\NormalizedException;
 use App\Models\Device;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
+use App\Notifications\User\EmailVerification;
+use App\Notifications\User\PasswordReset;
+use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -50,8 +50,8 @@ class UserService
     /**
      * Change the user password.
      *
-     * @param User                  $user
-     * @param array<string, string> $input
+     * @param User         $user
+     * @param array<mixed> $input
      *
      * @return void
      *
@@ -73,6 +73,8 @@ class UserService
             ],
         ])->validate();
 
+        assert(is_string($input['new_password']));
+
         // Update password
         $user->password = Hash::make($input['new_password']);
         $user->save();
@@ -89,7 +91,7 @@ class UserService
     /**
      * Create a new user.
      *
-     * @param array<string, string> $input
+     * @param array<mixed> $input
      *
      * @return User
      *
@@ -98,7 +100,7 @@ class UserService
     public function createUser(array $input): User
     {
         // Make sure the email is lowercased
-        if (isset($input['email'])) {
+        if (isset($input['email']) && is_string($input['email'])) {
             $input['email'] = strtolower($input['email']);
         }
 
@@ -130,9 +132,12 @@ class UserService
             ],
         ])->validate();
 
+        assert(is_string($validated['email']));
+        assert(is_string($validated['password']));
+
         $user = User::create([
             'name'                               => $validated['name'],
-            'email'                              => $validated['email'],
+            'email'                              => strtolower($validated['email']),
             'password'                           => Hash::make($validated['password']),
             'language'                           => $validated['language'],
             'email_verified_at'                  => null,
@@ -141,7 +146,7 @@ class UserService
             'remember_token'                     => Str::random(10),
         ]);
 
-        Mail::to($user)->queue(new EmailVerification($user));
+        $user->notify(new EmailVerification());
 
         return $user;
     }
@@ -149,8 +154,8 @@ class UserService
     /**
      * Update certain user fields.
      *
-     * @param User                  $user
-     * @param array<string, string> $input
+     * @param User         $user
+     * @param array<mixed> $input
      *
      * @return User
      *
@@ -159,6 +164,7 @@ class UserService
     public function patchUser(User $user, array $input): User
     {
         // Validate input
+        /** @var array<string, mixed> $validated */
         $validated = Validator::make($input, [
             'name' => [
                 'sometimes',
@@ -183,9 +189,9 @@ class UserService
     /**
      * Upsert a user device.
      *
-     * @param User                  $user
-     * @param string                $uuid
-     * @param array<string, string> $input
+     * @param User         $user
+     * @param string       $uuid
+     * @param array<mixed> $input
      *
      * @return Device
      *
@@ -235,15 +241,15 @@ class UserService
      *
      * @return void
      *
-     * @throws TranslatableException
+     * @throws NormalizedException
      */
     public function requestEmailVerificationCode(User $user): void
     {
         if ($user->email_verified_at !== null) {
-            throw new TranslatableException(
+            throw new NormalizedException(
                 422,
                 'Email already verified.',
-                'api.ERROR.EMAIL.ALREADY_VERIFIED'
+                __('api.ERROR.EMAIL.ALREADY_VERIFIED')
             );
         }
 
@@ -252,18 +258,18 @@ class UserService
             'email_verification_code_expires_at' => now()->addHour(),
         ]);
 
-        Mail::to($user)->queue(new EmailVerification($user));
+        $user->notify(new EmailVerification());
     }
 
     /**
      * Verify the user email.
      *
-     * @param User                  $user
-     * @param array<string, string> $input
+     * @param User         $user
+     * @param array<mixed> $input
      *
      * @return void
      *
-     * @throws TranslatableException
+     * @throws NormalizedException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function verifyEmail(User $user, array $input): void
@@ -273,27 +279,33 @@ class UserService
             'email_verification_code' => ['required', 'integer'],
         ])->validate();
 
+        assert(is_int($validated['email_verification_code']));
+
         if ($user->email_verified_at !== null) {
-            return;
+            throw new NormalizedException(
+                422,
+                'Email already verified.',
+                __('api.ERROR.EMAIL.ALREADY_VERIFIED')
+            );
         }
 
         // Expired code
-        if (is_null($user->email_verification_code_expires_at) || now()->gt($user->email_verification_code_expires_at)) {
+        if (is_null($user->email_verification_code_expires_at) || $user->email_verification_code_expires_at->isPast()) {
             $this->requestEmailVerificationCode($user);
 
-            throw new TranslatableException(
+            throw new NormalizedException(
                 422,
                 'Verification code expired. A new code was sent.',
-                'api.ERROR.EMAIL.VERIFICATION_CODE_EXPIRED'
+                __('api.ERROR.EMAIL.VERIFICATION_CODE_EXPIRED')
             );
         }
 
         // Code mismatch
         if ($user->email_verification_code !== intval($validated['email_verification_code'])) {
-            throw new TranslatableException(
+            throw new NormalizedException(
                 422,
                 'Invalid verification code.',
-                'api.ERROR.EMAIL.VERIFICATION_CODE_MISMATCH'
+                __('api.ERROR.EMAIL.VERIFICATION_CODE_MISMATCH')
             );
         }
 
@@ -307,7 +319,7 @@ class UserService
     /**
      * Sends a password-reset token to the user email.
      *
-     * @param array<string, string> $input
+     * @param array<mixed> $input
      *
      * @return void
      *
@@ -320,25 +332,30 @@ class UserService
             'email' => ['required', 'email:filter'],
         ])->validate();
 
-        $user = User::firstWhere('email', $validated['email']);
+        assert(is_string($validated['email']));
+
+        $user = User::firstWhere('email', strtolower($validated['email']));
 
         if ($user === null) {
             return;
         }
 
-        $token = Password::broker()->createToken($user);
+        $passwordBroker = Password::broker();
+        assert($passwordBroker instanceof PasswordBroker);
 
-        Mail::to($user)->queue(new PasswordReset($user, $token));
+        $user->notify(
+            new PasswordReset($passwordBroker->createToken($user))
+        );
     }
 
     /**
      * Resets the user password.
      *
-     * @param array<string, string> $input
+     * @param array<mixed> $input
      *
      * @return void
      *
-     * @throws TranslatableException
+     * @throws NormalizedException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function resetPassword(array $input): void
@@ -350,14 +367,16 @@ class UserService
             'new_password' => ['required', 'string', Rules\Password::defaults()],
         ])->validate();
 
+        assert(is_string($validated['email']));
+
         $reset = Password::broker()->reset(
             [
                 'token'                 => $validated['token'],
-                'email'                 => $validated['email'],
+                'email'                 => strtolower($validated['email']),
                 'password'              => $validated['new_password'],
                 'password_confirmation' => $validated['new_password'],
             ],
-            function ($user, $password) {
+            function (User $user, string $password): void {
                 $user->password = Hash::make($password);
                 $user->setRememberToken(Str::random(60));
                 $user->save();
@@ -367,10 +386,10 @@ class UserService
         );
 
         if ($reset !== Password::PASSWORD_RESET) {
-            throw new TranslatableException(
+            throw new NormalizedException(
                 422,
                 'Invalid input for resetting the password.',
-                'api.ERROR.PASSWORD-RESET.INVALID-INPUT'
+                __('api.ERROR.PASSWORD-RESET.INVALID-INPUT')
             );
         }
     }

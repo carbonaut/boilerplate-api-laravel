@@ -25,6 +25,7 @@ trait CreatesApplication
     public function createApplication(): Application
     {
         $app = require Application::inferBasePath() . '/bootstrap/app.php';
+        assert($app instanceof Application);
 
         // Load the conf from the env file;
         $app->loadEnvironmentFrom($this->currentEnvFile);

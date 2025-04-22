@@ -94,13 +94,13 @@ return [
         ],
 
         'stderr' => [
-            'driver'    => 'monolog',
-            'level'     => env('LOG_LEVEL', 'debug'),
-            'handler'   => StreamHandler::class,
-            'formatter' => env('LOG_STDERR_FORMATTER'),
-            'with'      => [
+            'driver'       => 'monolog',
+            'level'        => env('LOG_LEVEL', 'debug'),
+            'handler'      => StreamHandler::class,
+            'handler_with' => [
                 'stream' => 'php://stderr',
             ],
+            'formatter'  => env('LOG_STDERR_FORMATTER'),
             'processors' => [PsrLogMessageProcessor::class],
         ],
 
@@ -127,11 +127,13 @@ return [
         ],
 
         'rollbar' => [
-            'driver'       => 'monolog',
-            'handler'      => MonologHandler::class,
-            'access_token' => env('ROLLBAR_TOKEN'),
-            'level'        => env('ROLLBAR_LEVEL', 'debug'),
-            'capture_ip'   => 'anonymize',
+            'driver'        => 'monolog',
+            'handler'       => MonologHandler::class,
+            'access_token'  => env('ROLLBAR_TOKEN'),
+            'level'         => env('ROLLBAR_LEVEL', 'debug'),
+            'capture_ip'    => 'anonymize',
+            'person_fn'     => 'Auth::user',
+            'capture_email' => true,
         ],
     ],
 ];

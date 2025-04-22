@@ -13,11 +13,11 @@ class LanguageLinePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User $authenticable
      *
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $authenticable): bool
     {
         return true;
     }
@@ -25,12 +25,12 @@ class LanguageLinePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User         $user
+     * @param \App\Models\User         $authenticable
      * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool
      */
-    public function view(User $user, LanguageLine $languageLine): bool
+    public function view(User $authenticable, LanguageLine $languageLine): bool
     {
         return true;
     }
@@ -38,11 +38,11 @@ class LanguageLinePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User $authenticable
      *
      * @return bool
      */
-    public function create(User $user): bool
+    public function create(User $authenticable): bool
     {
         return false;
     }
@@ -50,12 +50,12 @@ class LanguageLinePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User         $user
+     * @param \App\Models\User         $authenticable
      * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool
      */
-    public function update(User $user, LanguageLine $languageLine): bool
+    public function update(User $authenticable, LanguageLine $languageLine): bool
     {
         return false;
     }
@@ -63,12 +63,12 @@ class LanguageLinePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User         $user
+     * @param \App\Models\User         $authenticable
      * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool
      */
-    public function delete(User $user, LanguageLine $languageLine): bool
+    public function delete(User $authenticable, LanguageLine $languageLine): bool
     {
         return false;
     }
@@ -76,12 +76,12 @@ class LanguageLinePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User         $user
+     * @param \App\Models\User         $authenticable
      * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool
      */
-    public function restore(User $user, LanguageLine $languageLine): bool
+    public function restore(User $authenticable, LanguageLine $languageLine): bool
     {
         return false;
     }
@@ -89,12 +89,12 @@ class LanguageLinePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User         $user
+     * @param \App\Models\User         $authenticable
      * @param \App\Models\LanguageLine $languageLine
      *
      * @return bool
      */
-    public function forceDelete(User $user, LanguageLine $languageLine): bool
+    public function forceDelete(User $authenticable, LanguageLine $languageLine): bool
     {
         return false;
     }

@@ -34,7 +34,12 @@ class BaseResourceCollection extends AnonymousResourceCollection
             true
         );
 
-        if (is_array($jsonResponse) && isset($jsonResponse['meta']['links'])) {
+        if (
+            is_array($jsonResponse)
+            && isset($jsonResponse['meta'])
+            && is_array($jsonResponse['meta'])
+            && isset($jsonResponse['meta']['links'])
+        ) {
             unset($jsonResponse['meta']['links']);
         }
 
