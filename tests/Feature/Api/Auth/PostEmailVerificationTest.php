@@ -3,10 +3,10 @@
 namespace Tests\Feature\Api\Auth;
 
 use App\Http\Controllers\Api\Auth\PrivateController;
-use App\Mail\User\EmailVerification;
 use App\Models\User;
+use App\Notifications\User\EmailVerification;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
@@ -38,7 +38,7 @@ class PostEmailVerificationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Mail::fake();
+        Notification::fake();
     }
 
     /**
@@ -91,8 +91,7 @@ class PostEmailVerificationTest extends TestCase
             ])
         ;
 
-        Mail::assertNothingSent();
-        Mail::assertNothingQueued();
+        Notification::assertNothingSent();
     }
 
     /**
@@ -118,8 +117,7 @@ class PostEmailVerificationTest extends TestCase
         ;
 
         // Verify that a new verification code was generated and email was sent
-        Mail::assertNothingSent();
-        Mail::assertQueued(EmailVerification::class, $user->email);
+        Notification::assertSentTo(User::first(), EmailVerification::class);
     }
 
     /**
@@ -145,8 +143,7 @@ class PostEmailVerificationTest extends TestCase
             ])
         ;
 
-        Mail::assertNothingSent();
-        Mail::assertNothingQueued();
+        Notification::assertNothingSent();
     }
 
     /**
@@ -181,7 +178,6 @@ class PostEmailVerificationTest extends TestCase
         $this->assertNull($user->email_verification_code);
         $this->assertNull($user->email_verification_code_expires_at);
 
-        Mail::assertNothingSent();
-        Mail::assertNothingQueued();
+        Notification::assertNothingSent();
     }
 }

@@ -4,9 +4,9 @@ namespace Tests\Feature\Api\Auth;
 
 use App\Enums\Language;
 use App\Http\Controllers\Api\Auth\PublicController;
-use App\Mail\User\EmailVerification;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\User\EmailVerification;
+use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
@@ -37,7 +37,7 @@ class PostRegisterTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Mail::fake();
+        Notification::fake();
     }
 
     /**
@@ -73,8 +73,7 @@ class PostRegisterTest extends TestCase
             'email_verified_at' => null,
         ]);
 
-        Mail::assertNothingSent();
-        Mail::assertQueued(EmailVerification::class, $userData['email']);
+        Notification::assertSentTo(User::first(), EmailVerification::class);
     }
 
     /**

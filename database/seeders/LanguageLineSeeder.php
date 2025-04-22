@@ -67,7 +67,7 @@ class LanguageLineSeeder extends Seeder
                 'pt_BR' => 'Não encontramos o que você está procurando.',
             ],
         ],
-        'email' => [
+        'notifications' => [
             // Global Email Phrases
             'GLOBAL.INTRO-WITH-NAME' => [
                 'en'    => 'Hi :name,',
@@ -81,7 +81,7 @@ class LanguageLineSeeder extends Seeder
                 'en'    => 'Thanks,<br>:name',
                 'pt_BR' => 'Obrigado,<br>:name,',
             ],
-            // Mail\User\EmailVerification
+            // Notifications\User\EmailVerification
             'USER.EMAIL-VERIFICATION.SUBJECT' => [
                 'en'    => 'Welcome! Use :code to confirm your email address',
                 'pt_BR' => 'Olá! Use :code para confirmar o seu endereço de email',
@@ -90,7 +90,7 @@ class LanguageLineSeeder extends Seeder
                 'en'    => 'Use the following code to confirm your email address:',
                 'pt_BR' => 'Use o código abaixo para confirmar o seu endereço de email:',
             ],
-            // Mail\User\PasswordReset
+            // Notifications\User\PasswordReset
             'USER.PASSWORD-RESET.SUBJECT' => [
                 'en'    => 'Forgot your password?',
                 'pt_BR' => 'Esqueceu sua senha?',

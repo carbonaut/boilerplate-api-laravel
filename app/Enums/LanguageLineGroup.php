@@ -8,7 +8,7 @@ enum LanguageLineGroup: string
 
     case Api = 'api';
     case App = 'app';
-    case Email = 'email';
+    case Notifications = 'notifications';
 
     /**
      * Custom labels defined for each enum case.
@@ -20,9 +20,9 @@ enum LanguageLineGroup: string
     public static function getLabel(self $value): string
     {
         return match ($value) {
-            LanguageLineGroup::Api   => 'Language-lines used in the API',
-            LanguageLineGroup::App   => 'Language-lines used in the App',
-            LanguageLineGroup::Email => 'Language-lines used in emails',
+            LanguageLineGroup::Api           => 'Language-lines used in the API',
+            LanguageLineGroup::App           => 'Language-lines used in the App',
+            LanguageLineGroup::Notifications => 'Language-lines used in notifications',
         };
     }
 }

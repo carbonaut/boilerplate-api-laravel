@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements HasLocalePreference
@@ -103,6 +104,22 @@ class User extends Authenticatable implements HasLocalePreference
         return Attribute::make(
             get: fn () => $this->email_verified_at !== null,
         );
+    }
+
+    // ======================================================================
+    // NOTIFICATION METHODS
+    // ======================================================================
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @param Notification $notification
+     *
+     * @return string
+     */
+    public function routeNotificationForMail(Notification $notification): null|int|string
+    {
+        return $this->email;
     }
 
     // ======================================================================

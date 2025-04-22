@@ -3,10 +3,10 @@
 namespace Tests\Feature\Api\Auth;
 
 use App\Http\Controllers\Api\Auth\PrivateController;
-use App\Mail\User\EmailVerification;
 use App\Models\User;
+use App\Notifications\User\EmailVerification;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
@@ -38,7 +38,7 @@ class GetEmailVerificationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Mail::fake();
+        Notification::fake();
     }
 
     /**
@@ -71,8 +71,7 @@ class GetEmailVerificationTest extends TestCase
             ])
         ;
 
-        Mail::assertNothingQueued();
-        Mail::assertNothingSent();
+        Notification::assertNothingSent();
     }
 
     /**
@@ -102,7 +101,6 @@ class GetEmailVerificationTest extends TestCase
         $this->assertTrue($user->email_verification_code_expires_at->isFuture());
 
         // Verify that an email was sent
-        Mail::assertNothingSent();
-        Mail::assertQueued(EmailVerification::class, $user->email);
+        Notification::assertSentTo(User::first(), EmailVerification::class);
     }
 }

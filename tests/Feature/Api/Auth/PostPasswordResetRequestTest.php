@@ -3,11 +3,11 @@
 namespace Tests\Feature\Api\Auth;
 
 use App\Http\Controllers\Api\Auth\PublicController;
-use App\Mail\User\PasswordReset;
 use App\Models\User;
+use App\Notifications\User\PasswordReset;
 use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
@@ -39,7 +39,7 @@ class PostPasswordResetRequestTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Mail::fake();
+        Notification::fake();
     }
 
     /**
@@ -67,8 +67,7 @@ class PostPasswordResetRequestTest extends TestCase
             'email' => $user->email,
         ]);
 
-        Mail::assertNothingSent();
-        Mail::assertQueued(PasswordReset::class, $user->email);
+        Notification::assertSentTo(User::first(), PasswordReset::class);
     }
 
     /**
@@ -90,8 +89,7 @@ class PostPasswordResetRequestTest extends TestCase
 
         $this->assertDatabaseEmpty('password_reset_tokens');
 
-        Mail::assertNothingSent();
-        Mail::assertNothingQueued();
+        Notification::assertNothingSent();
     }
 
     /**

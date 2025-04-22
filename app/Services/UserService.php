@@ -4,13 +4,13 @@ namespace App\Services;
 
 use App\Enums\Language;
 use App\Exceptions\NormalizedException;
-use App\Mail\User\EmailVerification;
-use App\Mail\User\PasswordReset;
 use App\Models\Device;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
+use App\Notifications\User\EmailVerification;
+use App\Notifications\User\PasswordReset;
+use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -146,7 +146,7 @@ class UserService
             'remember_token'                     => Str::random(10),
         ]);
 
-        Mail::to($user)->queue(new EmailVerification($user));
+        $user->notify(new EmailVerification());
 
         return $user;
     }
@@ -258,7 +258,7 @@ class UserService
             'email_verification_code_expires_at' => now()->addHour(),
         ]);
 
-        Mail::to($user)->queue(new EmailVerification($user));
+        $user->notify(new EmailVerification());
     }
 
     /**
@@ -340,9 +340,12 @@ class UserService
             return;
         }
 
-        $token = Password::broker()->createToken($user);
+        $passwordBroker = Password::broker();
+        assert($passwordBroker instanceof PasswordBroker);
 
-        Mail::to($user)->queue(new PasswordReset($user, $token));
+        $user->notify(
+            new PasswordReset($passwordBroker->createToken($user))
+        );
     }
 
     /**
