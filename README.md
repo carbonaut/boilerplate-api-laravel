@@ -9,7 +9,7 @@ Nothing better than getting to action without worrying about the repetitive and 
 
 That's why we've built this awesome boilerplate so you can focus on your project's ideas and get the boring, albeit important, parts out of the way.
 
-- Language: PHP 8.3
+- Language: PHP 8.4
 - Framework: Laravel 12
 - Database: PostgreSQL 16, SQLite 3 (tests only)
 
